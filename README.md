@@ -1,7 +1,7 @@
 # HipHopML
 
 ## Description
-Using ML to analyze hip-hop lyrics to make predictions and/or classifications 
+Using ML to make predictions and/or classifications by analyze hip-hop lyrics retreived via the Genius API
 
 ## Potential Problem Questions
 * Guess the artist based on lyrics
