@@ -1,0 +1,732 @@
+---
+title: "Getting Lyrics"
+format: html
+editor: visual
+---
+
+```{r}
+library(geniusr)
+library(tidyverse)
+```
+
+```{r}
+genius_token()
+```
+
+-   [3D Na'Tee](https://en.wikipedia.org/wiki/3D_Na%27Tee "3D Na'Tee")
+
+### **A**
+
+-   [Aesja](https://en.wikipedia.org/wiki/Aesja "Aesja")
+
+-   [Ai (singer)](https://en.wikipedia.org/wiki/Ai_(singer) "Ai (singer)")
+
+-   [Ak'Sent](https://en.wikipedia.org/wiki/Ak%27Sent "Ak'Sent")
+
+-   [Amil](https://en.wikipedia.org/wiki/Amil "Amil")
+
+-   [Anquette](https://en.wikipedia.org/wiki/Anquette "Anquette")
+
+-   [Antoinette (rapper)](https://en.wikipedia.org/wiki/Antoinette_(rapper) "Antoinette (rapper)")
+
+-   [Aqsa (rapper)](https://en.wikipedia.org/wiki/Aqsa_(rapper) "Aqsa (rapper)")
+
+-   [Whitney Avalon](https://en.wikipedia.org/wiki/Whitney_Avalon "Whitney Avalon")
+
+-   [Awkwafina](https://en.wikipedia.org/wiki/Awkwafina "Awkwafina")
+
+### **B**
+
+-   [Apani B](https://en.wikipedia.org/wiki/Apani_B "Apani B")
+
+-   [Bahamadia](https://en.wikipedia.org/wiki/Bahamadia "Bahamadia")
+
+-   [Charli Baltimore](https://en.wikipedia.org/wiki/Charli_Baltimore "Charli Baltimore")
+
+-   [Azealia Banks](https://en.wikipedia.org/wiki/Azealia_Banks "Azealia Banks")
+
+-   [Dee Barnes](https://en.wikipedia.org/wiki/Dee_Barnes "Dee Barnes")
+
+-   [BbyMutha](https://en.wikipedia.org/wiki/BbyMutha "BbyMutha")
+
+-   [Big Boss Vette](https://en.wikipedia.org/wiki/Big_Boss_Vette "Big Boss Vette")
+
+-   [Porcelain Black](https://en.wikipedia.org/wiki/Porcelain_Black "Porcelain Black")
+
+-   [Toni Blackman](https://en.wikipedia.org/wiki/Toni_Blackman "Toni Blackman")
+
+-   [Amanda Blank](https://en.wikipedia.org/wiki/Amanda_Blank "Amanda Blank")
+
+-   [Bianca Bonnie](https://en.wikipedia.org/wiki/Bianca_Bonnie "Bianca Bonnie")
+
+-   [Boss (rapper)](https://en.wikipedia.org/wiki/Boss_(rapper) "Boss (rapper)")
+
+-   [Da Brat](https://en.wikipedia.org/wiki/Da_Brat "Da Brat")
+
+-   [Bhad Bhabie](https://en.wikipedia.org/wiki/Bhad_Bhabie "Bhad Bhabie")
+
+-   [Foxy Brown (rapper)](https://en.wikipedia.org/wiki/Foxy_Brown_(rapper) "Foxy Brown (rapper)")
+
+-   [Dai Burger](https://en.wikipedia.org/wiki/Dai_Burger "Dai Burger")
+
+-   [Kandi Burruss](https://en.wikipedia.org/wiki/Kandi_Burruss "Kandi Burruss")
+
+-   [BWP (group)](https://en.wikipedia.org/wiki/BWP_(group) "BWP (group)")
+
+### **C**
+
+-   [Lady Cam](https://en.wikipedia.org/wiki/Lady_Cam "Lady Cam")
+
+-   [Brooke Candy](https://en.wikipedia.org/wiki/Brooke_Candy "Brooke Candy")
+
+-   [Cardi B](https://en.wikipedia.org/wiki/Cardi_B "Cardi B")
+
+-   [Colette Carr](https://en.wikipedia.org/wiki/Colette_Carr "Colette Carr")
+
+-   [Cha Cha (rapper)](https://en.wikipedia.org/wiki/Cha_Cha_(rapper) "Cha Cha (rapper)")
+
+-   [La Chat](https://en.wikipedia.org/wiki/La_Chat "La Chat")
+
+-   [Choice (rapper)](https://en.wikipedia.org/wiki/Choice_(rapper) "Choice (rapper)")
+
+-   [La Goony Chonga](https://en.wikipedia.org/wiki/La_Goony_Chonga "La Goony Chonga")
+
+-   [Chanel West Coast](https://en.wikipedia.org/wiki/Chanel_West_Coast "Chanel West Coast")
+
+-   [The Conscious Daughters](https://en.wikipedia.org/wiki/The_Conscious_Daughters "The Conscious Daughters")
+
+-   [Imani Coppola](https://en.wikipedia.org/wiki/Imani_Coppola "Imani Coppola")
+
+-   [Cupcakke](https://en.wikipedia.org/wiki/Cupcakke "Cupcakke")
+
+### **D**
+
+-   [Kat Dahlia](https://en.wikipedia.org/wiki/Kat_Dahlia "Kat Dahlia")
+
+-   [Deadly Venoms](https://en.wikipedia.org/wiki/Deadly_Venoms "Deadly Venoms")
+
+-   [Wanda Dee](https://en.wikipedia.org/wiki/Wanda_Dee "Wanda Dee")
+
+-   [The Def Dames](https://en.wikipedia.org/wiki/The_Def_Dames "The Def Dames")
+
+-   [Dessa](https://en.wikipedia.org/wiki/Dessa "Dessa")
+
+-   [Dev (singer)](https://en.wikipedia.org/wiki/Dev_(singer) "Dev (singer)")
+
+-   [Diamond the Body](https://en.wikipedia.org/wiki/Diamond_the_Body "Diamond the Body")
+
+-   [Kanary Diamonds](https://en.wikipedia.org/wiki/Kanary_Diamonds "Kanary Diamonds")
+
+-   [Rah Digga](https://en.wikipedia.org/wiki/Rah_Digga "Rah Digga")
+
+-   [Dimples D.](https://en.wikipedia.org/wiki/Dimples_D. "Dimples D.")
+
+-   [Doechii](https://en.wikipedia.org/wiki/Doechii "Doechii")
+
+-   [Asian Doll](https://en.wikipedia.org/wiki/Asian_Doll "Asian Doll")
+
+-   [Kash Doll](https://en.wikipedia.org/wiki/Kash_Doll "Kash Doll")
+
+### **E**
+
+-   [Carmen Electra](https://en.wikipedia.org/wiki/Carmen_Electra "Carmen Electra")
+
+-   [Missy Elliott](https://en.wikipedia.org/wiki/Missy_Elliott "Missy Elliott")
+
+### **F**
+
+-   [Fan 3](https://en.wikipedia.org/wiki/Fan_3 "Fan 3")
+
+-   [Kari Faux](https://en.wikipedia.org/wiki/Kari_Faux "Kari Faux")
+
+-   [Feloni](https://en.wikipedia.org/wiki/Feloni "Feloni")
+
+-   [Fergie (singer)](https://en.wikipedia.org/wiki/Fergie_(singer) "Fergie (singer)")
+
+-   [Tiffany Foxx](https://en.wikipedia.org/wiki/Tiffany_Foxx "Tiffany Foxx")
+
+-   [Njena Reddd Foxxx](https://en.wikipedia.org/wiki/Njena_Reddd_Foxxx "Njena Reddd Foxxx")
+
+-   [Free Marie](https://en.wikipedia.org/wiki/Free_Marie "Free Marie")
+
+-   [Pearl Future](https://en.wikipedia.org/wiki/Pearl_Future "Pearl Future")
+
+-   [Sylk-E. Fyne](https://en.wikipedia.org/wiki/Sylk-E._Fyne "Sylk-E. Fyne")
+
+### **G**
+
+-   [Hurricane G](https://en.wikipedia.org/wiki/Hurricane_G "Hurricane G")
+
+-   [Heather B. Gardner](https://en.wikipedia.org/wiki/Heather_B._Gardner "Heather B. Gardner")
+
+-   [Geneva (singer)](https://en.wikipedia.org/wiki/Geneva_(singer) "Geneva (singer)")
+
+-   [The Get Em Mamis](https://en.wikipedia.org/wiki/The_Get_Em_Mamis "The Get Em Mamis")
+
+-   [GloRilla](https://en.wikipedia.org/wiki/GloRilla "GloRilla")
+
+-   [Cat Glover](https://en.wikipedia.org/wiki/Cat_Glover "Cat Glover")
+
+-   [Janine Gordon](https://en.wikipedia.org/wiki/Janine_Gordon "Janine Gordon")
+
+-   [Katie Got Bandz](https://en.wikipedia.org/wiki/Katie_Got_Bandz "Katie Got Bandz")
+
+-   [Rappin' Granny](https://en.wikipedia.org/wiki/Rappin%27_Granny "Rappin' Granny")
+
+-   [Gripsta](https://en.wikipedia.org/wiki/Gripsta "Gripsta")
+
+### **H**
+
+-   [Sasha Go Hard](https://en.wikipedia.org/wiki/Sasha_Go_Hard "Sasha Go Hard")
+
+-   [Tina Harris](https://en.wikipedia.org/wiki/Tina_Harris "Tina Harris")
+
+-   [Mona Haydar](https://en.wikipedia.org/wiki/Mona_Haydar "Mona Haydar")
+
+-   [Kalyn Heffernan](https://en.wikipedia.org/wiki/Kalyn_Heffernan "Kalyn Heffernan")
+
+-   [Qveen Herby](https://en.wikipedia.org/wiki/Qveen_Herby "Qveen Herby")
+
+-   [Alaya High](https://en.wikipedia.org/wiki/Alaya_High "Alaya High")
+
+-   [Lauryn Hill](https://en.wikipedia.org/wiki/Lauryn_Hill "Lauryn Hill")
+
+-   [Hopie](https://en.wikipedia.org/wiki/Hopie "Hopie")
+
+-   [Angela Hunte](https://en.wikipedia.org/wiki/Angela_Hunte "Angela Hunte")
+
+-   [Heather Hunter](https://en.wikipedia.org/wiki/Heather_Hunter "Heather Hunter")
+
+-   [HWA (group)](https://en.wikipedia.org/wiki/HWA_(group) "HWA (group)")
+
+### **I**
+
+-   [Ice Spice](https://en.wikipedia.org/wiki/Ice_Spice "Ice Spice")
+
+-   [Icy Blu](https://en.wikipedia.org/wiki/Icy_Blu "Icy Blu")
+
+-   [II Tru](https://en.wikipedia.org/wiki/II_Tru "II Tru")
+
+-   [Lady iLe](https://en.wikipedia.org/wiki/Lady_iLe "Lady iLe")
+
+-   [India (actress)](https://en.wikipedia.org/wiki/India_(actress) "India (actress)")
+
+### **J**
+
+-   [J. J. Fad](https://en.wikipedia.org/wiki/J._J._Fad "J. J. Fad")
+
+-   [Ms. Jade](https://en.wikipedia.org/wiki/Ms._Jade "Ms. Jade")
+
+-   [Jaz (musician)](https://en.wikipedia.org/wiki/Jaz_(musician) "Jaz (musician)")
+
+-   [Jessi (musician)](https://en.wikipedia.org/wiki/Jessi_(musician) "Jessi (musician)")
+
+-   [Lia Marie Johnson](https://en.wikipedia.org/wiki/Lia_Marie_Johnson "Lia Marie Johnson")
+
+-   [Toya Johnson](https://en.wikipedia.org/wiki/Toya_Johnson "Toya Johnson")
+
+-   [Ta'Rhonda Jones](https://en.wikipedia.org/wiki/Ta%27Rhonda_Jones "Ta'Rhonda Jones")
+
+-   [Junglepussy](https://en.wikipedia.org/wiki/Junglepussy "Junglepussy")
+
+### **K**
+
+-   [K-Swift](https://en.wikipedia.org/wiki/K-Swift "K-Swift")
+
+-   [K. P. & Envyi](https://en.wikipedia.org/wiki/K._P._%26_Envyi "K. P. & Envyi")
+
+-   [K.Flay](https://en.wikipedia.org/wiki/K.Flay "K.Flay")
+
+-   [Kamaiyah](https://en.wikipedia.org/wiki/Kamaiyah "Kamaiyah")
+
+-   [KaMillion](https://en.wikipedia.org/wiki/KaMillion "KaMillion")
+
+-   [Kesha](https://en.wikipedia.org/wiki/Kesha "Kesha")
+
+-   [Khia](https://en.wikipedia.org/wiki/Khia "Khia")
+
+-   [Euna Kim](https://en.wikipedia.org/wiki/Euna_Kim "Euna Kim")
+
+-   [Kitty (rapper)](https://en.wikipedia.org/wiki/Kitty_(rapper) "Kitty (rapper)")
+
+-   [Kreayshawn](https://en.wikipedia.org/wiki/Kreayshawn "Kreayshawn")
+
+-   [L'Trimm](https://en.wikipedia.org/wiki/L%27Trimm "L'Trimm")
+
+-   [Lady B](https://en.wikipedia.org/wiki/Lady_B "Lady B")
+
+-   [Lady Luck (rapper)](https://en.wikipedia.org/wiki/Lady_Luck_(rapper) "Lady Luck (rapper)")
+
+-   [The Lady of Rage](https://en.wikipedia.org/wiki/The_Lady_of_Rage "The Lady of Rage")
+
+-   [Queen Latifah](https://en.wikipedia.org/wiki/Queen_Latifah "Queen Latifah")
+
+-   [Latto](https://en.wikipedia.org/wiki/Latto "Latto")
+
+-   [Mélange Lavonne](https://en.wikipedia.org/wiki/M%C3%A9lange_Lavonne "Mélange Lavonne")
+
+-   [HeeSun Lee](https://en.wikipedia.org/wiki/HeeSun_Lee "HeeSun Lee")
+
+-   [Lega-C](https://en.wikipedia.org/wiki/Lega-C "Lega-C")
+
+-   [Leikeli47](https://en.wikipedia.org/wiki/Leikeli47 "Leikeli47")
+
+-   [Coi Leray](https://en.wikipedia.org/wiki/Coi_Leray "Coi Leray")
+
+-   [Lil Debbie](https://en.wikipedia.org/wiki/Lil_Debbie "Lil Debbie")
+
+-   [Lil' Kim](https://en.wikipedia.org/wiki/Lil%27_Kim "Lil' Kim")
+
+-   [Lisa Lisa](https://en.wikipedia.org/wiki/Lisa_Lisa "Lisa Lisa")
+
+-   [Amber Liu (singer)](https://en.wikipedia.org/wiki/Amber_Liu_(singer) "Amber Liu (singer)")
+
+-   [Lizzo](https://en.wikipedia.org/wiki/Lizzo "Lizzo")
+
+-   [Dej Loaf](https://en.wikipedia.org/wiki/Dej_Loaf "Dej Loaf")
+
+-   [Lisa Lopes](https://en.wikipedia.org/wiki/Lisa_Lopes "Lisa Lopes")
+
+-   [Lumidee](https://en.wikipedia.org/wiki/Lumidee "Lumidee")
+
+-   [MC Lyte](https://en.wikipedia.org/wiki/MC_Lyte "MC Lyte")
+
+### **M**
+
+-   [Remy Ma](https://en.wikipedia.org/wiki/Remy_Ma "Remy Ma")
+
+-   [Kellee Maize](https://en.wikipedia.org/wiki/Kellee_Maize "Kellee Maize")
+
+-   [Mala Reignz](https://en.wikipedia.org/wiki/Mala_Reignz "Mala Reignz")
+
+-   [Mapei (rapper)](https://en.wikipedia.org/wiki/Mapei_(rapper) "Mapei (rapper)")
+
+-   [Lil Mariko](https://en.wikipedia.org/wiki/Lil_Mariko "Lil Mariko")
+
+-   [Angie Martinez](https://en.wikipedia.org/wiki/Angie_Martinez "Angie Martinez")
+
+-   [Marvaless](https://en.wikipedia.org/wiki/Marvaless "Marvaless")
+
+-   [Katherine McAlpine](https://en.wikipedia.org/wiki/Katherine_McAlpine "Katherine McAlpine")
+
+-   [Daisha McBride](https://en.wikipedia.org/wiki/Daisha_McBride "Daisha McBride")
+
+-   [Megan Thee Stallion](https://en.wikipedia.org/wiki/Megan_Thee_Stallion "Megan Thee Stallion")
+
+-   [Ms. Melodie](https://en.wikipedia.org/wiki/Ms._Melodie "Ms. Melodie")
+
+-   [Menajahtwa](https://en.wikipedia.org/wiki/Menajahtwa "Menajahtwa")
+
+-   [Mia X](https://en.wikipedia.org/wiki/Mia_X "Mia X")
+
+-   [Christina Milian](https://en.wikipedia.org/wiki/Christina_Milian "Christina Milian")
+
+-   [Miss Ko](https://en.wikipedia.org/wiki/Miss_Ko "Miss Ko")
+
+-   [MISSPSTAR](https://en.wikipedia.org/wiki/MISSPSTAR "MISSPSTAR")
+
+-   [Monaleo](https://en.wikipedia.org/wiki/Monaleo "Monaleo")
+
+-   [Tay Money](https://en.wikipedia.org/wiki/Tay_Money "Tay Money")
+
+-   [LoLa Monroe](https://en.wikipedia.org/wiki/LoLa_Monroe "LoLa Monroe")
+
+-   [Georgia Anne Muldrow](https://en.wikipedia.org/wiki/Georgia_Anne_Muldrow "Georgia Anne Muldrow")
+
+-   [Kaila Mullady](https://en.wikipedia.org/wiki/Kaila_Mullady "Kaila Mullady")
+
+### **N**
+
+-   [Akua Naru](https://en.wikipedia.org/wiki/Akua_Naru "Akua Naru")
+
+-   [Naturi Naughton](https://en.wikipedia.org/wiki/Naturi_Naughton "Naturi Naughton")
+
+-   [Nikki D](https://en.wikipedia.org/wiki/Nikki_D "Nikki D")
+
+-   [Nonchalant](https://en.wikipedia.org/wiki/Nonchalant "Nonchalant")
+
+### **O**
+
+-   [Oaktown's 357](https://en.wikipedia.org/wiki/Oaktown%27s_357 "Oaktown's 357")
+
+-   [OMB Bloodbath](https://en.wikipedia.org/wiki/OMB_Bloodbath "OMB Bloodbath")
+
+-   [Overweight Pooch](https://en.wikipedia.org/wiki/Overweight_Pooch "Overweight Pooch")
+
+### **P**
+
+-   [Passion (rapper)](https://en.wikipedia.org/wiki/Passion_(rapper) "Passion (rapper)")
+
+-   [Penny (rapper)](https://en.wikipedia.org/wiki/Penny_(rapper) "Penny (rapper)")
+
+-   [Pepa (rapper)](https://en.wikipedia.org/wiki/Pepa_(rapper) "Pepa (rapper)")
+
+-   [Jackie Hill Perry](https://en.wikipedia.org/wiki/Jackie_Hill_Perry "Jackie Hill Perry")
+
+-   [Whitney Peyton](https://en.wikipedia.org/wiki/Whitney_Peyton "Whitney Peyton")
+
+-   [Prima J](https://en.wikipedia.org/wiki/Prima_J "Prima J")
+
+-   [Princess Superstar](https://en.wikipedia.org/wiki/Princess_Superstar "Princess Superstar")
+
+-   [Hesta Prynn](https://en.wikipedia.org/wiki/Hesta_Prynn "Hesta Prynn")
+
+-   [Psalm One](https://en.wikipedia.org/wiki/Psalm_One "Psalm One")
+
+-   [PTAF](https://en.wikipedia.org/wiki/PTAF "PTAF")
+
+### **Q**
+
+-   [Queen Pen](https://en.wikipedia.org/wiki/Queen_Pen "Queen Pen")
+
+### **R**
+
+-   [Audra the Rapper](https://en.wikipedia.org/wiki/Audra_the_Rapper "Audra the Rapper")
+
+-   [Rapsody](https://en.wikipedia.org/wiki/Rapsody "Rapsody")
+
+-   [Rasheeda](https://en.wikipedia.org/wiki/Rasheeda "Rasheeda")
+
+-   [The Real Roxanne](https://en.wikipedia.org/wiki/The_Real_Roxanne "The Real Roxanne")
+
+-   [Natina Reed](https://en.wikipedia.org/wiki/Natina_Reed "Natina Reed")
+
+-   [Lakeyah](https://en.wikipedia.org/wiki/Lakeyah "Lakeyah")
+
+-   [Rubi Rose](https://en.wikipedia.org/wiki/Rubi_Rose "Rubi Rose")
+
+-   [MC Router](https://en.wikipedia.org/wiki/MC_Router "MC Router")
+
+-   [Renni Rucci](https://en.wikipedia.org/wiki/Renni_Rucci "Renni Rucci")
+
+-   [Rye Rye](https://en.wikipedia.org/wiki/Rye_Rye "Rye Rye")
+
+### **S**
+
+-   [Sa-Roc](https://en.wikipedia.org/wiki/Sa-Roc "Sa-Roc")
+
+-   [Salt (rapper)](https://en.wikipedia.org/wiki/Salt_(rapper) "Salt (rapper)")
+
+-   [Sammus](https://en.wikipedia.org/wiki/Sammus "Sammus")
+
+-   [Sarai (rapper)](https://en.wikipedia.org/wiki/Sarai_(rapper) "Sarai (rapper)")
+
+-   [Saweetie](https://en.wikipedia.org/wiki/Saweetie "Saweetie")
+
+-   [Nitty Scott](https://en.wikipedia.org/wiki/Nitty_Scott "Nitty Scott")
+
+-   [Amanda Seales](https://en.wikipedia.org/wiki/Amanda_Seales "Amanda Seales")
+
+-   [The Sequence](https://en.wikipedia.org/wiki/The_Sequence "The Sequence")
+
+-   [Sha-Rock](https://en.wikipedia.org/wiki/Sha-Rock "Sha-Rock")
+
+-   [Otep Shamaya](https://en.wikipedia.org/wiki/Otep_Shamaya "Otep Shamaya")
+
+-   [Kodie Shane](https://en.wikipedia.org/wiki/Kodie_Shane "Kodie Shane")
+
+-   [Roxanne Shante](https://en.wikipedia.org/wiki/Roxanne_Shante "Roxanne Shante")
+
+-   [Sharaya J](https://en.wikipedia.org/wiki/Sharaya_J "Sharaya J")
+
+-   [Shawnna](https://en.wikipedia.org/wiki/Shawnna "Shawnna")
+
+-   [Magnolia Shorty](https://en.wikipedia.org/wiki/Magnolia_Shorty "Magnolia Shorty")
+
+-   [Shunda K](https://en.wikipedia.org/wiki/Shunda_K "Shunda K")
+
+-   [Natalie Sims](https://en.wikipedia.org/wiki/Natalie_Sims "Natalie Sims")
+
+-   [Sirah (rapper)](https://en.wikipedia.org/wiki/Sirah_(rapper) "Sirah (rapper)")
+
+-   [Kid Sister](https://en.wikipedia.org/wiki/Kid_Sister "Kid Sister")
+
+-   [Siya](https://en.wikipedia.org/wiki/Siya "Siya")
+
+-   [Smooth (singer)](https://en.wikipedia.org/wiki/Smooth_(singer) "Smooth (singer)")
+
+-   [Snow Tha Product](https://en.wikipedia.org/wiki/Snow_Tha_Product "Snow Tha Product")
+
+-   [Jasmine Solano](https://en.wikipedia.org/wiki/Jasmine_Solano "Jasmine Solano")
+
+-   Antoinette
+
+-   Asian Doll
+
+-   Azealia Banks
+
+-   Awkwafina
+
+## **B**
+
+-   Bhad Bhabie
+
+-   BigKlit
+
+-   Bonnie Blue
+
+-   Boss
+
+-   Bbymutha
+
+-   bktherula
+
+-   The Buttress
+
+-   Blactina
+
+## **C**
+
+-   Conscious Daughters
+
+-   Comaneci
+
+-   Chastain Stone
+
+-   Cardi B
+
+-   Cuban Doll
+
+-   Chelly The Mc
+
+-   CupcakKe
+
+-   Cuzzxo
+
+-   Coi Leray
+
+## **D**
+
+-   Doja Cat
+
+-   Da Brat
+
+-   Dick Rydah
+
+-   Dej Loaf
+
+## **E**
+
+-   Evidenc3 (Montreal rapper)
+
+## **F**
+
+-   Foxy Brown
+
+-   Flo Milli
+
+-   Fmc Kellss
+
+## **G**
+
+-   Gavlyn
+
+## **H**
+
+-   Holly Hood ProE
+
+-   <https://open.spotify.com/artist/7s738bnlRDsdvb8nTcuWbB>
+
+-   Honey G
+
+## **I**
+
+-   Iggy Azalea
+
+## **J**
+
+-   Jacki-O (female rapper)
+
+-   Jah Jah (female rapper)
+
+-   Jentina (female rapper) *England*
+
+-   Jewelz (female rapper)
+
+-   Jayla (female rapper)
+
+-   Jayla Marie 🔥🔥🔥🔥🔥🔥
+
+## **K**
+
+-   K-Swift
+
+-   Kana (Finnish musician)
+
+-   Kat Dahlia (female rapper) [Kat Dahlia - Gangsta](http://www.youtube.com/watch?v=trtdEg34eII)
+
+-   Keko
+
+-   Kesha
+
+-   Khia
+
+-   KennK
+
+-   Kid Sister
+
+-   Kitty (female rapper)
+
+-   Kitty Kat
+
+-   [Killa Kim (female rapper)](https://hiphopdatabase.fandom.com/wiki/Killa_Kim_(female_rapper) "Killa Kim (female rapper)")
+
+-   Kreayshawn
+
+-   Kytami
+
+## **L**
+
+-   Lady of Rage
+
+-   Lauryn Hill
+
+-   Lil Kim
+
+-   Lil Mama
+
+-   Lil Debbie
+
+-   Lil Kymchii
+
+-   Littyfromdacity
+
+-   Londynn B
+
+-   Lumidee (female rapper) [Lumidee - Never Leave You (Uh Oh)](http://www.youtube.com/watch?v=TBGUFzGnsII)
+
+-   Lil Tay
+
+-   Little Simz
+
+-   Left-Eye
+
+## **M**
+
+-   [Makiin (female rapper)](https://hiphopdatabase.fandom.com/wiki/Makiin_(female_rapper) "Makiin (female rapper)")
+
+-   Mia X
+
+-   Missy Elliott
+
+-   MC Lyte
+
+-   Ms. Toi
+
+-   [Monalisa (female rapper)](https://hiphopdatabase.fandom.com/wiki/Monalisa_(female_rapper) "Monalisa (female rapper)")
+
+-   Monate Q
+
+-   Monie Love
+
+-   Mulatto
+
+-   Medusa
+
+-   Megan Thee Stallion
+
+## **N**
+
+-   Nefertiti
+
+-   Nikki D.
+
+-   Noni Zondi (female rapper)
+
+-   Nicki Minaj
+
+-   Nitty Scott
+
+## **O**
+
+-   
+
+## **P**
+
+-   Porche' 9-11
+
+-   PoppinCid
+
+[Porche' 9-11](http://www.soundcloud.com/porche9-11)
+
+## **Q**
+
+-   Q-Tee (female rapper)
+
+-   Queen Latifah (female rapper)
+
+-   Queen Pen (female rapper)
+
+-   Queen Cookie
+
+-   Qveen Herby
+
+## **R**
+
+-   Remy Ma
+
+-   [Raqula](https://hiphopdatabase.fandom.com/wiki/Lanse_Base_(Blazed_Out_Party_Rap_w/female_rapper)) (female rapper)
+
+-   Reema Major
+
+-   Ree-Ree a.k.a Dj Lolli-Pop Ria (Dj, Female Emcee)
+
+-   [Ruby (female rapper)](https://hiphopdatabase.fandom.com/wiki/Ruby_(female_rapper) "Ruby (female rapper)")
+
+-   Roscoe
+
+-   Rapsody
+
+-   Rico Nasty
+
+-   Renni Ricci (female rapper)
+
+-   Rubi Rose
+
+-   Rah Digga
+
+## **S**
+
+-   Snow Tha Product
+
+-   Saweetie
+
+-   SmokeHijabi
+
+-   SANDRINETTE
+
+-   Silk Tymes Leather
+
+-   Storm(Outlawz)
+
+-   Shine Brida
+
+-   Spicegurlpurp
+
+## **T**
+
+-   Tally
+
+## **U**
+
+-   UptownTrinn
+
+## **V**
+
+-   V-Nasty
+
+## **W**
+
+-   Woahhvicky
+
+## **X**
+
+-   
+
+## **Y**
+
+-   Yolandi Visser
+
+-   Young M.A
+
+-   Yo-Yo
