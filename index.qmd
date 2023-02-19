@@ -1,0 +1,62 @@
+---
+title: "HipHop ML Proposal"
+format: 
+    html: 
+        toc: true
+        toc-title: 'Outline'
+        theme: 'sketchy'
+---
+
+# Overview
+
+Using machine learning to make predictions and/or classifications by analyzing hip-hop lyrics retrieved via the Genius API.
+
+## Potential Problem Questions
+
+-   Guess the artist based on lyrics
+
+-   Guess release date based on lyrics
+
+-   Categorize rappers based on lyrics
+
+-   Any others?
+
+# Data Sources
+
+-   [Wikipedia - Billboard Charts #1 Rap Songs](https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s)
+
+-   [Data World - Billboard Top Songs, All](https://data.world/kcmillersean/billboard-hot-100-1958-2017)
+
+-   [Genius - Lyrics](https://ewenme.github.io/geniusr/articles/geniusr.html)
+
+::: {.column-screen-inset layout-ncol="2"}
+![](imgs/Salt-N-Pepa-1000.jpg){fig-align="left" width="371"}
+
+![](imgs/City-Girls.jpg){fig-align="right" width="454"}
+:::
+
+# Methods
+
+## Natural Language Processing (NLP)
+
+-   **Text mining** to clean and organize the lyrics into analyzable data
+
+-   **TF-IDF** to determine which words in each song separates that song from others
+
+-   **Sentiment analysis** to score or categorize each song based on the sentiment of the lyrics, eg positive, negative, happy, sad, etc.
+
+## Principle Component Analysis
+
+-   **PCA** to determine which words
+
+    -   were the most meaningful for each year
+
+    -   separate rap from other genres...maybe just the clean words lol
+
+## K-Means Clustering
+
+-   **Clustering** to put rappers into categories based on lyrics
+
+## Linear Regression
+
+## Neural Networks
