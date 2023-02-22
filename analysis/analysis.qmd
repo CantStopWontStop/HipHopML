@@ -1,0 +1,131 @@
+---
+title: "Text Mining"
+format: html
+editor: visual
+---
+
+```{r}
+library(geniusr)
+library(tidyverse)
+library(tidytext)
+library(reticulate)
+```
+
+```{r}
+songs <- read_csv('../data/top_rap_songs_89-19.csv')|> 
+    mutate(across(everything(),
+                  str_remove_all,
+                  '\"'),
+           across(everything(),
+                  str_remove,
+                  '\\n'),
+           rel_date = lubridate::mdy(date)) |>
+    mutate(song = str_remove_all(song,
+                                  '↑') |> 
+                        str_trim('right')) |>
+    separate(artist, 
+             into = c("artist","features"),
+             fill = "right",
+             sep="featuring ") |> 
+    select(-1)
+
+songs
+```
+
+```{r}
+art_songs_df <- songs |>
+    rowwise() |>
+    mutate(artist_id = search_artist(search_term = artist,
+                                  n_results = 3) |>
+               arrange(artist_id) |>
+               head(1) |>
+               pull(artist_id),
+           song_id  = search_song(search_term = song,
+                                 n_results = 3) |>
+               arrange(song_id) |>
+               head(1) |>
+               pull(song_id)
+       )
+ 
+art_songs_df
+```
+
+```{r}
+
+art_sng_lyr_df <- art_songs_df |>
+    # tail(1) |> 
+    rowwise() |>
+    mutate(tryCatch(
+                        get_lyrics_search(
+                            artist_name = artist,
+                            song_title = song) |>
+                            summarise(
+                                lyrics = str_c(line,
+                                               collapse = " ")
+                                ),
+                         error = function(w)
+                        return(NA)) 
+       )
+ 
+art_sng_lyr_df 
+```
+
+```{r}
+lyrics_df <- art_sng_lyr_df |> 
+    unnest(lyrics) |> 
+    select(song, artist, rel_date,lyrics)
+
+lyrics_df |> write_rds('../data/lyrics_df.rds')
+```
+
+```{r}
+
+tokens_df <- lyrics_df |>
+    mutate(
+        song_art = glue::glue('{song} - {artist}')
+        ) |>
+    group_by(song_art) |> 
+    filter(rel_date == max(rel_date))|> 
+    drop_na(lyrics) |> 
+    unnest_tokens(token, lyrics) |> 
+    ungroup()
+
+songs_by_words <- tokens_df |> 
+    group_by(song_art) |> 
+    summarise(num_of_words = n()) |>
+    ungroup() |> 
+    arrange(desc(num_of_words)) 
+```
+
+```{r}
+songs_by_words   |> 
+    head(20) |> 
+    mutate(
+        song_art = fct_reorder(song_art,num_of_words)
+        ) |> 
+    ggplot(aes(y = song_art, 
+               x = num_of_words)
+           ) +
+    geom_col(fill = "#145389") +
+    theme_minimal()
+
+songs_by_words |>
+    # head(20) |> 
+    # mutate(
+    #     song_art = fct_reorder(song_art,tot_wrds)
+    #     ) |> 
+    ggplot(aes(num_of_words)) +
+    geom_histogram(fill = "#145389") +
+    theme_minimal()    
+```
+
+```{r}
+
+```
+
+```{r}
+
+
+tokens_df |> 
+    group_by()
+```
