@@ -41,7 +41,7 @@ Using machine learning to make predictions and/or classifications by analyzing h
 
 ## Natural Language Processing (NLP)
 
--   [**Text mining**](analysis/text-mining.html) to clean and organize the lyrics into analyzable data
+-   [**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
 
 -   **TF-IDF** to determine which words in each song separates that song from others
 
