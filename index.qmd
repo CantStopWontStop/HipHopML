@@ -32,9 +32,9 @@ Using machine learning to make predictions and/or classifications by analyzing h
 -   Queried the [Genius API using geniusr R package](analysis/genius_api.html)
 
 ::: {.column-screen-inset layout-ncol="2"}
-![](imgs/Salt-N-Pepa-1000.jpg){fig-align="left" width="371"}
+![](imgs/Salt-N-Pepa-1000.jpg){fig-align="center" width="371"}
 
-![](imgs/City-Girls.jpg){fig-align="right" width="454"}
+![](imgs/City-Girls.jpg){fig-align="center" width="454"}
 :::
 
 # Methods
