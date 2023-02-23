@@ -49,7 +49,10 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#potential-problem-questions" id="toc-potential-problem-questions" class="nav-link" data-scroll-target="#potential-problem-questions">Potential Problem Questions</a></li>
   </ul></li>
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a>
+  <ul class="collapse">
+  <li><a href="#songs" id="toc-songs" class="nav-link" data-scroll-target="#songs">Songs</a></li>
+  </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#natural-language-processing-nlp" id="toc-natural-language-processing-nlp" class="nav-link" data-scroll-target="#natural-language-processing-nlp">Natural Language Processing (NLP)</a></li>
@@ -94,10 +97,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-sources" class="level1 page-columns page-full">
 <h1>Data Sources</h1>
+<section id="songs" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="songs">Songs</h2>
 <ul>
-<li><p><a href="https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s">Wikipedia - Billboard Charts #1 Rap Songs</a></p></li>
+<li><p>Built a <a href="analysis/wiki_scrapper.html">web scrapper</a> to get a list of Billboard’s #1 Rap Songs from <a href="https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s">Wikipedia</a></p></li>
 <li><p><a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017">Data World - Billboard Top Songs, All</a></p></li>
-<li><p><a href="https://ewenme.github.io/geniusr/articles/geniusr.html">Genius - Lyrics</a></p></li>
+<li><p>Queried the <a href="analysis/genius_api.html">Genius API using geniusr R package</a></p></li>
 </ul>
 <div class="column-screen-inset quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -117,6 +122,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>

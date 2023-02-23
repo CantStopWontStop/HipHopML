@@ -1,0 +1,169 @@
+---
+title: "Billboard Wikipedia Scrapper"
+format: 
+    html: 
+        toc: true
+        toc-title: 'Steps'
+        theme: 'flatly' 
+execute: 
+  warning: false
+---
+
+
+# Setup
+
+## Load Libraries
+
+
+```{r}
+library(tidyverse)
+```
+
+```{python, eval = FALSE}
+from splinter import Browser
+from bs4 import BeautifulSoup as soup
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+import matplotlib.pyplot as plt
+import pandas as pd
+import requests
+import json 
+
+```
+
+
+## Assign URLs
+
+
+```{python}
+base = 'https://en.wikipedia.org/wiki/'
+route = 'List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s'
+```
+
+
+# Scrape Wikipedia Page
+
+
+```{python}
+#| eval: false
+
+executable_path = {'executable_path': webdriver.Chrome(ChromeDriverManager().install())}
+
+
+browser = Browser('Chrome', **executable_path, headless=False)
+
+browser.visit(f'{base}{route}')
+
+songs_dict = []
+
+
+html = browser.html
+content = soup(html,"lxml")
+table = content.find('table', class_ = 'plainrowheaders sortable wikitable jquery-tablesorter')
+rows = table.find_all('tr')[1:]
+
+for n in rows:
+
+    # titles = []
+    # urls   = []
+    # yrs  = []
+    # songs = []
+    # artists = []
+    # rel_date = []
+
+
+    row_hd = n.find('th')
+    row    = n.findAll('td')
+    
+
+    if len(row)>4:
+
+        try:
+            link = row[0].a
+            url = link['href']
+            song = link.text
+            rd = row[2].text
+            art = row[1].text
+
+            data = {'song': song,
+                    'url': url,
+                    'date':rd,
+                    'artist': art}
+            print(data)
+        except (KeyError, TypeError):
+            pass
+
+        try:
+            songs_dict.append(data)
+        except (KeyError, TypeError):
+            pass
+        
+    else:
+
+        try:
+            link = row[0].a
+            url = link['href']
+            art = link.text
+            rd = row[1].text
+            song = row_hd.text
+            data = {'song': song,
+                    'url': url,
+                    'date':rd,
+                    'artist': art}
+            
+            print(data)
+        except (KeyError, TypeError):
+                pass
+        try:
+            songs_dict.append(data)
+        except (KeyError, TypeError):
+            pass
+
+    # try:
+    #     titles.append(link.text)
+    #     urls.append(link['href'][6:])
+    #     yrs.append(span['data-sort-value'])
+    # except (KeyError, TypeError):
+    #         pass
+    # titles.append(link['title'])
+
+songs_dict
+```
+
+
+# Results
+
+
+```{python, eval= True}
+#| eval: false
+
+
+data = pd.read_json('80s-90s.json')
+
+
+# json.dumps(data)
+
+print(data)
+
+```
+
+```{python, eval = FALSE}
+#| eval: false
+
+
+# the json file where the output must be stored 
+out_file = open("80s-90s.json", "w") 
+    
+json.dump(songs_dict, out_file, indent = 6) 
+    
+out_file.close() 
+```
+
+```{python}
+#| eval: false
+
+
+pd.read_json('80s-90s.json')
+
+```
+

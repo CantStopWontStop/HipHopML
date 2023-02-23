@@ -3,8 +3,8 @@ title: "Getting lyrics with Genius API"
 format: 
     html: 
         toc: true
-        toc-title: 'Outline'
-        theme: 'sketchy'
+        toc-title: 'Steps'
+        theme: 'flatly'
 execute:
   echo: true
   warning: false
@@ -12,7 +12,7 @@ execute:
 
 # Setup
 
-## Load Libraries 
+## Load Libraries
 
 ```{r}
 library(geniusr)
@@ -44,7 +44,7 @@ songs
 
 # Get Lyrics
 
-## Query Genius API 
+## Query Genius API
 
 ```{r include=FALSE, eval=FALSE}
 art_songs_df <- songs |>

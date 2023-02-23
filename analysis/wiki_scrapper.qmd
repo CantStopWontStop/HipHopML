@@ -3,8 +3,10 @@ title: "Billboard Wikipedia Scrapper"
 format: 
     html: 
         toc: true
-        code-fold: true
+        toc-title: 'Steps'
         theme: 'flatly' 
+execute: 
+  warning: false
 ---
 
 # Setup
@@ -157,7 +159,3 @@ pd.read_json('80s-90s.json')
 
 ```
 
-```{r}
-
-jsonlite::fromJSON('80s-90s.json', flatten=TRUE)
-```

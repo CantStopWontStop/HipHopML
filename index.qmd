@@ -4,7 +4,7 @@ format:
     html: 
         toc: true
         toc-title: 'Outline'
-        theme: 'sketchy'
+        theme: 'flatly'
 ---
 
 # Overview
@@ -23,11 +23,13 @@ Using machine learning to make predictions and/or classifications by analyzing h
 
 # Data Sources
 
--   [Wikipedia - Billboard Charts #1 Rap Songs](https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s)
+## Songs
+
+-   Built a [web scrapper](analysis/wiki_scrapper.html) to get a list of Billboard's #1 Rap Songs from [Wikipedia](https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s)
 
 -   [Data World - Billboard Top Songs, All](https://data.world/kcmillersean/billboard-hot-100-1958-2017)
 
--   [Genius - Lyrics](https://ewenme.github.io/geniusr/articles/geniusr.html)
+-   Queried the [Genius API using geniusr R package](analysis/genius_api.html)
 
 ::: {.column-screen-inset layout-ncol="2"}
 ![](imgs/Salt-N-Pepa-1000.jpg){fig-align="left" width="371"}
@@ -39,7 +41,7 @@ Using machine learning to make predictions and/or classifications by analyzing h
 
 ## Natural Language Processing (NLP)
 
--   **Text mining** to clean and organize the lyrics into analyzable data
+-   [**Text mining**](analysis/text-mining.html) to clean and organize the lyrics into analyzable data
 
 -   **TF-IDF** to determine which words in each song separates that song from others
 

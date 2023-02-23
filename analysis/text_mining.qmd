@@ -1,0 +1,210 @@
+---
+title: "Text Mining"
+format: 
+    html: 
+        toc: true
+        toc-title: 'Steps'
+        theme: 'flatly'
+execute:
+  echo: true
+  warning: false
+  cache: true
+---
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(ggwordcloud)
+```
+
+```{r}
+lyrics_df <- read_rds('../data/lyrics_df.rds')
+```
+
+```{r}
+
+words_df <- lyrics_df |>
+    mutate(
+        song_art = glue::glue('{song} - {artist}')
+        ) |>
+    group_by(song_art) |> 
+    filter(rel_date == max(rel_date))|> 
+    drop_na(lyrics) |> 
+    unnest_tokens(word, lyrics) |> 
+    ungroup()
+
+words_df
+```
+
+```{r}
+songs_by_words <- words_df |> 
+    group_by(song_art) |> 
+    summarise(num_of_words = n()) |>
+    ungroup() |> 
+    arrange(desc(num_of_words)) 
+
+
+songs_by_words |>
+    # head(20) |> 
+    # mutate(
+    #     song_art = fct_reorder(song_art,tot_wrds)
+    #     ) |> 
+    ggplot(aes(num_of_words)) +
+    geom_histogram(fill = "#145389") +
+    xlab('Number of Words') +
+    ylab('Number of Songs') +
+    theme_minimal()    
+```
+
+```{r}
+songs_by_words   |> 
+    head(20) |> 
+    mutate(
+        song_art = fct_reorder(song_art,num_of_words)
+        ) |> 
+    ggplot(aes(y = song_art, 
+               x = num_of_words)
+           ) +
+    geom_col(fill = "#145389") +
+    xlab('Number of Words') +
+    theme_minimal() +
+    theme( axis.title.y = element_blank())
+```
+
+```{r}
+data("stop_words")
+ 
+    
+words_trimmed_df <- words_df |> 
+    anti_join(stop_words)
+
+words_trimmed_df
+```
+
+```{r}
+
+songs_by_words_trimmed <- words_trimmed_df |> 
+    group_by(song_art) |> 
+    summarise(num_of_words = n()) |>
+    ungroup() |> 
+    arrange(desc(num_of_words)) 
+
+songs_by_words_trimmed |>
+    # head(20) |> 
+    # mutate(
+    #     song_art = fct_reorder(song_art,tot_wrds)
+    #     ) |> 
+    ggplot(aes(num_of_words)) +
+    geom_histogram(fill = "#145389") +
+    xlab('Number of Words') +
+    ylab('Number of Songs') +
+    theme_minimal() 
+```
+
+```{r}
+songs_by_words_trimmed   |> 
+    head(20) |> 
+    mutate(
+        song_art = fct_reorder(song_art,num_of_words)
+        ) |> 
+    ggplot(aes(y = song_art, 
+               x = num_of_words)
+           ) +
+    geom_col(fill = "#145389") +
+    xlab('Number of Words') +
+    theme_minimal() +
+    theme( axis.title.y = element_blank())
+```
+
+```{r}
+
+top_words_by_song <- words_trimmed_df |> 
+    group_by(song_art) |> 
+    count(word) |> slice_max(n, n = 1)
+
+top_words_by_song
+```
+
+```{r}
+
+top_words_by_song |> 
+    arrange(desc(n)) |> 
+    head(100) |> 
+    ggplot(aes(label = word, size = n)) +
+        geom_text_wordcloud(color = "#145389") +
+  scale_size_area(max_size = 10) +
+  theme_minimal()
+```
+
+```{r}
+
+
+words_by_year_df <- lyrics_df |>
+    mutate(
+        song_art = glue::glue('{song} - {artist}'),
+        rel_year = rel_date |> lubridate::year()
+        ) |>
+    group_by(song_art) |> 
+    filter(rel_date == max(rel_date))|> 
+    ungroup() |> 
+    drop_na(lyrics) |> 
+    group_by(rel_year) |> 
+    unnest_tokens(word, lyrics) |> 
+    ungroup()  |> 
+    anti_join(stop_words) |> 
+    group_by(rel_year) |> 
+    count(word) 
+
+words_by_year_df
+
+
+```
+
+```{r}
+    
+
+top_words_by_year <- words_by_year_df  |> 
+    slice_max(n, n = 1)
+
+
+top_words_by_year 
+```
+
+```{r}
+
+top_words_by_year |> 
+    mutate(rel_year = factor(rel_year)) |> 
+    ggplot(aes(x = n, y = rel_year, label = word)) +
+    geom_col(fill = "#145389")+
+    geom_label(color = "#145389") +
+    theme_minimal()
+```
+
+```{r}
+
+
+plot_by_year <- function(year){
+    words_by_year_df |> 
+        group_by(rel_year) |> 
+        slice_max(n, n = 100) |> 
+        filter(rel_year == year) |> 
+        ggplot(aes(label = word, size = n)) +
+            geom_text_wordcloud(color = "#145389") +
+            scale_size_area(max_size = 14) +
+            facet_wrap(~rel_year,scales = "free" ) +
+            theme_minimal()
+    
+}
+
+plot_by_year
+
+```
+
+```{r}
+#| column: screen-inset
+#| layout: [[2,48,2,48]]
+
+years <- words_by_year_df$rel_year |> unique()
+
+lapply(years, plot_by_year)
+```
