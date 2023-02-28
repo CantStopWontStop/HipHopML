@@ -1,6 +1,6 @@
 ---
 title: "HipHop ML Proposal"
-format: 
+format:
     html: 
         toc: true
         toc-title: 'Outline'
@@ -9,17 +9,11 @@ format:
 
 # Overview
 
-Using machine learning to make predictions and/or classifications by analyzing hip-hop lyrics retrieved via the Genius API.
+Using machine learning and lyrics retrieved via the Genius API to classify songs as hip hop and RnB or not
 
 ## Potential Problem Questions
 
--   Guess the artist based on lyrics
-
--   Guess release date based on lyrics
-
--   Categorize rappers based on lyrics
-
--   Any others?
+-   Determine whether a song is hip hop or RnB based on lyrics
 
 # Data Sources
 
@@ -27,12 +21,14 @@ Using machine learning to make predictions and/or classifications by analyzing h
 
 -   Built a [web scrapper](analysis/wiki_scrapper.html) to get a list of Billboard's #1 Rap Songs from [Wikipedia](https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s)
 
--   [Data World - Billboard Top Songs, All](https://data.world/kcmillersean/billboard-hot-100-1958-2017)
-
 -   Queried the [Genius API using geniusr R package](analysis/genius_api.html)
 
-::: {.column-screen-inset layout-ncol="2"}
+::: {.column-screen-inset layout-ncol="4"}
+![](imgs/envogue.jpeg){fig-align="center" width="427"}
+
 ![](imgs/Salt-N-Pepa-1000.jpg){fig-align="center" width="371"}
+
+![](imgs/destinys_child.jpeg){fig-align="center" width="402"}
 
 ![](imgs/City-Girls.jpg){fig-align="center" width="454"}
 :::
@@ -45,20 +41,6 @@ Using machine learning to make predictions and/or classifications by analyzing h
 
 -   **TF-IDF** to determine which words in each song separates that song from others
 
--   **Sentiment analysis** to score or categorize each song based on the sentiment of the lyrics, eg positive, negative, happy, sad, etc.
-
-## Principle Component Analysis
-
--   **PCA** to determine which words
-
-    -   were the most meaningful for each year
-
-    -   separate rap from other genres...maybe just the clean words lol
-
-## K-Means Clustering
-
--   **Clustering** to put rappers into categories based on lyrics
-
-## Linear Regression
-
 ## Neural Networks
+
+-   Use neural networks models to classify songs based on TF-IDF scores

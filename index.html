@@ -56,9 +56,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#natural-language-processing-nlp" id="toc-natural-language-processing-nlp" class="nav-link" data-scroll-target="#natural-language-processing-nlp">Natural Language Processing (NLP)</a></li>
-  <li><a href="#principle-component-analysis" id="toc-principle-component-analysis" class="nav-link" data-scroll-target="#principle-component-analysis">Principle Component Analysis</a></li>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a></li>
-  <li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear Regression</a></li>
   <li><a href="#neural-networks" id="toc-neural-networks" class="nav-link" data-scroll-target="#neural-networks">Neural Networks</a></li>
   </ul></li>
   </ul>
@@ -84,14 +81,11 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="overview" class="level1">
 <h1>Overview</h1>
-<p>Using machine learning to make predictions and/or classifications by analyzing hip-hop lyrics retrieved via the Genius API.</p>
+<p>Using machine learning and lyrics retrieved via the Genius API to classify songs as hip hop and RnB or not</p>
 <section id="potential-problem-questions" class="level2">
 <h2 class="anchored" data-anchor-id="potential-problem-questions">Potential Problem Questions</h2>
 <ul>
-<li><p>Guess the artist based on lyrics</p></li>
-<li><p>Guess release date based on lyrics</p></li>
-<li><p>Categorize rappers based on lyrics</p></li>
-<li><p>Any others?</p></li>
+<li>Determine whether a song is hip hop or RnB based on lyrics</li>
 </ul>
 </section>
 </section>
@@ -101,19 +95,32 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="songs">Songs</h2>
 <ul>
 <li><p>Built a <a href="analysis/wiki_scrapper.html">web scrapper</a> to get a list of Billboard’s #1 Rap Songs from <a href="https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s">Wikipedia</a></p></li>
-<li><p><a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017">Data World - Billboard Top Songs, All</a></p></li>
 <li><p>Queried the <a href="analysis/genius_api.html">Genius API using geniusr R package</a></p></li>
 </ul>
 <div class="column-screen-inset quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 45.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 25.8%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/envogue.jpeg" class="img-fluid figure-img" width="427"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 22.4%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="imgs/Salt-N-Pepa-1000.jpg" class="img-fluid figure-img" width="371"></p>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 55.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 24.3%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/destinys_child.jpeg" class="img-fluid figure-img" width="402"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 27.4%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="imgs/City-Girls.jpg" class="img-fluid figure-img" width="454"></p>
@@ -131,30 +138,13 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p><a href="analysis/text_mining.html"><strong>Text mining</strong></a> to clean and organize the lyrics into analyzable data</p></li>
 <li><p><strong>TF-IDF</strong> to determine which words in each song separates that song from others</p></li>
-<li><p><strong>Sentiment analysis</strong> to score or categorize each song based on the sentiment of the lyrics, eg positive, negative, happy, sad, etc.</p></li>
 </ul>
-</section>
-<section id="principle-component-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="principle-component-analysis">Principle Component Analysis</h2>
-<ul>
-<li><p><strong>PCA</strong> to determine which words</p>
-<ul>
-<li><p>were the most meaningful for each year</p></li>
-<li><p>separate rap from other genres…maybe just the clean words lol</p></li>
-</ul></li>
-</ul>
-</section>
-<section id="k-means-clustering" class="level2">
-<h2 class="anchored" data-anchor-id="k-means-clustering">K-Means Clustering</h2>
-<ul>
-<li><strong>Clustering</strong> to put rappers into categories based on lyrics</li>
-</ul>
-</section>
-<section id="linear-regression" class="level2">
-<h2 class="anchored" data-anchor-id="linear-regression">Linear Regression</h2>
 </section>
 <section id="neural-networks" class="level2">
 <h2 class="anchored" data-anchor-id="neural-networks">Neural Networks</h2>
+<ul>
+<li>Use neural networks models to classify songs based on TF-IDF scores</li>
+</ul>
 </section>
 </section>
 
