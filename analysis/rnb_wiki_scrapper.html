@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>rnb_wiki_scrapper</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="rnb_wiki_scrapper_files/libs/clipboard/clipboard.min.js"></script>
+<script src="rnb_wiki_scrapper_files/libs/quarto-html/quarto.js"></script>
+<script src="rnb_wiki_scrapper_files/libs/quarto-html/popper.min.js"></script>
+<script src="rnb_wiki_scrapper_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="rnb_wiki_scrapper_files/libs/quarto-html/anchor.min.js"></script>
+<link href="rnb_wiki_scrapper_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="rnb_wiki_scrapper_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="rnb_wiki_scrapper_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="rnb_wiki_scrapper_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="rnb_wiki_scrapper_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> splinter <span class="im">import</span> Browser</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup <span class="im">as</span> soup</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> webdriver_manager.chrome <span class="im">import</span> ChromeDriverManager</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>executable_path <span class="op">=</span> {<span class="st">'executable_path'</span>: ChromeDriverManager().install()}</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>browser <span class="op">=</span> Browser(<span class="st">'chrome'</span>, <span class="op">**</span>executable_path, headless<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> <span class="st">'https://en.wikipedia.org/wiki/'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>route_89 <span class="op">=</span> <span class="st">'https://en.wikipedia.org/wiki/List_of_Hot_Black_Singles_number_ones_of_1989'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>route_89_99 <span class="op">=</span> <span class="st">'List_of_number-one_R%26B_singles_of_'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>route_00_2019 <span class="op">=</span> <span class="st">'List_of_number-one_R%26B_singles_of_2006_(U.S.)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://en.wikipedia.org/wiki/List_of_Hot_Black_Singles_number_ones_of_1988'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>browser.visit(<span class="ss">f'</span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> browser.html</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>content <span class="op">=</span> soup(html,<span class="st">"lxml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> content.find(<span class="st">'table'</span>, class_ <span class="op">=</span> <span class="st">'nowraplinks mw-collapsible autocollapse navbox-inner mw-made-collapsible'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> table.find_all(<span class="st">'a'</span>)[<span class="dv">5</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>urls <span class="op">=</span> []</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> rows:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    year <span class="op">=</span> row.text</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        href <span class="op">=</span> row[<span class="st">'href'</span>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">int</span>(year) <span class="op">&gt;=</span> <span class="dv">1989</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            urls.append(href)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> (<span class="pp">KeyError</span>, <span class="pp">TypeError</span>):</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>['/wiki/List_of_Hot_Black_Singles_number_ones_of_1989',
+ '/wiki/List_of_number-one_R%26B_singles_of_1990_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1991_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1992_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1993_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1994_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1995_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1996_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1997_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_1998_(U.S.)',
+ '/wiki/List_of_Hot_R%26B_Singles_%26_Tracks_number_ones_of_1999',
+ '/wiki/List_of_Hot_R%26B/Hip-Hop_Singles_%26_Tracks_number_ones_of_2000',
+ '/wiki/List_of_Hot_R%26B/Hip-Hop_Singles_%26_Tracks_number_ones_of_2001',
+ '/wiki/List_of_Hot_R%26B/Hip-Hop_Singles_%26_Tracks_number_ones_of_2002',
+ '/wiki/List_of_Hot_R%26B/Hip-Hop_Singles_%26_Tracks_number_ones_of_2003',
+ '/wiki/List_of_Hot_R%26B/Hip-Hop_Singles_%26_Tracks_number_ones_of_2004',
+ '/wiki/List_of_number-one_R%26B_singles_of_2005_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2006_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2007_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2008_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2009_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2010_(U.S.)',
+ '/wiki/List_of_number-one_R%26B_singles_of_2011_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2012_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2013_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2014_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2015_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2016_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2017_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2018_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2019_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2020_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2021_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2022_(U.S.)',
+ '/wiki/List_of_number-one_R%26B/hip-hop_songs_of_2023_(U.S.)']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>browser.visit(<span class="st">'https://en.wikipedia.org/wiki/List_of_Hot_Black_Singles_number_ones_of_1989'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> browser.html</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>content <span class="op">=</span> soup(html,<span class="st">"lxml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> content.find(<span class="st">'table'</span>, class_ <span class="op">=</span> <span class="st">'wikitable sortable plainrowheaders'</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>body  <span class="op">=</span> table.find(<span class="st">'tbody'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>rows  <span class="op">=</span> body.find_all(<span class="st">'tr'</span>)[<span class="dv">1</span>:]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>rows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>[&lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-01-07-0000" style="white-space:nowrap"&gt;January 7&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Oasis_(Roberta_Flack_song)" title="Oasis (Roberta Flack song)"&gt;Oasis&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Flack, Roberta"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Roberta_Flack" title="Roberta Flack"&gt;Roberta Flack&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-5"&gt;&lt;a href="#cite_note-5"&gt;[5]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-01-14-0000" style="white-space:nowrap"&gt;January 14&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td bgcolor="#FFFF99" rowspan="3"&gt;"&lt;a href="/wiki/Superwoman_(Karyn_White_song)" title="Superwoman (Karyn White song)"&gt;Superwoman&lt;/a&gt;" &lt;img alt="dagger" data-file-height="14" data-file-width="9" decoding="async" height="14" src="//upload.wikimedia.org/wikipedia/commons/3/37/Dagger-14-plain.png" width="9"/&gt;&lt;/td&gt;
+ &lt;td rowspan="3"&gt;&lt;span data-sort-value="White, Karyn"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Karyn_White" title="Karyn White"&gt;Karyn White&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-6"&gt;&lt;a href="#cite_note-6"&gt;[6]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-01-21-0000" style="white-space:nowrap"&gt;January 21&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-7"&gt;&lt;a href="#cite_note-7"&gt;[7]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-01-28-0000" style="white-space:nowrap"&gt;January 28&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-8"&gt;&lt;a href="#cite_note-8"&gt;[8]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-02-04-0000" style="white-space:nowrap"&gt;February 4&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Can_You_Stand_the_Rain" title="Can You Stand the Rain"&gt;Can You Stand the Rain&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/New_Edition" title="New Edition"&gt;New Edition&lt;/a&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-9"&gt;&lt;a href="#cite_note-9"&gt;[9]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-02-11-0000" style="white-space:nowrap"&gt;February 11&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-10"&gt;&lt;a href="#cite_note-10"&gt;[10]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-02-18-0000" style="white-space:nowrap"&gt;February 18&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Dreamin%27_(Vanessa_Williams_song)" title="Dreamin' (Vanessa Williams song)"&gt;Dreamin'&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;span data-sort-value="Williams&nbsp;!"&gt;&lt;a class="mw-redirect" href="/wiki/Vanessa_L._Williams" title="Vanessa L. Williams"&gt;Vanessa Williams&lt;/a&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-11"&gt;&lt;a href="#cite_note-11"&gt;[11]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-02-25-0000" style="white-space:nowrap"&gt;February 25&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-12"&gt;&lt;a href="#cite_note-12"&gt;[12]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-03-04-0000" style="white-space:nowrap"&gt;March 4&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a class="mw-redirect" href="/wiki/Just_Because_(Anita_Baker_song)" title="Just Because (Anita Baker song)"&gt;Just Because&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Baker, Anita"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Anita_Baker" title="Anita Baker"&gt;Anita Baker&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-03-11-0000" style="white-space:nowrap"&gt;March 11&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Just_Coolin%27_(song)" title="Just Coolin' (song)"&gt;Just Coolin'&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a href="/wiki/LeVert" title="LeVert"&gt;LeVert&lt;/a&gt; featuring &lt;a href="/wiki/Heavy_D" title="Heavy D"&gt;Heavy D&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-03-18-0000" style="white-space:nowrap"&gt;March 18&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Closer_Than_Friends" title="Closer Than Friends"&gt;Closer Than Friends&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/Surface_(band)" title="Surface (band)"&gt;Surface&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-03-25-0000" style="white-space:nowrap"&gt;March 25&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-04-01-0000" style="white-space:nowrap"&gt;April 1&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Lucky_Charm_(song)" title="Lucky Charm (song)"&gt;Lucky Charm&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Boys&nbsp;!"&gt;&lt;a class="mw-redirect" href="/wiki/The_Boys_(American_band)" title="The Boys (American band)"&gt;The Boys&lt;/a&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-04-08-0000" style="white-space:nowrap"&gt;April 8&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Girl_I_Got_My_Eyes_On_You" title="Girl I Got My Eyes On You"&gt;Girl I Got My Eyes On You&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a class="mw-redirect" href="/wiki/Today_(band)" title="Today (band)"&gt;Today&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-04-15-0000" style="white-space:nowrap"&gt;April 15&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Every_Little_Step" title="Every Little Step"&gt;Every Little Step&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Brown, Bobby"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Bobby_Brown" title="Bobby Brown"&gt;Bobby Brown&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-04-22-0000" style="white-space:nowrap"&gt;April 22&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a class="mw-redirect" href="/wiki/Love_Saw_It" title="Love Saw It"&gt;Love Saw It&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;span data-sort-value="White, Karyn"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Karyn_White" title="Karyn White"&gt;Karyn White&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-04-29-0000" style="white-space:nowrap"&gt;April 29&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-05-06-0000" style="white-space:nowrap"&gt;May 6&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Real_Love_(Jody_Watley_song)" title="Real Love (Jody Watley song)"&gt;Real Love&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Watley, Jody"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Jody_Watley" title="Jody Watley"&gt;Jody Watley&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-05-13-0000" style="white-space:nowrap"&gt;May 13&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Start_of_a_Romance" title="Start of a Romance"&gt;Start of a Romance&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/Skyy_(band)" title="Skyy (band)"&gt;Skyy&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-05-20-0000" style="white-space:nowrap"&gt;May 20&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-05-27-0000" style="white-space:nowrap"&gt;May 27&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/My_First_Love_(Atlantic_Starr_song)" title="My First Love (Atlantic Starr song)"&gt;My First Love&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a href="/wiki/Atlantic_Starr" title="Atlantic Starr"&gt;Atlantic Starr&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-06-03-0000" style="white-space:nowrap"&gt;June 3&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Miss_You_Like_Crazy" title="Miss You Like Crazy"&gt;Miss You Like Crazy&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Cole, Natalie"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Natalie_Cole" title="Natalie Cole"&gt;Natalie Cole&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-06-10-0000" style="white-space:nowrap"&gt;June 10&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Me_Myself_and_I_(De_La_Soul_song)" title="Me Myself and I (De La Soul song)"&gt;Me Myself and I&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a href="/wiki/De_La_Soul" title="De La Soul"&gt;De La Soul&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-06-17-0000" style="white-space:nowrap"&gt;June 17&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Have_You_Had_Your_Love_Today" title="Have You Had Your Love Today"&gt;Have You Had Your Love Today&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;span data-sort-value="O'Jays&nbsp;!"&gt;&lt;a href="/wiki/The_O%27Jays" title="The O'Jays"&gt;The O'Jays&lt;/a&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-06-24-0000" style="white-space:nowrap"&gt;June 24&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-07-01-0000" style="white-space:nowrap"&gt;July 1&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Show_and_Tell_(song)" title="Show and Tell (song)"&gt;Show and Tell&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Bryson, Peabo"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Peabo_Bryson" title="Peabo Bryson"&gt;Peabo Bryson&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-07-08-0000" style="white-space:nowrap"&gt;July 8&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Keep_On_Movin%27_(Soul_II_Soul_song)" title="Keep On Movin' (Soul II Soul song)"&gt;Keep On Movin'&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/Soul_II_Soul" title="Soul II Soul"&gt;Soul II Soul&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-07-15-0000" style="white-space:nowrap"&gt;July 15&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-07-22-0000" style="white-space:nowrap"&gt;July 22&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Turned_Away" title="Turned Away"&gt;Turned Away&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Booker, Chuckii"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Chuckii_Booker" title="Chuckii Booker"&gt;Chuckii Booker&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-07-29-0000" style="white-space:nowrap"&gt;July 29&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a class="mw-redirect" href="/wiki/Shower_Me_With_Your_Love" title="Shower Me With Your Love"&gt;Shower Me With Your Love&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a href="/wiki/Surface_(band)" title="Surface (band)"&gt;Surface&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-08-05-0000" style="white-space:nowrap"&gt;August 5&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/On_Our_Own_(Bobby_Brown_song)" title="On Our Own (Bobby Brown song)"&gt;On Our Own&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Brown, Bobby"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Bobby_Brown" title="Bobby Brown"&gt;Bobby Brown&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-08-12-0000" style="white-space:nowrap"&gt;August 12&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Batdance" title="Batdance"&gt;Batdance&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a class="mw-redirect" href="/wiki/Prince_(artist)" title="Prince (artist)"&gt;Prince&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-08-19-0000" style="white-space:nowrap"&gt;August 19&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Something_in_the_Way_(You_Make_Me_Feel)" title="Something in the Way (You Make Me Feel)"&gt;Something in the Way (You Make Me Feel)&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Mills, Stephanie"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Stephanie_Mills" title="Stephanie Mills"&gt;Stephanie Mills&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-08-26-0000" style="white-space:nowrap"&gt;August 26&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/It%27s_No_Crime" title="It's No Crime"&gt;It's No Crime&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a class="mw-redirect" href="/wiki/Kenneth_%22Babyface%22_Edmonds" title='Kenneth "Babyface" Edmonds'&gt;Babyface&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-09-02-0000" style="white-space:nowrap"&gt;September 2&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-09-09-0000" style="white-space:nowrap"&gt;September 9&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/My_Fantasy" title="My Fantasy"&gt;My Fantasy&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Riley, Teddy"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Teddy_Riley" title="Teddy Riley"&gt;Teddy Riley&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; featuring &lt;a href="/wiki/Guy_(band)" title="Guy (band)"&gt;Guy&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-09-16-0000" style="white-space:nowrap"&gt;September 16&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Remember_(The_First_Time)" title="Remember (The First Time)"&gt;Remember (The First Time)&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Gable, Eric"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Eric_Gable" title="Eric Gable"&gt;Eric Gable&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-09-23-0000" style="white-space:nowrap"&gt;September 23&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Can%27t_Get_Over_You" title="Can't Get Over You"&gt;Can't Get Over You&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/Maze_(band)" title="Maze (band)"&gt;Maze&lt;/a&gt; featuring &lt;a href="/wiki/Frankie_Beverly" title="Frankie Beverly"&gt;Frankie Beverly&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-09-30-0000" style="white-space:nowrap"&gt;September 30&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-10-07-0000" style="white-space:nowrap"&gt;October 7&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Back_to_Life_(However_Do_You_Want_Me)" title="Back to Life (However Do You Want Me)"&gt;Back to Life (However Do You Want Me)&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a href="/wiki/Soul_II_Soul" title="Soul II Soul"&gt;Soul II Soul&lt;/a&gt; featuring &lt;a href="/wiki/Caron_Wheeler" title="Caron Wheeler"&gt;Caron Wheeler&lt;/a&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-10-14-0000" style="white-space:nowrap"&gt;October 14&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Miss_You_Much" title="Miss You Much"&gt;Miss You Much&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;span data-sort-value="Jackson, Janet"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Janet_Jackson" title="Janet Jackson"&gt;Janet Jackson&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-10-21-0000" style="white-space:nowrap"&gt;October 21&lt;/span&gt;
+ &lt;/th&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-10-28-0000" style="white-space:nowrap"&gt;October 28&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Baby_Come_to_Me_(Regina_Belle_song)" title="Baby Come to Me (Regina Belle song)"&gt;Baby Come to Me&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Belle, Regina"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Regina_Belle" title="Regina Belle"&gt;Regina Belle&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-11-04-0000" style="white-space:nowrap"&gt;November 4&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/You_Are_My_Everything" title="You Are My Everything"&gt;You Are My Everything&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;a href="/wiki/Surface_(band)" title="Surface (band)"&gt;Surface&lt;/a&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-13"&gt;&lt;a href="#cite_note-13"&gt;[13]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-11-11-0000" style="white-space:nowrap"&gt;November 11&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-14"&gt;&lt;a href="#cite_note-14"&gt;[14]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-11-18-0000" style="white-space:nowrap"&gt;November 18&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Don%27t_Take_It_Personal_(Jermaine_Jackson_song)" title="Don't Take It Personal (Jermaine Jackson song)"&gt;Don't Take It Personal&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Jackson, Jermaine"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Jermaine_Jackson" title="Jermaine Jackson"&gt;Jermaine Jackson&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-15"&gt;&lt;a href="#cite_note-15"&gt;[15]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-11-25-0000" style="white-space:nowrap"&gt;November 25&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Home_(The_Wiz_song)" title="Home (The Wiz song)"&gt;Home&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Mills, Stephanie"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Stephanie_Mills" title="Stephanie Mills"&gt;Stephanie Mills&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-16"&gt;&lt;a href="#cite_note-16"&gt;[16]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-12-02-0000" style="white-space:nowrap"&gt;December 2&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td rowspan="2"&gt;"&lt;a href="/wiki/Here_and_Now_(Luther_Vandross_song)" title="Here and Now (Luther Vandross song)"&gt;Here and Now&lt;/a&gt;"&lt;/td&gt;
+ &lt;td rowspan="2"&gt;&lt;span data-sort-value="Vandross, Luther"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Luther_Vandross" title="Luther Vandross"&gt;Luther Vandross&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-17"&gt;&lt;a href="#cite_note-17"&gt;[17]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-12-09-0000" style="white-space:nowrap"&gt;December 9&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-18"&gt;&lt;a href="#cite_note-18"&gt;[18]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-12-16-0000" style="white-space:nowrap"&gt;December 16&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a class="mw-redirect" href="/wiki/Ain%27t_Nuthin%27_in_the_World" title="Ain't Nuthin' in the World"&gt;Ain't Nuthin' in the World&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Howard, Miki"&gt;&lt;span class="vcard"&gt;&lt;span class="fn"&gt;&lt;a href="/wiki/Miki_Howard" title="Miki Howard"&gt;Miki Howard&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-19"&gt;&lt;a href="#cite_note-19"&gt;[19]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-12-23-0000" style="white-space:nowrap"&gt;December 23&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/All_of_My_Love" title="All of My Love"&gt;All of My Love&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;span data-sort-value="Gap&nbsp;!"&gt;&lt;a href="/wiki/The_Gap_Band" title="The Gap Band"&gt;The Gap Band&lt;/a&gt;&lt;/span&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-20"&gt;&lt;a href="#cite_note-20"&gt;[20]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;,
+ &lt;tr&gt;
+ &lt;th scope="row"&gt;&lt;span data-sort-value="000000002023-12-30-0000" style="white-space:nowrap"&gt;December 30&lt;/span&gt;
+ &lt;/th&gt;
+ &lt;td&gt;"&lt;a href="/wiki/Tender_Lover_(song)" title="Tender Lover (song)"&gt;Tender Lover&lt;/a&gt;"&lt;/td&gt;
+ &lt;td&gt;&lt;a class="mw-redirect" href="/wiki/Kenneth_%22Babyface%22_Edmonds" title='Kenneth "Babyface" Edmonds'&gt;Babyface&lt;/a&gt;
+ &lt;/td&gt;
+ &lt;td align="center"&gt;&lt;sup class="reference" id="cite_ref-21"&gt;&lt;a href="#cite_note-21"&gt;[21]&lt;/a&gt;&lt;/sup&gt;
+ &lt;/td&gt;&lt;/tr&gt;]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>artists <span class="op">=</span> []</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> []</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> rows:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        link <span class="op">=</span>  row.find_all(<span class="st">'a'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        song_title <span class="op">=</span> link[<span class="st">'title'</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> (<span class="pp">KeyError</span>,<span class="pp">TypeError</span>):</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(link) <span class="op">&gt;</span> <span class="dv">2</span>:</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            song_href <span class="op">=</span> link[<span class="dv">0</span>].text</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            artists_href <span class="op">=</span> link[<span class="dv">1</span>].text</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">IndexError</span>:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        artists.append(artists_href)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        songs.append(song_href)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>songs_df <span class="op">=</span> pd.DataFrame({<span class="st">'artist'</span>: artists,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'song'</span>: songs})</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>songs_df.to_csv(<span class="st">'../data/rnb_89.csv'</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>songs_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

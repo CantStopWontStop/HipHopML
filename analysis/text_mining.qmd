@@ -208,3 +208,9 @@ years <- words_by_year_df$rel_year |> unique()
 
 lapply(years, plot_by_year)
 ```
+
+```{r}
+top_rap_songs_89_19 |> 
+    select(-1) |> 
+    mutat
+```

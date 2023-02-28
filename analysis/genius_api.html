@@ -150,7 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="load-songs" class="level2">
 <h2 class="anchored" data-anchor-id="load-songs">Load Songs</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>songs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/top_rap_songs_89-19.csv'</span>)<span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hh_songs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/top_rap_songs_89-19.csv'</span>)<span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  str_remove_all,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">'</span><span class="sc">\"</span><span class="st">'</span>),</span>
@@ -165,24 +165,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"artist"</span>,<span class="st">"features"</span>),</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">"right"</span>,</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">sep=</span><span class="st">"featuring "</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>songs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(song, artist, rel_date) <span class="sc">|&gt;</span> </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hip_hop_rnb =</span> <span class="dv">1</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>hh_songs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 245 × 6
-   song                 url                      date  artist featu…¹ rel_date  
-   &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;date&gt;    
- 1 Empire State of Mind /wiki/Jay-Z              Nove… "Jay-… &lt;NA&gt;    2009-11-21
- 2 BedRock              /wiki/Young_Money_Enter… Janu… "Youn… &lt;NA&gt;    2010-01-23
- 3 Say Something        /wiki/Timbaland          Marc… "Timb… &lt;NA&gt;    2010-03-27
- 4 Nothin' on You       /wiki/Nothin%27_on_You   Apri… "B.o.… Bruno … 2010-04-24
- 5 Over                 /wiki/Drake_(musician)   June… "Drak… &lt;NA&gt;    2010-06-12
- 6 Your Love            /wiki/Nicki_Minaj        July… "Nick… &lt;NA&gt;    2010-07-10
- 7 Love the Way You Lie /wiki/Eminem             Sept… "Emin… &lt;NA&gt;    2010-09-04
- 8 Fancy                /wiki/Drake_(musician)   Octo… "Drak… &lt;NA&gt;    2010-10-30
- 9 Right Above It       /wiki/Lil_Wayne          Nove… "Lil … &lt;NA&gt;    2010-11-06
-10 No Hands             /wiki/Waka_Flocka_Flame  Dece… "Waka… &lt;NA&gt;    2010-12-11
-# … with 235 more rows, and abbreviated variable name ¹​features
+<pre><code># A tibble: 245 × 4
+   song                 artist              rel_date   hip_hop_rnb
+   &lt;chr&gt;                &lt;chr&gt;               &lt;date&gt;           &lt;dbl&gt;
+ 1 Empire State of Mind "Jay-Z"             2009-11-21           1
+ 2 BedRock              "Young Money"       2010-01-23           1
+ 3 Say Something        "Timbaland"         2010-03-27           1
+ 4 Nothin' on You       "B.o.B "            2010-04-24           1
+ 5 Over                 "Drake"             2010-06-12           1
+ 6 Your Love            "Nicki Minaj"       2010-07-10           1
+ 7 Love the Way You Lie "Eminem"            2010-09-04           1
+ 8 Fancy                "Drake"             2010-10-30           1
+ 9 Right Above It       "Lil Wayne"         2010-11-06           1
+10 No Hands             "Waka Flocka Flame" 2010-12-11           1
+# … with 235 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rnb_songs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/rnb_89.csv'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(song, artist) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hip_hop_rnb =</span> <span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>songs <span class="ot">&lt;-</span> rnb_songs <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>(hh_songs)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>songs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 260 × 4
+   song                                  artist           hip_hop_rnb rel_date
+   &lt;chr&gt;                                 &lt;chr&gt;                  &lt;dbl&gt; &lt;date&gt;  
+ 1 Oasis                                 Roberta Flack              1 NA      
+ 2 Superwoman                            Karyn White                1 NA      
+ 3 Can You Stand the Rain                New Edition                1 NA      
+ 4 Dreamin'                              Vanessa Williams           1 NA      
+ 5 Just Coolin'                          LeVert                     1 NA      
+ 6 My Fantasy                            Teddy Riley                1 NA      
+ 7 Can't Get Over You                    Maze                       1 NA      
+ 8 Back to Life (However Do You Want Me) Soul II Soul               1 NA      
+ 9 You Are My Everything                 Surface                    1 NA      
+10 Don't Take It Personal                Jermaine Jackson           1 NA      
+# … with 250 more rows
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
@@ -193,26 +221,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="query-genius-api" class="level2">
 <h2 class="anchored" data-anchor-id="query-genius-api">Query Genius API</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>art_sng_lyr_df <span class="ot">&lt;-</span> songs <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tryCatch</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">get_lyrics_search</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">artist_name =</span> artist,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">song_title  =</span> song</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">|&gt;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">summarise</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lyrics  =</span> <span class="fu">str_c</span>(line,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">collapse =</span> <span class="st">" "</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                    ),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">error =</span> <span class="cf">function</span>(w)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">return</span>(<span class="cn">NA</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            ) </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">|&gt;</span> </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(song, artist, rel_date,lyrics)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>art_sng_lyr_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>art_sng_lyr_df <span class="ot">&lt;-</span> songs <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tryCatch</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">get_lyrics_search</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">artist_name =</span> artist,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">song_title  =</span> song</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">summarise</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lyrics  =</span> <span class="fu">str_c</span>(line,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                    ),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">error =</span> <span class="cf">function</span>(w)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            ) </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(song, artist, rel_date,lyrics)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>art_sng_lyr_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">

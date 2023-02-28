@@ -22,7 +22,7 @@ library(tidyverse)
 ## Load Songs
 
 ```{r}
-songs <- read_csv('../data/top_rap_songs_89-19.csv')|> 
+hh_songs <- read_csv('../data/top_rap_songs_89-19.csv')|> 
     mutate(across(everything(),
                   str_remove_all,
                   '\"'),
@@ -37,7 +37,23 @@ songs <- read_csv('../data/top_rap_songs_89-19.csv')|>
              into = c("artist","features"),
              fill = "right",
              sep="featuring ") |> 
-    select(-1)
+    select(song, artist, rel_date) |> 
+    mutate(hip_hop_rnb = 1)
+
+hh_songs
+```
+
+```{r}
+rnb_songs <- read_csv('../data/rnb_89-99.csv') |> 
+    select(song, artist) |> 
+    mutate(hip_hop_rnb = 1) |> 
+    distinct(artist, song,hip_hop_rnb) 
+
+songs <- rnb_songs |> 
+    bind_rows(hh_songs)
+
+songs |> write_csv('../data/songs.csv')
+
 
 songs
 ```
@@ -46,7 +62,7 @@ songs
 
 ## Query Genius API
 
-```{r include=FALSE, eval=FALSE}
+```{r eval=FALSE}
 art_songs_df <- songs |>
     rowwise() |>
     mutate(artist_id = search_artist(search_term = artist,
@@ -64,7 +80,7 @@ art_songs_df <- songs |>
 art_songs_df
 ```
 
-```{r eval=FALSE, output = FALSE}
+```{r }
 
 art_sng_lyr_df <- songs |>
     rowwise() |>
@@ -85,12 +101,12 @@ art_sng_lyr_df <- songs |>
     unnest(lyrics) |> 
     select(song, artist, rel_date,lyrics)
  
-art_sng_lyr_df
+art_sng_lyr_df |> write_csv('../data/art_sng_lyr_df.csv')
 ```
 
 ```{r include=FALSE}
 
-art_sng_lyr_df <- read_rds('../data/art_sng_lyr_df.rds')
+art_sng_lyr_df <- read_csv('../data/art_sng_lyr_df.csv')
 
 art_sng_lyr_df
 ```

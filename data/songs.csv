@@ -1,246 +1,296 @@
-song,artist,rel_date,hip_hop_rnb
-Empire State of Mind,Jay-Z,2009-11-21,1
-BedRock,Young Money,2010-01-23,1
-Say Something,Timbaland,2010-03-27,1
-Nothin' on You,B.o.B ,2010-04-24,1
-Over,Drake,2010-06-12,1
-Your Love,Nicki Minaj,2010-07-10,1
-Love the Way You Lie,Eminem,2010-09-04,1
-Fancy,Drake,2010-10-30,1
-Right Above It,Lil Wayne,2010-11-06,1
-No Hands,Waka Flocka Flame,2010-12-11,1
-Aston Martin Music,Rick Ross,2010-12-25,1
-No Hands,Waka Flocka Flame,2011-01-15,1
-Black and Yellow,Wiz Khalifa,2011-02-05,1
-Moment 4 Life,Nicki Minaj,2011-02-19,1
-Look at Me Now,Chris Brown ,2011-04-23,1
-My Last,Big Sean,2011-07-02,1
-I'm on One,DJ Khaled,2011-07-16,1
-Headlines,Drake,2011-10-15,1
-Niggas in Paris,Jay-Z,2011-12-03,1
-Make Me Proud,Drake,2012-02-11,1
-The Motto,Drake ,2012-02-18,1
-Drank in My Cup,Kirko Bangz,2012-05-26,1
-Cashin' Out,Cash Out,2012-06-23,1
-Mercy,Kanye West,2012-07-07,1
-No Lie,2 Chainz,2012-09-08,1
-Gangnam Style,Psy,2012-10-20,1
-I Cry,Flo Rida,2012-12-15,1
-Gangnam Style,Psy,2013-01-12,1
-Thrift Shop,Macklemore and Ryan Lewis ,2013-01-19,1
-Can't Hold Us,Macklemore,2013-05-04,1
-Holy Grail,Jay-Z,2013-08-10,1
-Berzerk,Eminem,2013-09-14,1
-Holy Grail,Jay-Z,2013-09-21,1
-Rap God,Eminem,2013-11-02,1
-Holy Grail,Jay-Z,2013-11-09,1
-The Monster,Eminem,2013-11-16,1
-Timber,Pitbull,2014-01-18,1
-Fancy,Iggy Azalea ,2014-05-03,1
-Anaconda,Nicki Minaj,2014-09-06,1
-Black Widow,Iggy Azalea,2014-10-18,1
-Hot Boy,Bobby Shmurda,2014-11-22,1
-I Don't Fuck with You,Big Sean,2014-12-06,1
-Only,Nicki Minaj,2014-12-27,1
-I Don't Fuck with You,Big Sean,2015-01-03,1
-Time of Our Lives,Pitbull,2015-02-14,1
-Trap Queen,Fetty Wap,2015-04-04,1
-See You Again,Wiz Khalifa ,2015-04-25,1
-Watch Me (Whip/Nae Nae),Silentó,2015-08-08,1
-Hotline Bling,Drake,2015-10-10,1
-"Me, Myself & I",G-Eazy,2016-02-13,1
-Summer Sixteen,Drake,2016-02-20,1
-"Me, Myself & I",G-Eazy,2016-02-27,1
-Panda,Desiigner,2016-04-23,1
-Don't Mind,Kent Jones,2016-08-06,1
-Panda,Desiigner,2016-08-13,1
-Sucker for Pain,Lil Wayne,2016-08-27,1
-Too Good,Drake,2016-09-03,1
-Broccoli,DRAM,2016-09-24,1
-Black Beatles,Rae Sremmurd,2016-11-26,1
-Bad and Boujee,Migos,2017-01-21,1
-iSpy,Kyle,2017-04-15,1
-Humble,Kendrick Lamar,2017-04-22,1
-I'm the One,DJ Khaled,2017-05-20,1
-Unforgettable,French Montana,2017-08-19,1
-Bodak Yellow (Money Moves),Cardi B,2017-09-02,1
-Rockstar,Post Malone,2017-10-28,1
-God's Plan,Drake,2018-02-03,1
-Nice for What,Drake,2018-04-28,1
-This Is America,Childish Gambino,2018-05-19,1
-Nice for What,Drake,2018-06-02,1
-Psycho,Post Malone,2018-06-16,1
-Nice for What,Drake,2018-06-23,1
-Sad!,XXXTentacion,2018-06-30,1
-I Like It,Cardi B,2018-07-07,1
-Nice for What,Drake,2018-07-14,1
-In My Feelings,Drake,2018-07-21,1
-Lucid Dreams,Juice Wrld,2018-10-06,1
-Mona Lisa,Lil Wayne,2018-10-13,1
-Lucid Dreams,Juice Wrld,2018-10-20,1
-Zeze,Kodak Black,2018-10-27,1
-Sicko Mode,Travis Scott,2018-11-03,1
-Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,2019-01-12,1
-Please Me,Cardi B,2019-03-16,1
-Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,2019-03-23,1
-Wow,Post Malone,2019-04-06,1
-Old Town Road,Lil Nas X ,2019-04-13,1
-Truth Hurts,Lizzo,2019-08-31,1
-Highest in the Room,Travis Scott,2019-10-19,1
-Truth Hurts,Lizzo,2019-10-26,1
-Roxanne,Arizona Zervas,2019-12-07,1
-Hot Boyz,Missy Elliott ,1999-11-27,1
-Whistle While You Twurk,Ying Yang Twins,2000-04-01,1
-Wobble Wobble,504 Boyz,2000-04-15,1
-Country Grammar (Hot Shit),Nelly,2000-05-27,1
-Flamboyant,Big L,2000-06-24,1
-Callin' Me,Lil Zane,2000-07-15,1
-Bounce with Me,Lil' Bow Wow,2000-08-19,1
-Callin' Me,Lil Zane,2000-09-02,1
-Bounce with Me,Lil' Bow Wow,2000-09-09,1
-Move Somethin',Talib Kweli,2000-10-28,1
-It's OK,Slimm Calhoun,2000-11-04,1
-Souljas,Master P,2000-11-18,1
-Baby If You're Ready,Doggy's Angels,2000-11-25,1
-Oh No,Mos Def,2001-01-20,1
-Baby If You're Ready,Doggy's Angels,2001-01-27,1
-Ms. Jackson,Outkast,2001-02-03,1
-It Wasn't Me,Shaggy,2001-02-24,1
-Bow Wow (That's My Name),Lil' Bow Wow,2001-03-10,1
-What Would You Do?,City High,2001-04-07,1
-My Baby,Lil' Romeo,2001-05-19,1
-Purple Pills,D12,2001-07-28,1
-My Projects,Coo Coo Cal,2001-08-18,1
-Raise Up,Petey Pablo,2001-09-15,1
-Self-Destruction,Stop the Violence Movement,1989-03-11,1
-Me Myself and I,De La Soul,1989-05-20,1
-I'm That Type of Guy,LL Cool J,1989-07-15,1
-Fight the Power,Public Enemy,1989-07-29,1
-It's Funky Enough,The D.O.C.,1989-09-09,1
-Smooth Operator,Big Daddy Kane,1989-10-07,1
-Me So Horny,2 Live Crew,1989-11-04,1
-Cha Cha Cha,MC Lyte,1989-12-02,1
-New Jack Swing,Wrecks-n-Effect,1989-12-16,1
-Somebody for Me,Heavy D & the Boyz,1989-12-23,1
-The D.O.C. & The Doctor,The D.O.C.,1990-01-06,1
-Expression,Salt-n-Pepa,1990-01-20,1
-The Humpty Dance,Digital Underground,1990-03-17,1
-Murder Rap,Above the Law,1990-04-21,1
-Funhouse,Kid 'n Play,1990-05-05,1
-911 Is a Joke,Public Enemy,1990-05-26,1
-AmeriKKKa's Most Wanted,Ice Cube,1990-06-09,1
-The Power,Snap!,1990-06-30,1
-We're All in the Same Gang,The West Coast Rap All-Stars,1990-07-21,1
-Untouchable,Above the Law,1990-08-18,1
-Banned in the U.S.A.,Luke,1990-08-25,1
-Call Me D-Nice,D-Nice,1990-09-01,1
-Treat Them Like They Want to Be Treated,Father MC,1990-09-29,1
-The Boomin' System,LL Cool J,1990-10-06,1
-Ice Ice Baby,Vanilla Ice,1990-10-20,1
-Knockin' Boots,Candyman,1990-10-27,1
-Monie in the Middle,Monie Love,1990-12-08,1
-I'll Do 4 U,Father MC,1990-12-22,1
-Around the Way Girl,LL Cool J,1991-01-12,1
-Gold Digger,EPMD,1991-02-09,1
-Treat 'Em Right,Chubb Rock,1991-03-02,1
-Looking at the Front Door,Main Source,1991-03-23,1
-It's a Shame (My Sister),Monie Love,1991-04-13,1
-Daddy's Little Girl,Nikki D,1991-04-27,1
-I Got to Have It,Ed O.G.,1991-05-11,1
-Mama Said Knock You Out,LL Cool J,1991-05-18,1
-You Can't Play with My Yo-Yo,Yo-Yo,1991-05-25,1
-Rise 'n' Shine,Kool Moe Dee,1991-06-22,1
-Homey Don't Play Dat,Terminator X,1991-07-06,1
-Pop Goes the Weasel,3rd Bass,1991-07-13,1
-Summertime,DJ Jazzy Jeff & The Fresh Prince,1991-07-27,1
-The Chubbster,Chubb Rock,1991-08-10,1
-Empire State of Mind,Jay-Z,2009-11-21,1
-BedRock,Young Money,2010-01-23,1
-Say Something,Timbaland,2010-03-27,1
-Nothin' on You,B.o.B ,2010-04-24,1
-Over,Drake,2010-06-12,1
-Your Love,Nicki Minaj,2010-07-10,1
-Love the Way You Lie,Eminem,2010-09-04,1
-Fancy,Drake,2010-10-30,1
-Right Above It,Lil Wayne,2010-11-06,1
-No Hands,Waka Flocka Flame,2010-12-11,1
-Aston Martin Music,Rick Ross,2010-12-25,1
-No Hands,Waka Flocka Flame,2011-01-15,1
-Black and Yellow,Wiz Khalifa,2011-02-05,1
-Moment 4 Life,Nicki Minaj,2011-02-19,1
-Look at Me Now,Chris Brown ,2011-04-23,1
-My Last,Big Sean,2011-07-02,1
-I'm on One,DJ Khaled,2011-07-16,1
-Headlines,Drake,2011-10-15,1
-Niggas in Paris,Jay-Z,2011-12-03,1
-Make Me Proud,Drake,2012-02-11,1
-The Motto,Drake ,2012-02-18,1
-Drank in My Cup,Kirko Bangz,2012-05-26,1
-Cashin' Out,Cash Out,2012-06-23,1
-Mercy,Kanye West,2012-07-07,1
-No Lie,2 Chainz,2012-09-08,1
-Gangnam Style,Psy,2012-10-20,1
-I Cry,Flo Rida,2012-12-15,1
-Gangnam Style,Psy,2013-01-12,1
-Thrift Shop,Macklemore and Ryan Lewis ,2013-01-19,1
-Can't Hold Us,Macklemore,2013-05-04,1
-Holy Grail,Jay-Z,2013-08-10,1
-Berzerk,Eminem,2013-09-14,1
-Holy Grail,Jay-Z,2013-09-21,1
-Rap God,Eminem,2013-11-02,1
-Holy Grail,Jay-Z,2013-11-09,1
-The Monster,Eminem,2013-11-16,1
-Timber,Pitbull,2014-01-18,1
-Fancy,Iggy Azalea ,2014-05-03,1
-Anaconda,Nicki Minaj,2014-09-06,1
-Black Widow,Iggy Azalea,2014-10-18,1
-Hot Boy,Bobby Shmurda,2014-11-22,1
-I Don't Fuck with You,Big Sean,2014-12-06,1
-Only,Nicki Minaj,2014-12-27,1
-I Don't Fuck with You,Big Sean,2015-01-03,1
-Time of Our Lives,Pitbull,2015-02-14,1
-Trap Queen,Fetty Wap,2015-04-04,1
-See You Again,Wiz Khalifa ,2015-04-25,1
-Watch Me (Whip/Nae Nae),Silentó,2015-08-08,1
-Hotline Bling,Drake,2015-10-10,1
-"Me, Myself & I",G-Eazy,2016-02-13,1
-Summer Sixteen,Drake,2016-02-20,1
-"Me, Myself & I",G-Eazy,2016-02-27,1
-Panda,Desiigner,2016-04-23,1
-Don't Mind,Kent Jones,2016-08-06,1
-Panda,Desiigner,2016-08-13,1
-Sucker for Pain,Lil Wayne,2016-08-27,1
-Too Good,Drake,2016-09-03,1
-Broccoli,DRAM,2016-09-24,1
-Black Beatles,Rae Sremmurd,2016-11-26,1
-Bad and Boujee,Migos,2017-01-21,1
-iSpy,Kyle,2017-04-15,1
-Humble,Kendrick Lamar,2017-04-22,1
-I'm the One,DJ Khaled,2017-05-20,1
-Unforgettable,French Montana,2017-08-19,1
-Bodak Yellow (Money Moves),Cardi B,2017-09-02,1
-Rockstar,Post Malone,2017-10-28,1
-God's Plan,Drake,2018-02-03,1
-Nice for What,Drake,2018-04-28,1
-This Is America,Childish Gambino,2018-05-19,1
-Nice for What,Drake,2018-06-02,1
-Psycho,Post Malone,2018-06-16,1
-Nice for What,Drake,2018-06-23,1
-Sad!,XXXTentacion,2018-06-30,1
-I Like It,Cardi B,2018-07-07,1
-Nice for What,Drake,2018-07-14,1
-In My Feelings,Drake,2018-07-21,1
-Lucid Dreams,Juice Wrld,2018-10-06,1
-Mona Lisa,Lil Wayne,2018-10-13,1
-Lucid Dreams,Juice Wrld,2018-10-20,1
-Zeze,Kodak Black,2018-10-27,1
-Sicko Mode,Travis Scott,2018-11-03,1
-Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,2019-01-12,1
-Please Me,Cardi B,2019-03-16,1
-Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,2019-03-23,1
-Wow,Post Malone,2019-04-06,1
-Old Town Road,Lil Nas X ,2019-04-13,1
-Truth Hurts,Lizzo,2019-08-31,1
-Highest in the Room,Travis Scott,2019-10-19,1
-Truth Hurts,Lizzo,2019-10-26,1
-Roxanne,Arizona Zervas,2019-12-07,1
+song,artist,hip_hop_rnb,rel_date
+Oasis,Roberta Flack,1,NA
+Superwoman,Karyn White,1,NA
+Can You Stand the Rain,New Edition,1,NA
+Dreamin',Vanessa Williams,1,NA
+Just Coolin',LeVert,1,NA
+My Fantasy,Teddy Riley,1,NA
+Can't Get Over You,Maze,1,NA
+Back to Life (However Do You Want Me),Soul II Soul,1,NA
+You Are My Everything,Surface,1,NA
+Don't Take It Personal,Jermaine Jackson,1,NA
+Home,Stephanie Mills,1,NA
+Here and Now,Luther Vandross,1,NA
+Ain't Nuthin' in the World,Miki Howard,1,NA
+All of My Love,The Gap Band,1,NA
+Tender Lover,Babyface,1,NA
+The Way You Make Me Feel,Michael Jackson,1,NA
+Love Overboard,Gladys Knight & the Pips,1,NA
+I Want Her,Keith Sweat,1,NA
+Girlfriend,Pebbles,1,NA
+You Will Know,Stevie Wonder,1,NA
+Fishnet,Morris Day,1,NA
+Man in the Mirror,Michael Jackson,1,NA
+Wishing Well,Terence Trent D'Arby,1,NA
+Ooo La La La,Teena Marie,1,NA
+"Get Outta My Dreams, Get into My Car",Billy Ocean,1,NA
+Da Butt,E.U.,1,NA
+Nite and Day,Al B. Sure!,1,NA
+Mercedes Boy,Pebbles,1,NA
+Just Got Paid,Johnny Kemp,1,NA
+Little Walter,Tony! Toni! Toné!,1,NA
+One More Try,George Michael,1,NA
+Joy,Teddy Pendergrass,1,NA
+Paradise,Sade,1,NA
+Roses Are Red,The Mac Band,1,NA
+Don't Be Cruel,Bobby Brown,1,NA
+Off on Your Own (Girl),Al B. Sure!,1,NA
+Loosey's Rap,Rick James,1,NA
+Nice 'N' Slow,Freddie Jackson,1,NA
+Another Part of Me,Michael Jackson,1,NA
+She's On the Left,Jeffrey Osborne,1,NA
+Addicted to You,LeVert,1,NA
+My Prerogative,Bobby Brown,1,NA
+The Way You Love Me,Karyn White,1,NA
+Any Love,Luther Vandross,1,NA
+Giving You the Best That I Got,Anita  Baker,1,NA
+Thanks for My Child,Cheryl Pepsii Riley,1,NA
+Hey Lover,Freddie Jackson,1,NA
+Dial My Heart,The Boys,1,NA
+Everything I Miss at Home,Cherrelle,1,NA
+Tumblin' Down,Ziggy Marley and the Melody Makers,1,NA
+Empire State of Mind,Jay-Z,1,2009-11-21
+BedRock,Young Money,1,2010-01-23
+Say Something,Timbaland,1,2010-03-27
+Nothin' on You,B.o.B ,1,2010-04-24
+Over,Drake,1,2010-06-12
+Your Love,Nicki Minaj,1,2010-07-10
+Love the Way You Lie,Eminem,1,2010-09-04
+Fancy,Drake,1,2010-10-30
+Right Above It,Lil Wayne,1,2010-11-06
+No Hands,Waka Flocka Flame,1,2010-12-11
+Aston Martin Music,Rick Ross,1,2010-12-25
+No Hands,Waka Flocka Flame,1,2011-01-15
+Black and Yellow,Wiz Khalifa,1,2011-02-05
+Moment 4 Life,Nicki Minaj,1,2011-02-19
+Look at Me Now,Chris Brown ,1,2011-04-23
+My Last,Big Sean,1,2011-07-02
+I'm on One,DJ Khaled,1,2011-07-16
+Headlines,Drake,1,2011-10-15
+Niggas in Paris,Jay-Z,1,2011-12-03
+Make Me Proud,Drake,1,2012-02-11
+The Motto,Drake ,1,2012-02-18
+Drank in My Cup,Kirko Bangz,1,2012-05-26
+Cashin' Out,Cash Out,1,2012-06-23
+Mercy,Kanye West,1,2012-07-07
+No Lie,2 Chainz,1,2012-09-08
+Gangnam Style,Psy,1,2012-10-20
+I Cry,Flo Rida,1,2012-12-15
+Gangnam Style,Psy,1,2013-01-12
+Thrift Shop,Macklemore and Ryan Lewis ,1,2013-01-19
+Can't Hold Us,Macklemore,1,2013-05-04
+Holy Grail,Jay-Z,1,2013-08-10
+Berzerk,Eminem,1,2013-09-14
+Holy Grail,Jay-Z,1,2013-09-21
+Rap God,Eminem,1,2013-11-02
+Holy Grail,Jay-Z,1,2013-11-09
+The Monster,Eminem,1,2013-11-16
+Timber,Pitbull,1,2014-01-18
+Fancy,Iggy Azalea ,1,2014-05-03
+Anaconda,Nicki Minaj,1,2014-09-06
+Black Widow,Iggy Azalea,1,2014-10-18
+Hot Boy,Bobby Shmurda,1,2014-11-22
+I Don't Fuck with You,Big Sean,1,2014-12-06
+Only,Nicki Minaj,1,2014-12-27
+I Don't Fuck with You,Big Sean,1,2015-01-03
+Time of Our Lives,Pitbull,1,2015-02-14
+Trap Queen,Fetty Wap,1,2015-04-04
+See You Again,Wiz Khalifa ,1,2015-04-25
+Watch Me (Whip/Nae Nae),Silentó,1,2015-08-08
+Hotline Bling,Drake,1,2015-10-10
+"Me, Myself & I",G-Eazy,1,2016-02-13
+Summer Sixteen,Drake,1,2016-02-20
+"Me, Myself & I",G-Eazy,1,2016-02-27
+Panda,Desiigner,1,2016-04-23
+Don't Mind,Kent Jones,1,2016-08-06
+Panda,Desiigner,1,2016-08-13
+Sucker for Pain,Lil Wayne,1,2016-08-27
+Too Good,Drake,1,2016-09-03
+Broccoli,DRAM,1,2016-09-24
+Black Beatles,Rae Sremmurd,1,2016-11-26
+Bad and Boujee,Migos,1,2017-01-21
+iSpy,Kyle,1,2017-04-15
+Humble,Kendrick Lamar,1,2017-04-22
+I'm the One,DJ Khaled,1,2017-05-20
+Unforgettable,French Montana,1,2017-08-19
+Bodak Yellow (Money Moves),Cardi B,1,2017-09-02
+Rockstar,Post Malone,1,2017-10-28
+God's Plan,Drake,1,2018-02-03
+Nice for What,Drake,1,2018-04-28
+This Is America,Childish Gambino,1,2018-05-19
+Nice for What,Drake,1,2018-06-02
+Psycho,Post Malone,1,2018-06-16
+Nice for What,Drake,1,2018-06-23
+Sad!,XXXTentacion,1,2018-06-30
+I Like It,Cardi B,1,2018-07-07
+Nice for What,Drake,1,2018-07-14
+In My Feelings,Drake,1,2018-07-21
+Lucid Dreams,Juice Wrld,1,2018-10-06
+Mona Lisa,Lil Wayne,1,2018-10-13
+Lucid Dreams,Juice Wrld,1,2018-10-20
+Zeze,Kodak Black,1,2018-10-27
+Sicko Mode,Travis Scott,1,2018-11-03
+Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,1,2019-01-12
+Please Me,Cardi B,1,2019-03-16
+Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,1,2019-03-23
+Wow,Post Malone,1,2019-04-06
+Old Town Road,Lil Nas X ,1,2019-04-13
+Truth Hurts,Lizzo,1,2019-08-31
+Highest in the Room,Travis Scott,1,2019-10-19
+Truth Hurts,Lizzo,1,2019-10-26
+Roxanne,Arizona Zervas,1,2019-12-07
+Hot Boyz,Missy Elliott ,1,1999-11-27
+Whistle While You Twurk,Ying Yang Twins,1,2000-04-01
+Wobble Wobble,504 Boyz,1,2000-04-15
+Country Grammar (Hot Shit),Nelly,1,2000-05-27
+Flamboyant,Big L,1,2000-06-24
+Callin' Me,Lil Zane,1,2000-07-15
+Bounce with Me,Lil' Bow Wow,1,2000-08-19
+Callin' Me,Lil Zane,1,2000-09-02
+Bounce with Me,Lil' Bow Wow,1,2000-09-09
+Move Somethin',Talib Kweli,1,2000-10-28
+It's OK,Slimm Calhoun,1,2000-11-04
+Souljas,Master P,1,2000-11-18
+Baby If You're Ready,Doggy's Angels,1,2000-11-25
+Oh No,Mos Def,1,2001-01-20
+Baby If You're Ready,Doggy's Angels,1,2001-01-27
+Ms. Jackson,Outkast,1,2001-02-03
+It Wasn't Me,Shaggy,1,2001-02-24
+Bow Wow (That's My Name),Lil' Bow Wow,1,2001-03-10
+What Would You Do?,City High,1,2001-04-07
+My Baby,Lil' Romeo,1,2001-05-19
+Purple Pills,D12,1,2001-07-28
+My Projects,Coo Coo Cal,1,2001-08-18
+Raise Up,Petey Pablo,1,2001-09-15
+Self-Destruction,Stop the Violence Movement,1,1989-03-11
+Me Myself and I,De La Soul,1,1989-05-20
+I'm That Type of Guy,LL Cool J,1,1989-07-15
+Fight the Power,Public Enemy,1,1989-07-29
+It's Funky Enough,The D.O.C.,1,1989-09-09
+Smooth Operator,Big Daddy Kane,1,1989-10-07
+Me So Horny,2 Live Crew,1,1989-11-04
+Cha Cha Cha,MC Lyte,1,1989-12-02
+New Jack Swing,Wrecks-n-Effect,1,1989-12-16
+Somebody for Me,Heavy D & the Boyz,1,1989-12-23
+The D.O.C. & The Doctor,The D.O.C.,1,1990-01-06
+Expression,Salt-n-Pepa,1,1990-01-20
+The Humpty Dance,Digital Underground,1,1990-03-17
+Murder Rap,Above the Law,1,1990-04-21
+Funhouse,Kid 'n Play,1,1990-05-05
+911 Is a Joke,Public Enemy,1,1990-05-26
+AmeriKKKa's Most Wanted,Ice Cube,1,1990-06-09
+The Power,Snap!,1,1990-06-30
+We're All in the Same Gang,The West Coast Rap All-Stars,1,1990-07-21
+Untouchable,Above the Law,1,1990-08-18
+Banned in the U.S.A.,Luke,1,1990-08-25
+Call Me D-Nice,D-Nice,1,1990-09-01
+Treat Them Like They Want to Be Treated,Father MC,1,1990-09-29
+The Boomin' System,LL Cool J,1,1990-10-06
+Ice Ice Baby,Vanilla Ice,1,1990-10-20
+Knockin' Boots,Candyman,1,1990-10-27
+Monie in the Middle,Monie Love,1,1990-12-08
+I'll Do 4 U,Father MC,1,1990-12-22
+Around the Way Girl,LL Cool J,1,1991-01-12
+Gold Digger,EPMD,1,1991-02-09
+Treat 'Em Right,Chubb Rock,1,1991-03-02
+Looking at the Front Door,Main Source,1,1991-03-23
+It's a Shame (My Sister),Monie Love,1,1991-04-13
+Daddy's Little Girl,Nikki D,1,1991-04-27
+I Got to Have It,Ed O.G.,1,1991-05-11
+Mama Said Knock You Out,LL Cool J,1,1991-05-18
+You Can't Play with My Yo-Yo,Yo-Yo,1,1991-05-25
+Rise 'n' Shine,Kool Moe Dee,1,1991-06-22
+Homey Don't Play Dat,Terminator X,1,1991-07-06
+Pop Goes the Weasel,3rd Bass,1,1991-07-13
+Summertime,DJ Jazzy Jeff & The Fresh Prince,1,1991-07-27
+The Chubbster,Chubb Rock,1,1991-08-10
+Empire State of Mind,Jay-Z,1,2009-11-21
+BedRock,Young Money,1,2010-01-23
+Say Something,Timbaland,1,2010-03-27
+Nothin' on You,B.o.B ,1,2010-04-24
+Over,Drake,1,2010-06-12
+Your Love,Nicki Minaj,1,2010-07-10
+Love the Way You Lie,Eminem,1,2010-09-04
+Fancy,Drake,1,2010-10-30
+Right Above It,Lil Wayne,1,2010-11-06
+No Hands,Waka Flocka Flame,1,2010-12-11
+Aston Martin Music,Rick Ross,1,2010-12-25
+No Hands,Waka Flocka Flame,1,2011-01-15
+Black and Yellow,Wiz Khalifa,1,2011-02-05
+Moment 4 Life,Nicki Minaj,1,2011-02-19
+Look at Me Now,Chris Brown ,1,2011-04-23
+My Last,Big Sean,1,2011-07-02
+I'm on One,DJ Khaled,1,2011-07-16
+Headlines,Drake,1,2011-10-15
+Niggas in Paris,Jay-Z,1,2011-12-03
+Make Me Proud,Drake,1,2012-02-11
+The Motto,Drake ,1,2012-02-18
+Drank in My Cup,Kirko Bangz,1,2012-05-26
+Cashin' Out,Cash Out,1,2012-06-23
+Mercy,Kanye West,1,2012-07-07
+No Lie,2 Chainz,1,2012-09-08
+Gangnam Style,Psy,1,2012-10-20
+I Cry,Flo Rida,1,2012-12-15
+Gangnam Style,Psy,1,2013-01-12
+Thrift Shop,Macklemore and Ryan Lewis ,1,2013-01-19
+Can't Hold Us,Macklemore,1,2013-05-04
+Holy Grail,Jay-Z,1,2013-08-10
+Berzerk,Eminem,1,2013-09-14
+Holy Grail,Jay-Z,1,2013-09-21
+Rap God,Eminem,1,2013-11-02
+Holy Grail,Jay-Z,1,2013-11-09
+The Monster,Eminem,1,2013-11-16
+Timber,Pitbull,1,2014-01-18
+Fancy,Iggy Azalea ,1,2014-05-03
+Anaconda,Nicki Minaj,1,2014-09-06
+Black Widow,Iggy Azalea,1,2014-10-18
+Hot Boy,Bobby Shmurda,1,2014-11-22
+I Don't Fuck with You,Big Sean,1,2014-12-06
+Only,Nicki Minaj,1,2014-12-27
+I Don't Fuck with You,Big Sean,1,2015-01-03
+Time of Our Lives,Pitbull,1,2015-02-14
+Trap Queen,Fetty Wap,1,2015-04-04
+See You Again,Wiz Khalifa ,1,2015-04-25
+Watch Me (Whip/Nae Nae),Silentó,1,2015-08-08
+Hotline Bling,Drake,1,2015-10-10
+"Me, Myself & I",G-Eazy,1,2016-02-13
+Summer Sixteen,Drake,1,2016-02-20
+"Me, Myself & I",G-Eazy,1,2016-02-27
+Panda,Desiigner,1,2016-04-23
+Don't Mind,Kent Jones,1,2016-08-06
+Panda,Desiigner,1,2016-08-13
+Sucker for Pain,Lil Wayne,1,2016-08-27
+Too Good,Drake,1,2016-09-03
+Broccoli,DRAM,1,2016-09-24
+Black Beatles,Rae Sremmurd,1,2016-11-26
+Bad and Boujee,Migos,1,2017-01-21
+iSpy,Kyle,1,2017-04-15
+Humble,Kendrick Lamar,1,2017-04-22
+I'm the One,DJ Khaled,1,2017-05-20
+Unforgettable,French Montana,1,2017-08-19
+Bodak Yellow (Money Moves),Cardi B,1,2017-09-02
+Rockstar,Post Malone,1,2017-10-28
+God's Plan,Drake,1,2018-02-03
+Nice for What,Drake,1,2018-04-28
+This Is America,Childish Gambino,1,2018-05-19
+Nice for What,Drake,1,2018-06-02
+Psycho,Post Malone,1,2018-06-16
+Nice for What,Drake,1,2018-06-23
+Sad!,XXXTentacion,1,2018-06-30
+I Like It,Cardi B,1,2018-07-07
+Nice for What,Drake,1,2018-07-14
+In My Feelings,Drake,1,2018-07-21
+Lucid Dreams,Juice Wrld,1,2018-10-06
+Mona Lisa,Lil Wayne,1,2018-10-13
+Lucid Dreams,Juice Wrld,1,2018-10-20
+Zeze,Kodak Black,1,2018-10-27
+Sicko Mode,Travis Scott,1,2018-11-03
+Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,1,2019-01-12
+Please Me,Cardi B,1,2019-03-16
+Sunflower (Spider-Man: Into the Spider-Verse),Post Malone,1,2019-03-23
+Wow,Post Malone,1,2019-04-06
+Old Town Road,Lil Nas X ,1,2019-04-13
+Truth Hurts,Lizzo,1,2019-08-31
+Highest in the Room,Travis Scott,1,2019-10-19
+Truth Hurts,Lizzo,1,2019-10-26
+Roxanne,Arizona Zervas,1,2019-12-07
