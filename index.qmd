@@ -7,6 +7,18 @@ format:
         theme: 'flatly'
 ---
 
+# Authors
+
+-   Joan Adebowale
+
+-   Marquesia Atwater
+
+-   Tesa Childs-Skelton
+
+-   Sorie Dumbuya
+
+-   Marcus Gibson
+
 # Overview
 
 Using machine learning and lyrics retrieved via the Genius API to classify songs as hip hop and RnB or not
