@@ -72,17 +72,10 @@ lyr_df <- all_songs |>
 lyr_df |> write_csv('../data/lyr_df.csv')
 ```
 
-```{r include=FALSE}
-
-art_sng_lyr_df <- read_csv('../data/art_sng_lyr_df.csv')
-
-art_sng_lyr_df
-```
-
 ```{r echo=FALSE}
 lyrics_df <- art_sng_lyr_df |> 
     unnest(lyrics) |> 
-    select(song, artist, rel_date,lyrics)
+    select(song, artist, lyrics)
 
 lyrics_df
 ```

@@ -18,7 +18,7 @@ library(ggwordcloud)
 ```
 
 ```{r}
-lyrics_df <- read_csv('../data/art_sng_lyr_df.csv')
+lyrics_df <- read_csv('../data/lyr_df.csv')
 ```
 
 ```{r}
@@ -27,6 +27,7 @@ words_df <- lyrics_df |>
     mutate(
         song_art = glue::glue('{song} - {artist}')
         ) |>
+    distinct(song_art, .keep_all = TRUE) |> 
     # group_by(song_art) |> 
     # filter(rel_date == max(rel_date))|> 
     drop_na(lyrics) |> 
@@ -210,5 +211,15 @@ lapply(years, plot_by_year)
 ```
 
 ```{r}
+top_words_by_genre <- words_trimmed_df |> 
+    drop_na(hip_hop_rnb) |> 
+    group_by(hip_hop_rnb) |> 
+    count(word) |> slice_max(n, n = 100)
 
+top_words_by_genre |> 
+        ggplot(aes(label = word, size = n)) +
+            geom_text_wordcloud(color = "#145389") +
+            scale_size_area(max_size = 14) +
+            facet_wrap(~hip_hop_rnb,scales = "free" ) +
+            theme_minimal()
 ```
