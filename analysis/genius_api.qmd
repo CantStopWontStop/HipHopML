@@ -22,67 +22,31 @@ library(tidyverse)
 ## Load Songs
 
 ```{r}
-hh_songs <- read_csv('../data/top_rap_songs_89-19.csv')|> 
-    mutate(across(everything(),
-                  str_remove_all,
-                  '\"'),
-           across(everything(),
-                  str_remove,
-                  '\\n'),
-           rel_date = lubridate::mdy(date)) |>
-    mutate(song = str_remove_all(song,
-                                  '↑') |> 
-                        str_trim('right')) |>
+all_songs <- read_csv('../data/all_songs.csv')|> 
+    # mutate(across(everything(),
+    #               str_remove_all,
+    #               '\"'),
+    #        across(everything(),
+    #               str_remove,
+    #               '\\n'),
+    # mutate(song = str_remove_all(song,
+    #                               '↑') |> 
+    #                     str_trim('right')) |>
     separate(artist, 
              into = c("artist","features"),
              fill = "right",
              sep="featuring ") |> 
-    select(song, artist, rel_date) |> 
-    mutate(hip_hop_rnb = 1)
+    select(song, artist, hip_hop_rnb)
 
-hh_songs
-```
-
-```{r}
-rnb_songs <- read_csv('../data/rnb_89-99.csv') |> 
-    select(song, artist) |> 
-    mutate(hip_hop_rnb = 1) |> 
-    distinct(artist, song,hip_hop_rnb) 
-
-songs <- rnb_songs |> 
-    bind_rows(hh_songs)
-
-songs |> write_csv('../data/songs.csv')
-
-
-songs
+all_songs
 ```
 
 # Get Lyrics
 
 ## Query Genius API
 
-```{r eval=FALSE}
-art_songs_df <- songs |>
-    rowwise() |>
-    mutate(artist_id = search_artist(search_term = artist,
-                                  n_results = 3) |>
-               arrange(artist_id) |>
-               head(1) |>
-               pull(artist_id),
-           song_id  = search_song(search_term = song,
-                                 n_results = 3) |>
-               arrange(song_id) |>
-               head(1) |>
-               pull(song_id)
-       )
- 
-art_songs_df
-```
-
 ```{r }
-
-art_sng_lyr_df <- songs |>
+lyr_df <- all_songs |>
     rowwise() |>
     mutate(
         tryCatch(
@@ -99,9 +63,13 @@ art_sng_lyr_df <- songs |>
             ) 
        ) |> 
     unnest(lyrics) |> 
-    select(song, artist, rel_date,lyrics)
+    select(song, artist, hip_hop_rnb,lyrics)
  
-art_sng_lyr_df |> write_csv('../data/art_sng_lyr_df.csv')
+
+```
+
+```{r}
+lyr_df |> write_csv('../data/lyr_df.csv')
 ```
 
 ```{r include=FALSE}

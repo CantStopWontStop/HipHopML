@@ -129,36 +129,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-2_c32e9ef510119ea16f2c735dbe75ca26">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lyrics_df <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">'../data/lyrics_df.rds'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-2_8e9503dda24a002581d27cf945289832">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lyrics_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/art_sng_lyr_df.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-3_703e2ab4dee48df02eabfe322e204f9e">
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-3_73ca80b0459f2262aacf214a10c54ef5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>words_df <span class="ot">&lt;-</span> lyrics_df <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{song} - {artist}'</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art) <span class="sc">|&gt;</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(rel_date <span class="sc">==</span> <span class="fu">max</span>(rel_date))<span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># group_by(song_art) |&gt; </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># filter(rel_date == max(rel_date))|&gt; </span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, lyrics) </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ungroup()</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>words_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 105,318 × 2
-   song_art              word 
-   &lt;glue&gt;                &lt;chr&gt;
- 1 BedRock - Young Money i    
- 2 BedRock - Young Money i    
- 3 BedRock - Young Money i    
- 4 BedRock - Young Money i    
- 5 BedRock - Young Money can  
- 6 BedRock - Young Money make 
- 7 BedRock - Young Money your 
- 8 BedRock - Young Money bed  
- 9 BedRock - Young Money rock 
-10 BedRock - Young Money young
-# … with 105,308 more rows
+<pre><code># A tibble: 135,746 × 5
+   song  artist        rel_date song_art              word   
+   &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;   &lt;glue&gt;                &lt;chr&gt;  
+ 1 Oasis Roberta Flack NA       Oasis - Roberta Flack in     
+ 2 Oasis Roberta Flack NA       Oasis - Roberta Flack the    
+ 3 Oasis Roberta Flack NA       Oasis - Roberta Flack morning
+ 4 Oasis Roberta Flack NA       Oasis - Roberta Flack when   
+ 5 Oasis Roberta Flack NA       Oasis - Roberta Flack i      
+ 6 Oasis Roberta Flack NA       Oasis - Roberta Flack see    
+ 7 Oasis Roberta Flack NA       Oasis - Roberta Flack the    
+ 8 Oasis Roberta Flack NA       Oasis - Roberta Flack sun    
+ 9 Oasis Roberta Flack NA       Oasis - Roberta Flack i      
+10 Oasis Roberta Flack NA       Oasis - Roberta Flack think  
+# … with 135,736 more rows
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
@@ -534,6 +534,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
+</div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-16_5f4227868e66ca6058981d90b181366a">
+
 </div>
 
 </main>
