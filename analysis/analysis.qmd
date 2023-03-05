@@ -1,5 +1,5 @@
 ---
-title: "Text Mining"
+title: "Text Mining & Exploratory Data Analysis"
 format: 
     html: 
         toc: true

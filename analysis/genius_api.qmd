@@ -4,7 +4,6 @@ format:
     html: 
         toc: true
         toc-title: 'Steps'
-        theme: 'flatly'
 execute:
   echo: true
   warning: false
@@ -17,35 +16,42 @@ execute:
 ```{r}
 library(geniusr)
 library(tidyverse)
+library(DT)
+source('../functions.R')
+
 ```
 
 ## Load Songs
 
 ```{r}
 all_songs <- read_csv('../data/all_songs.csv')|> 
-    # mutate(across(everything(),
-    #               str_remove_all,
-    #               '\"'),
-    #        across(everything(),
-    #               str_remove,
-    #               '\\n'),
-    # mutate(song = str_remove_all(song,
-    #                               '↑') |> 
-    #                     str_trim('right')) |>
+    mutate(across(everything(),
+                  str_remove_all,
+                  '\"')) |> 
     separate(artist, 
              into = c("artist","features"),
              fill = "right",
              sep="featuring ") |> 
-    select(song, artist, hip_hop_rnb)
+    select(song, artist, hip_hop_rnb, genre) |> 
+    drop_na() |> 
+    group_by(song, artist) |> 
+    slice(1) |> 
+    ungroup()
+    
 
 all_songs
+```
+
+```{r save-songs, eval=FALSE, include=FALSE}
+
+# write_csv(all_songs, '../data/all_songs.csv')
 ```
 
 # Get Lyrics
 
 ## Query Genius API
 
-```{r }
+```{r eval=FALSE}
 lyr_df <- all_songs |>
     rowwise() |>
     mutate(
@@ -63,23 +69,30 @@ lyr_df <- all_songs |>
             ) 
        ) |> 
     unnest(lyrics) |> 
-    select(song, artist, hip_hop_rnb,lyrics)
+    select(song, artist, hip_hop_rnb,lyrics, genre)
  
-
-```
-
-```{r}
-lyr_df |> write_csv('../data/lyr_df.csv')
+lyr_df
 ```
 
 ```{r echo=FALSE}
-lyrics_df <- art_sng_lyr_df |> 
-    unnest(lyrics) |> 
-    select(song, artist, lyrics)
 
-lyrics_df
+
+read_csv('../data/lyr_df.csv') |> 
+    arrange(song) |> 
+    head(50) |> 
+    theme_table()
 ```
 
-```{r include=FALSE}
-lyrics_df |> write_rds('../data/lyrics_df.rds')
+```{r save-lyrics, eval=FALSE, include=FALSE}
+
+# lyr_df |>
+#     drop_na() |>
+#     write_csv('../data/lyr_df.csv')
+#     # write_tsv('../data/lyr_df.tsv')
+# 
+# 
+# lyr_df |>
+#     filter(is.na(lyrics)) |>
+#     # write_csv('../data/missing_lyr_df.csv')
+#     write_csv('../data/missing_lyr_df.tsv')
 ```

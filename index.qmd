@@ -4,36 +4,15 @@ format:
     html: 
         toc: true
         toc-title: 'Outline'
-        theme: 'flatly'
+execute: 
+  echo: false
+  warning: false
 ---
 
-# Authors
-
--   Joan Adebowale
-
--   Marquesia Atwater
-
--   Tesa Childs-Skelton
-
--   Sorie Dumbuya
-
--   Marcus Gibson
-
-# Overview
-
-Using machine learning and lyrics retrieved via the Genius API to classify songs as hip hop and RnB or not
-
-## Potential Problem Questions
-
--   Determine whether a song is hip hop or RnB based on lyrics
-
-# Data Sources
-
-## Songs
-
--   Built a [web scrapper](analysis/wiki_scrapper.html) to get a list of Billboard's #1 Rap Songs from [Wikipedia](https://en.wikipedia.org/wiki/List_of_Billboard_number-one_rap_singles_of_the_1980s_and_1990s)
-
--   Queried the [Genius API using geniusr R package](analysis/genius_api.html)
+```{r}
+library(tidyverse)
+source('functions.R')
+```
 
 ::: {.column-screen-inset layout-ncol="4"}
 ![](imgs/envogue.jpeg){fig-align="center" width="427"}
@@ -45,14 +24,52 @@ Using machine learning and lyrics retrieved via the Genius API to classify songs
 ![](imgs/City-Girls.jpg){fig-align="center" width="454"}
 :::
 
-# Methods
+# Authors
 
-## Natural Language Processing (NLP)
+-   Joan Adebowale
+-   Marquesia Atwater
+-   Tesa Childs-Skelton
+-   Sorie Dumbuya
+-   Marcus Gibson
+
+# Overview
+
+Using machine learning and lyrics retrieved via the Genius API to classify songs as hip hop and RnB or not
+
+## Challenge
+
+-   Determine whether a song is hip hop or RnB based on lyrics
+
+# Methodology
+
+## Data Sources
+
+-   Songs - Billboard's #1 Songs from Wikipedia
+
+-   Lyrics - [Genius API using geniusr R package](analysis/genius_api.html)
+
+```{r}
+read_csv('data/lyr_df.csv') |> 
+    select(-hip_hop_rnb) |> 
+    arrange(song) |> 
+    head(20) |> 
+    theme_table()
+```
+
+## Natural Language Processing (NLP) 
+
+### Data Preparation
 
 -   [**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
 
+### Tokenization
+
 -   [**TF-IDF**](analysis/tfidf.html) to determine which words in each song separates that song from others
+
+### Exploratory Data Analysis
 
 ## Neural Networks
 
 -   Use neural networks models to classify songs based on TF-IDF scores
+
+<!--# Considerations/Limitations - spelling, meaning/context, overlap in artists, overlap in  -->

@@ -92,10 +92,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="text_mining_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="text_mining_files/libs/quarto-html/anchor.min.js"></script>
 <link href="text_mining_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="text_mining_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="text_mining_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="text_mining_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="text_mining_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="text_mining_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="text_mining_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 
 
 </head>
@@ -124,419 +124,223 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-1_88cf2041104143d04e25529b4dbf70e0">
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-1_d52e930b5aa7e8b4d44bc9ba61b37f56">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'../functions.R'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-2_8e9503dda24a002581d27cf945289832">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lyrics_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/art_sng_lyr_df.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-3_73ca80b0459f2262aacf214a10c54ef5">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>words_df <span class="ot">&lt;-</span> lyrics_df <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{song} - {artist}'</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># group_by(song_art) |&gt; </span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># filter(rel_date == max(rel_date))|&gt; </span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, lyrics) </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ungroup()</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>words_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-2_8ca439fdccef4a9584096d7da86c0a9a">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>words_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/lyr_df.csv'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">song_art =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{song} - {artist}'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, lyrics)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>words_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 135,746 × 5
-   song  artist        rel_date song_art              word   
-   &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;   &lt;glue&gt;                &lt;chr&gt;  
- 1 Oasis Roberta Flack NA       Oasis - Roberta Flack in     
- 2 Oasis Roberta Flack NA       Oasis - Roberta Flack the    
- 3 Oasis Roberta Flack NA       Oasis - Roberta Flack morning
- 4 Oasis Roberta Flack NA       Oasis - Roberta Flack when   
- 5 Oasis Roberta Flack NA       Oasis - Roberta Flack i      
- 6 Oasis Roberta Flack NA       Oasis - Roberta Flack see    
- 7 Oasis Roberta Flack NA       Oasis - Roberta Flack the    
- 8 Oasis Roberta Flack NA       Oasis - Roberta Flack sun    
- 9 Oasis Roberta Flack NA       Oasis - Roberta Flack i      
-10 Oasis Roberta Flack NA       Oasis - Roberta Flack think  
-# … with 135,736 more rows
+<pre><code># A tibble: 433,941 × 6
+   song                                       artist hip_h…¹ genre song_…² word 
+   &lt;chr&gt;                                      &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;glue&gt;  &lt;chr&gt;
+ 1 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… three
+ 2 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… four 
+ 3 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… five 
+ 4 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… mind 
+ 5 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… if   
+ 6 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… i    
+ 7 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… sit  
+ 8 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… down 
+ 9 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… can  
+10 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… i    
+# … with 433,931 more rows, and abbreviated variable names ¹​hip_hop_rnb,
+#   ²​song_art
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-4_c828a656abd9682df8c503ef241abe4d">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>songs_by_words <span class="ot">&lt;-</span> words_df <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art) <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">num_of_words =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(num_of_words)) </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>songs_by_words <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># head(20) |&gt; </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mutate(</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     song_art = fct_reorder(song_art,tot_wrds)</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     ) |&gt; </span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(num_of_words)) <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Words'</span>) <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">'Number of Songs'</span>) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-3_ae2c8abcdb574cb2676ff529997d2cc7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>songs_by_words <span class="ot">&lt;-</span> words_df <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art, genre) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">num_of_words =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(num_of_words)) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>songs_by_words <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># head(20) |&gt; </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mutate(</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     song_art = fct_reorder(song_art,tot_wrds)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     ) |&gt; </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(num_of_words, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>()  <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Words'</span>) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">'Number of Songs'</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>()    <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="text_mining_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-4_4116098a41f712fb134159996bce0213">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>songs_by_words   <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> <span class="fu">fct_reorder</span>(song_art,num_of_words)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> song_art, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> num_of_words,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> genre)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Number of Words'</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>() <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="text_mining_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-5_ded9ea39a3405b42886d62b494ef4c2e">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>songs_by_words   <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> <span class="fu">fct_reorder</span>(song_art,num_of_words)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> song_art, </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> num_of_words)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Words'</span>) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>( <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-6_0188457ca12cef773f7c9dd7903df1ff">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>words_trimmed_df <span class="ot">&lt;-</span> words_df <span class="sc">|&gt;</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anti_join</span>(stop_words)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>words_trimmed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-5_8312a0d8c49d5ae1da9682a6f6bcf2d4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>words_trimmed_df <span class="ot">&lt;-</span> words_df <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anti_join</span>(stop_words)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>words_trimmed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 39,280 × 2
-   song_art              word    
-   &lt;glue&gt;                &lt;chr&gt;   
- 1 BedRock - Young Money bed     
- 2 BedRock - Young Money rock    
- 3 BedRock - Young Money money   
- 4 BedRock - Young Money bed     
- 5 BedRock - Young Money rock    
- 6 BedRock - Young Money girl    
- 7 BedRock - Young Money kane    
- 8 BedRock - Young Money building
- 9 BedRock - Young Money nigga   
-10 BedRock - Young Money bed     
-# … with 39,270 more rows
+<pre><code># A tibble: 137,153 × 6
+   song                                       artist hip_h…¹ genre song_…² word 
+   &lt;chr&gt;                                      &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;glue&gt;  &lt;chr&gt;
+ 1 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… mind 
+ 2 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… sit  
+ 3 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… buy  
+ 4 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… round
+ 5 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… town 
+ 6 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… line 
+ 7 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… time 
+ 8 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… home 
+ 9 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… woman
+10 (if you're not in it for love) i'm outta … Shani…       0 Coun… (if yo… pret…
+# … with 137,143 more rows, and abbreviated variable names ¹​hip_hop_rnb,
+#   ²​song_art
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-7_cad5b1bcd37ee0d762acc9c6f6d1ad51">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed <span class="ot">&lt;-</span> words_trimmed_df <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art) <span class="sc">|&gt;</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">num_of_words =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(num_of_words)) </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed <span class="sc">|&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># head(20) |&gt; </span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mutate(</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     song_art = fct_reorder(song_art,tot_wrds)</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     ) |&gt; </span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(num_of_words)) <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Words'</span>) <span class="sc">+</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">'Number of Songs'</span>) <span class="sc">+</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-6_3fe4a71ed6cb0c3638e3b7cfe7235b8e">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed <span class="ot">&lt;-</span> words_trimmed_df <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art, genre) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">num_of_words =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(num_of_words)) </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># head(20) |&gt; </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mutate(</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     song_art = fct_reorder(song_art,tot_wrds)</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     ) |&gt; </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(num_of_words, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>()  <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Unique Words'</span>) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">'Number of Songs'</span>) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>()    <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="text_mining_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-7_6ee559be6f1a3b90c5961a91bab01d16">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed   <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> <span class="fu">fct_reorder</span>(song_art,num_of_words)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> song_art, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> num_of_words,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> genre)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs) <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Unique Words'</span>) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>() <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>( <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="text_mining_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-8_50a4a69fedf35691bcbd7937b2052e4d">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>songs_by_words_trimmed   <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> <span class="fu">fct_reorder</span>(song_art,num_of_words)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> song_art, </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> num_of_words)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">'Number of Words'</span>) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>( <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-9_f9a9a4c647d545614f4e812c4663359b">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>top_words_by_song <span class="ot">&lt;-</span> words_trimmed_df <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word) <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>top_words_by_song</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-8_ce821de68f7a184f04ef1b07e9172f8e">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>top_words_by_song <span class="ot">&lt;-</span> words_trimmed_df <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(genre, song_art) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word) <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>top_words_by_song</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 131 × 3
-# Groups:   song_art [108]
-   song_art                              word      n
-   &lt;glue&gt;                                &lt;chr&gt; &lt;int&gt;
- 1 911 Is a Joke - Public Enemy          911      18
- 2 AmeriKKKa's Most Wanted - Ice Cube    cube      7
- 3 Anaconda - Nicki Minaj                hey      21
- 4 Around the Way Girl - LL Cool J       shook    39
- 5 Aston Martin Music - Rick Ross        music    28
- 6 Baby If You're Ready - Doggy's Angels gon       5
- 7 Bad and Boujee - Migos                yeah     64
- 8 BedRock - Young Money                 bed      48
- 9 BedRock - Young Money                 rock     48
-10 Berzerk - Eminem                      kick      9
-# … with 121 more rows
+<pre><code># A tibble: 1,893 × 4
+# Groups:   genre, song_art [1,236]
+   genre          song_art                                           word      n
+   &lt;chr&gt;          &lt;glue&gt;                                             &lt;chr&gt; &lt;int&gt;
+ 1 Country / Rock (if you're not in it for love) i'm outta here! - … love      9
+ 2 Country / Rock (this ain't) no thinkin' thing - Trace Adkins      thin…    14
+ 3 Country / Rock 1000hp - Godsmack                                  time      5
+ 4 Country / Rock 16 - Highly Suspect                                ya       20
+ 5 Country / Rock 19 somethin' - Mark Wills                          1980      4
+ 6 Country / Rock 19 somethin' - Mark Wills                          days      4
+ 7 Country / Rock 19 somethin' - Mark Wills                          world     4
+ 8 Country / Rock a better man - Clint Black                         leav…     7
+ 9 Country / Rock a broken wing - Martina McBride                    brok…     6
+10 Country / Rock a broken wing - Martina McBride                    wing      6
+# … with 1,883 more rows
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-10_08e27fd01c90f89e577e54448eb15b0e">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_words_by_song <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> word, <span class="at">size =</span> n)) <span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_text_wordcloud</span>(<span class="at">color =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-9_98bacabb7dbad69613e89b60ee1448e0">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top_words_by_song <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> word, <span class="at">size =</span> n, <span class="at">color =</span> genre)) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_text_wordcloud</span>(<span class="at">shape =</span> <span class="st">'square'</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#ffffff"</span>,<span class="st">"#00bc8c"</span>)) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'Top'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="text_mining_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-11_ddbc99d61ef3758a8baff9777eafe5a1">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>words_by_year_df <span class="ot">&lt;-</span> lyrics_df <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">song_art =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{song} - {artist}'</span>),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">rel_year =</span> rel_date <span class="sc">|&gt;</span> lubridate<span class="sc">::</span><span class="fu">year</span>()</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(song_art) <span class="sc">|&gt;</span> </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(rel_date <span class="sc">==</span> <span class="fu">max</span>(rel_date))<span class="sc">|&gt;</span> </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(rel_year) <span class="sc">|&gt;</span> </span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, lyrics) <span class="sc">|&gt;</span> </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()  <span class="sc">|&gt;</span> </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anti_join</span>(stop_words) <span class="sc">|&gt;</span> </span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(rel_year) <span class="sc">|&gt;</span> </span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word) </span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>words_by_year_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,578 × 3
-# Groups:   rel_year [15]
-   rel_year word       n
-      &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
- 1     1989 10         1
- 2     1989 108        1
- 3     1989 19         1
- 4     1989 2x         2
- 5     1989 400        1
- 6     1989 4th        1
- 7     1989 4x         2
- 8     1989 7          1
- 9     1989 89         3
-10     1989 a'ight     1
-# … with 11,568 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-10_54218c77b33e469a78c6cc1709ba5f2e">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot_by_year &lt;- function(year){</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     words_by_year_df |&gt; </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#         group_by(rel_year) |&gt; </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         slice_max(n, n = 100) |&gt; </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         filter(rel_year == year) |&gt; </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         ggplot(aes(label = word, size = n)) +</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#             geom_text_wordcloud(color = "#145389") +</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#             scale_size_area(max_size = 14) +</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#             facet_wrap(~rel_year,scales = "free" ) +</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#             theme_ben()</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># plot_by_year</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># years &lt;- words_by_year_df$rel_year |&gt; unique()</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(years, plot_by_year)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-12_17b6dee59c0d1145697df30d680f37cd">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>top_words_by_year <span class="ot">&lt;-</span> words_by_year_df  <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>top_words_by_year </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 15 × 3
-# Groups:   rel_year [15]
-   rel_year word       n
-      &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
- 1     1989 funky     73
- 2     1990 humpty    47
- 3     1991 pop       78
- 4     2000 bounce    43
- 5     2001 wow       43
- 6     2010 love     114
- 7     2011 i'ma     116
- 8     2012 swerve   100
- 9     2013 ooh      128
-10     2014 timber    50
-11     2015 fuck      68
-12     2016 panda     78
-13     2017 yeah     134
-14     2018 yeah     326
-15     2019 yeah      87</code></pre>
-</div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-13_f539058a7ca3aa32d382cefb918d0d68">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>top_words_by_year <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rel_year =</span> <span class="fu">factor</span>(rel_year)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> rel_year, <span class="at">label =</span> word)) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#145389"</span>)<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label</span>(<span class="at">color =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-14_fb892db6df6b8441aff74edeae88027e">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plot_by_year <span class="ot">&lt;-</span> <span class="cf">function</span>(year){</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    words_by_year_df <span class="sc">|&gt;</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(rel_year) <span class="sc">|&gt;</span> </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(rel_year <span class="sc">==</span> year) <span class="sc">|&gt;</span> </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> word, <span class="at">size =</span> n)) <span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_text_wordcloud</span>(<span class="at">color =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">facet_wrap</span>(<span class="sc">~</span>rel_year,<span class="at">scales =</span> <span class="st">"free"</span> ) <span class="sc">+</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_minimal</span>()</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>plot_by_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function(year){
-    words_by_year_df |&gt; 
-        group_by(rel_year) |&gt; 
-        slice_max(n, n = 100) |&gt; 
-        filter(rel_year == year) |&gt; 
-        ggplot(aes(label = word, size = n)) +
-            geom_text_wordcloud(color = "#145389") +
-            scale_size_area(max_size = 14) +
-            facet_wrap(~rel_year,scales = "free" ) +
-            theme_minimal()
-    
-}</code></pre>
-</div>
-</div>
-<div class="page-columns page-full">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> words_by_year_df<span class="sc">$</span>rel_year <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(years, plot_by_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell column-screen-inset quarto-layout-panel" data-hash="text_mining_cache/html/unnamed-chunk-15_204422e47d3881bdcb0dece9ce93f30c">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>[[1]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[2]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[3]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[4]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[5]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[6]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-6.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[7]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-7.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[8]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-8.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[9]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-9.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[10]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-10.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[11]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-11.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[12]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-12.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[13]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-13.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[14]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-14.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 2.0%;justify-content: center;">
-<pre><code>
-[[15]]</code></pre>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 48.0%;justify-content: center;">
-<p><img src="text_mining_files/figure-html/unnamed-chunk-15-15.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-</div>
-<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-16_5f4227868e66ca6058981d90b181366a">
+<div class="cell column-screen-inset quarto-layout-panel" data-hash="text_mining_cache/html/unnamed-chunk-11_ada5f074f2177ed85e00f9d029d31597">
 
+</div>
+<div class="cell" data-hash="text_mining_cache/html/unnamed-chunk-12_4a56e02450a5a03136c5015d11221258">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>top_words_by_genre <span class="ot">&lt;-</span> words_trimmed_df <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(hip_hop_rnb) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(hip_hop_rnb) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word) <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>top_words_by_genre <span class="sc">|&gt;</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> word, <span class="at">size =</span> n)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_text_wordcloud</span>(<span class="at">color =</span> <span class="st">"#145389"</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">facet_wrap</span>(<span class="sc">~</span>hip_hop_rnb,<span class="at">scales =</span> <span class="st">"free"</span> ) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_ben</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </main>

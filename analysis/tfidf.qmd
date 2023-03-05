@@ -3,31 +3,51 @@ title: "TF-IDF Analysis"
 format: 
     html: 
         toc: true
+        code-fold: true
         toc-title: 'Steps'
-        theme: 'flatly'
 execute:
   echo: true
   warning: false
 ---
 
-```{r}
+# Setup
+
+## Load Packages
+
+```{r packages}
 library(tidyverse)
 library(tidytext)
 library(hrbrthemes)
+library(DT)
+source('../functions.R')
+knitr::opts_chunk$set(fig.width=unit(12,"cm"), 
+                      fig.height=unit(7,"cm"))
+
+
 ```
 
-```{r}
-lyr_df <- read_csv('../data/lyr_df.csv') |> 
-    mutate(genre = if_else(hip_hop_rnb == 0, 
-                           'Rock / Country', 
-                           'RnB / Hip Hop'))
-lyr_df
+## Load Data
+
+```{r load-data}
+lyr_df  <-  read_csv('../data/lyr_df.csv')
+lyr_df |> 
+    theme_table_5()
 ```
 
-```{r}
+# Tokenization
+
+## Ngrams by Song
+
+```{r song-words}
+#| layout-nrow: 3
+#| label: fig-songs
+#| fig-cap: Ngrams by Songs 
+#| fig-subcap: 
+#|   - "Unigrams (Words)"
+#|   - "Bigrams"
+#|   - "Trigrams"
 
 song_words <- lyr_df |> 
-    drop_na(hip_hop_rnb) |> 
     unnest_tokens(word, lyrics)|>
     add_count(song, artist, name = "total_words") |> 
     anti_join(stop_words) |> 
@@ -35,89 +55,159 @@ song_words <- lyr_df |>
     count(word, sort = TRUE) |> 
     ungroup()
 
-song_words
+
+
+song_bigrams <- lyr_df |> 
+    unnest_tokens(bigram, lyrics, token = 'ngrams', n = 2)|>
+    add_count(song, artist, name = "total_bigrams") |> 
+    group_by(song, artist, hip_hop_rnb, genre, total_bigrams) |> 
+    count(bigram, sort = TRUE) |> 
+    filter(!is.na(bigram)) |> 
+    ungroup()
+
+
+
+song_trigrams <- lyr_df |> 
+    unnest_tokens(trigram, lyrics, token = 'ngrams', n = 3)|>
+    add_count(song, artist, name = "total_trigrams") |> 
+    group_by(song, artist, hip_hop_rnb, genre, total_trigrams) |> 
+    count(trigram, sort = TRUE) |> 
+    filter(!is.na(trigram)) |> 
+    ungroup()
+
+song_words |> 
+    head(10) |> 
+    select(-hip_hop_rnb, -genre)|> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
+song_bigrams |> 
+     head(10) |>
+    select(-hip_hop_rnb, -genre)|> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
+song_trigrams |> 
+     head(10) |>
+    select(-hip_hop_rnb, -genre)|> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
 ```
 
+## Ngrams by Genre
+
 ```{r}
-    
+#| layout-nrow: 3
+#| label: fig-genre
+#| fig-cap: Ngrams by Genre 
+#| fig-subcap: 
+#|   - "Unigrams (Words)"
+#|   - "Bigrams"
+#|   - "Trigrams"
+
+genre_words <- lyr_df |> 
+    unnest_tokens(word, lyrics)|>
+    add_count(genre, name = "total_words") |> 
+    group_by(genre, total_words) |> 
+    count(word, sort = TRUE) |> 
+    ungroup()
+
+genre_bigrams <- lyr_df |> 
+    unnest_tokens(bigram, lyrics, token = 'ngrams', n=2)|>
+    add_count(genre, name = "total_bigrams") |> 
+    group_by(genre, total_bigrams) |> 
+    count(bigram, sort = TRUE) |> 
+    ungroup()
+
+
+
+genre_trigrams <- lyr_df |> 
+    unnest_tokens(trigram, lyrics, token = 'ngrams', n=3)|>
+    add_count(genre, name = "total_trigrams") |> 
+    group_by(genre, total_trigrams) |> 
+    count(trigram, sort = TRUE) |> 
+    ungroup()
+
+genre_words |> 
+    head(10) |> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
+genre_bigrams |> 
+    head(10) |> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
+genre_trigrams |> 
+    head(10) |> 
+    relocate(contains('total'), .after = last_col()) |> 
+    theme_table()
+```
+
+# TF-IDF
+
+## By Song
+
+```{r}
+#| layout-nrow: 2
+
 song_words_tf_idf <- song_words |> 
     select(-total_words) |>
     mutate(song_artist = glue::glue('{song} - {artist}')) |> 
     bind_tf_idf(term = word, document = song_artist, n = n)
     
 
-song_words_tf_idf |> write_csv('../data/song_words_tf_idf.csv')
+#song_words_tf_idf |> write_csv('../data/song_words_tf_idf.csv')
 
-song_words_tf_idf |> 
-    arrange(desc(tf_idf)) 
-```
-
-```{r}
 song_words_tf_idf |> 
     arrange(desc(tf_idf)) |> 
-    head(25) |> 
+    head(10) |> 
     ggplot(aes(x = tf_idf,
                y = reorder(song_artist, tf_idf), 
                label = word, 
                fill = genre)) +
     geom_col() +
     geom_label()  +
-    theme_minimal()+
     ylab('Song - Artist') +
     xlab('TF-IDF Score')+
-  theme_ipsum_ps()
+   # theme_ipsum_ps()
+     theme_ben()+
+  scale_fill_manual(values = clrs) +
+    theme()
+
+song_words_tf_idf |> 
+    select(-song, -artist, -hip_hop_rnb,-genre) |> 
+    arrange(desc(tf_idf))  |> head(30) |> 
+    theme_table()
 ```
 
-```{r}
-
-genre_words <- lyr_df |> 
-    drop_na(hip_hop_rnb) |> 
-    unnest_tokens(word, lyrics)|>
-    add_count(hip_hop_rnb, name = "total_words") |> 
-    # anti_join(stop_words) |> 
-    group_by(hip_hop_rnb, total_words) |> 
-    count(word, sort = TRUE) |> 
-    ungroup()
-
-genre_words
-```
+## By Genre
 
 ```{r}
-
+#| layout-nrow: 2
 
 genre_words_tf_idf <- genre_words |> 
-    select(-total_words) |> 
-    mutate(genre = if_else(hip_hop_rnb == 0, 
-                           'Rock / Country', 
-                           'RnB / Hip Hop')) |>
+    select(-total_words) |>
     bind_tf_idf(term = word, document = genre, n = n) 
 
-genre_words_tf_idf |> write_csv('../data/genre_words_tf_idf.csv')
-
-cen_genre_words_tf_idf <- genre_words_tf_idf |> 
-    mutate(word = word |> str_replace('nigga', 'n****'))
 
 genre_words_tf_idf |> 
-    arrange(desc(tf_idf)) 
-```
-
-```{r}
-
-cen_genre_words_tf_idf |> 
     arrange(desc(tf_idf))|> 
     group_by(genre) |> 
-    slice_max(tf_idf, n = 20) |> 
+    slice_max(tf_idf, n = 10) |> 
     ungroup() |> 
     ggplot(aes(x = tf_idf, 
                y = reorder(word, tf_idf), 
                label = n, 
                fill = genre)) +
     geom_col() +
-    geom_label()  +
-    scale_fill_discrete() +
+    geom_label() +
     facet_wrap(~genre, scales = 'free')+
     ylab('Song - Artist') +
     xlab('TF-IDF Score')+
-    theme_ipsum_ps() +
-    theme(legend.position = 'none')
+    # theme_ipsum_ps() +
+    theme_ben() +
+    theme(legend.position = 'none')+
+  scale_fill_manual(values = clrs)
+
+
+genre_words_tf_idf |> 
+    arrange(desc(tf_idf))  |> head(30) |> 
+    theme_table()
 ```

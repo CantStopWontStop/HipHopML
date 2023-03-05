@@ -4,7 +4,6 @@ format:
     html: 
         toc: true
         toc-title: 'Steps'
-        theme: 'flatly'
 execute:
   echo: true
   warning: false
@@ -15,31 +14,21 @@ execute:
 library(tidyverse)
 library(tidytext)
 library(ggwordcloud)
+source('../functions.R')
 ```
 
 ```{r}
-lyrics_df <- read_csv('../data/lyr_df.csv')
-```
 
-```{r}
-
-words_df <- lyrics_df |>
-    mutate(
-        song_art = glue::glue('{song} - {artist}')
-        ) |>
-    distinct(song_art, .keep_all = TRUE) |> 
-    # group_by(song_art) |> 
-    # filter(rel_date == max(rel_date))|> 
-    drop_na(lyrics) |> 
-    unnest_tokens(word, lyrics) 
-    # ungroup()
+words_df <- read_csv('../data/lyr_df.csv') |>
+  mutate(song_art = glue::glue('{song} - {artist}')) |>
+  unnest_tokens(word, lyrics)
 
 words_df
 ```
 
 ```{r}
 songs_by_words <- words_df |> 
-    group_by(song_art) |> 
+    group_by(song_art, genre) |> 
     summarise(num_of_words = n()) |>
     ungroup() |> 
     arrange(desc(num_of_words)) 
@@ -50,11 +39,12 @@ songs_by_words |>
     # mutate(
     #     song_art = fct_reorder(song_art,tot_wrds)
     #     ) |> 
-    ggplot(aes(num_of_words)) +
-    geom_histogram(fill = "#145389") +
+    ggplot(aes(num_of_words, fill = genre)) +
+    geom_histogram()  +
     xlab('Number of Words') +
     ylab('Number of Songs') +
-    theme_minimal()    
+    theme_ben()    +
+  scale_fill_manual(values = clrs)
 ```
 
 ```{r}
@@ -64,12 +54,15 @@ songs_by_words   |>
         song_art = fct_reorder(song_art,num_of_words)
         ) |> 
     ggplot(aes(y = song_art, 
-               x = num_of_words)
+               x = num_of_words,
+               fill = genre)
            ) +
-    geom_col(fill = "#145389") +
-    xlab('Number of Words') +
-    theme_minimal() +
-    theme( axis.title.y = element_blank())
+    geom_col() +
+  scale_fill_manual(values = clrs) +
+  labs(x = 'Number of Words',
+       y = NULL)+
+    theme_ben() +
+  theme(legend.position = 'none')
 ```
 
 ```{r}
@@ -85,7 +78,7 @@ words_trimmed_df
 ```{r}
 
 songs_by_words_trimmed <- words_trimmed_df |> 
-    group_by(song_art) |> 
+    group_by(song_art, genre) |> 
     summarise(num_of_words = n()) |>
     ungroup() |> 
     arrange(desc(num_of_words)) 
@@ -95,11 +88,12 @@ songs_by_words_trimmed |>
     # mutate(
     #     song_art = fct_reorder(song_art,tot_wrds)
     #     ) |> 
-    ggplot(aes(num_of_words)) +
-    geom_histogram(fill = "#145389") +
-    xlab('Number of Words') +
+    ggplot(aes(num_of_words, fill = genre)) +
+    geom_histogram( )  +
+    xlab('Number of Unique Words') +
     ylab('Number of Songs') +
-    theme_minimal() 
+    theme_ben()    +
+  scale_fill_manual(values = clrs)
 ```
 
 ```{r}
@@ -109,108 +103,70 @@ songs_by_words_trimmed   |>
         song_art = fct_reorder(song_art,num_of_words)
         ) |> 
     ggplot(aes(y = song_art, 
-               x = num_of_words)
+               x = num_of_words,
+               fill = genre)
            ) +
-    geom_col(fill = "#145389") +
-    xlab('Number of Words') +
-    theme_minimal() +
-    theme( axis.title.y = element_blank())
+    geom_col() +
+  scale_fill_manual(values = clrs) +
+    xlab('Number of Unique Words') +
+    theme_ben() +
+    theme( axis.title.y = element_blank(),
+           legend.position = 'none')
 ```
 
 ```{r}
 
 top_words_by_song <- words_trimmed_df |> 
-    group_by(song_art) |> 
+    group_by(genre, song_art) |> 
     count(word) |> slice_max(n, n = 1)
 
 top_words_by_song
 ```
 
-```{r}
+```{r include=FALSE}
 
 top_words_by_song |> 
     arrange(desc(n)) |> 
     head(100) |> 
-    ggplot(aes(label = word, size = n)) +
-        geom_text_wordcloud(color = "#145389") +
-  scale_size_area(max_size = 10) +
-  theme_minimal()
+    ggplot(aes(label = word, size = n, color = genre)) +
+        geom_text_wordcloud(shape = 'square') +
+    scale_color_manual(values = c("#ffffff","#00bc8c")) +
+    scale_size_area(max_size = 10) +
+    theme(legend.position = 'Top')
 ```
 
 ```{r}
 
 
-words_by_year_df <- lyrics_df |>
-    mutate(
-        song_art = glue::glue('{song} - {artist}'),
-        rel_year = rel_date |> lubridate::year()
-        ) |>
-    group_by(song_art) |> 
-    filter(rel_date == max(rel_date))|> 
-    ungroup() |> 
-    drop_na(lyrics) |> 
-    group_by(rel_year) |> 
-    unnest_tokens(word, lyrics) |> 
-    ungroup()  |> 
-    anti_join(stop_words) |> 
-    group_by(rel_year) |> 
-    count(word) 
-
-words_by_year_df
-
-
+# plot_by_year <- function(year){
+#     words_by_year_df |> 
+#         group_by(rel_year) |> 
+#         slice_max(n, n = 100) |> 
+#         filter(rel_year == year) |> 
+#         ggplot(aes(label = word, size = n)) +
+#             geom_text_wordcloud(color = "#145389") +
+#             scale_size_area(max_size = 14) +
+#             facet_wrap(~rel_year,scales = "free" ) +
+#             theme_ben()
+#     
+# }
+# 
+# plot_by_year
+# 
+# 
+# years <- words_by_year_df$rel_year |> unique()
+# 
+# lapply(years, plot_by_year)
 ```
 
-```{r}
-    
-
-top_words_by_year <- words_by_year_df  |> 
-    slice_max(n, n = 1)
-
-
-top_words_by_year 
-```
-
-```{r}
-
-top_words_by_year |> 
-    mutate(rel_year = factor(rel_year)) |> 
-    ggplot(aes(x = n, y = rel_year, label = word)) +
-    geom_col(fill = "#145389")+
-    geom_label(color = "#145389") +
-    theme_minimal()
-```
-
-```{r}
-
-
-plot_by_year <- function(year){
-    words_by_year_df |> 
-        group_by(rel_year) |> 
-        slice_max(n, n = 100) |> 
-        filter(rel_year == year) |> 
-        ggplot(aes(label = word, size = n)) +
-            geom_text_wordcloud(color = "#145389") +
-            scale_size_area(max_size = 14) +
-            facet_wrap(~rel_year,scales = "free" ) +
-            theme_minimal()
-    
-}
-
-plot_by_year
-
-```
-
-```{r}
+```{r }
 #| column: screen-inset
 #| layout: [[2,48,2,48]]
 
-years <- words_by_year_df$rel_year |> unique()
 
-lapply(years, plot_by_year)
 ```
 
-```{r}
+```{r eval=FALSE}
 top_words_by_genre <- words_trimmed_df |> 
     drop_na(hip_hop_rnb) |> 
     group_by(hip_hop_rnb) |> 
@@ -221,5 +177,5 @@ top_words_by_genre |>
             geom_text_wordcloud(color = "#145389") +
             scale_size_area(max_size = 14) +
             facet_wrap(~hip_hop_rnb,scales = "free" ) +
-            theme_minimal()
+            theme_ben()
 ```
