@@ -1,6 +1,7 @@
-toc: true
-toc-depth: 3
+
   
 format:
   html:
     theme: darkly
+    toc: true
+    toc-depth: 3

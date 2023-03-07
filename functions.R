@@ -14,7 +14,10 @@ theme_ben <- function(base_size = 14) {
             # Les axes
             axis.title = element_text(size = rel(0.85), face = "bold"),
             axis.text = element_text(size = rel(0.70), face = "bold"),
-            axis.line = element_line(color = "white", arrow = arrow(length = unit(0.3, "lines"), type = "closed")),
+            axis.line = element_line(color = "white", 
+                                     # arrow = arrow(length = unit(0.3, "lines"), 
+                                     #               type = "closed")
+                                     ),
             # La légende
             legend.title = element_text(size = rel(0.85), face = "bold"),
             legend.text = element_text(size = rel(0.70), face = "bold"),
@@ -97,4 +100,4 @@ theme_table_5 <- function(table){
     
 }
 
-clrs <- c("#00bc8c", "#ffffff")
+clrs <- c("#ff3046", "#00bc8c")

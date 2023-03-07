@@ -57,9 +57,9 @@ read_csv('data/lyr_df.csv') |>
     theme_table()
 ```
 
-## Natural Language Processing (NLP) 
+## Natural Language Processing (NLP)
 
-### Data Preparation
+### Data Preparation & Exploratory Data Analysis
 
 -   [**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
 
@@ -67,10 +67,12 @@ read_csv('data/lyr_df.csv') |>
 
 -   [**TF-IDF**](analysis/tfidf.html) to determine which words in each song separates that song from others
 
-### Exploratory Data Analysis
+### Document Term Matrix
 
 ## Neural Networks
 
 -   Use neural networks models to classify songs based on TF-IDF scores
 
-<!--# Considerations/Limitations - spelling, meaning/context, overlap in artists, overlap in  -->
+# Results
+
+# Discussion

@@ -1,0 +1,152 @@
+---
+title: 'Support Vector Machine'
+execute: 
+  warning: false
+---
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(tidymodels)
+library(textrecipes)
+library(themis)
+source('../functions.R')
+song_lyrics <- read_csv('../data/lyr_df.csv')
+song_lyrics |>
+    count(genre)
+```
+
+```{r}
+song_lyrics |>
+    slice_sample(n = 10) |>
+    pull(lyrics)
+```
+
+# Explore Data
+
+```{r}
+#| layout-nrow: 2
+
+song_lyrics |> 
+  unnest_tokens(word, lyrics) |> 
+  anti_join(get_stopwords()) |> 
+  count(genre, word, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(word = reorder_within(word, n, genre)) |> 
+  ggplot(aes(n, word, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top words in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+
+
+song_lyrics |> 
+  unnest_tokens(trigram, lyrics, token = 'ngrams', n = 3) |> 
+  count(genre, trigram, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(trigram = reorder_within(trigram, n, genre)) |> 
+  ggplot(aes(n, trigram, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top trigrams in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+```
+
+```{r}
+#| output-location: column-fragment
+
+
+
+```
+
+# Build Model
+
+```{r}
+
+set.seed(50)
+lyrics_split <- song_lyrics |> 
+  select(genre, lyrics) |> 
+  initial_split(strata = genre)
+
+lyrics_train <- training(lyrics_split)
+lyrics_test <- testing(lyrics_split)
+
+set.seed(23)
+lyrics_folds <- vfold_cv(lyrics_train, strata = genre)
+lyrics_folds
+```
+
+```{r}
+
+
+
+lyrics_rec <- recipe(genre ~ lyrics, data = lyrics_train) %>%
+  step_tokenize(lyrics) |> 
+  step_tokenfilter(lyrics, max_tokens = 1e3) |> 
+  step_tfidf(lyrics) |> 
+  step_normalize(all_numeric_predictors()) |> 
+  step_smote(genre)
+
+lyrics_rec
+```
+
+```{r}
+
+svm_spec <- svm_linear() %>%
+  set_mode("classification") %>%
+  set_engine("LiblineaR")
+
+lyrics_wf <- workflow() %>%
+  add_recipe(lyrics_rec) %>%
+  add_model(svm_spec)
+
+lyrics_wf
+```
+
+```{r}
+doParallel::registerDoParallel()
+set.seed(123)
+svm_rs <- fit_resamples(
+  lyrics_wf,
+  lyrics_folds,
+  metrics = metric_set(accuracy, recall, precision),
+  control = control_resamples(save_pred = TRUE)
+)
+
+collect_metrics(svm_rs)
+```
+
+```{r}
+
+svm_rs |> 
+  conf_mat_resampled(tidy = FALSE) |> 
+  autoplot() 
+```
+
+```{r}
+final_fitted <- last_fit(
+  lyrics_wf,
+  lyrics_split,
+  metrics = metric_set(accuracy, recall, precision)
+)
+collect_metrics(final_fitted)
+```

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Support Vector Machine</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="svm_files/libs/clipboard/clipboard.min.js"></script>
+<script src="svm_files/libs/quarto-html/quarto.js"></script>
+<script src="svm_files/libs/quarto-html/popper.min.js"></script>
+<script src="svm_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="svm_files/libs/quarto-html/anchor.min.js"></script>
+<link href="svm_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="svm_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="svm_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="svm_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="svm_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#explore-data" id="toc-explore-data" class="nav-link" data-scroll-target="#explore-data">Explore Data</a></li>
+  <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build Model</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Support Vector Machine</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textrecipes)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(themis)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'../functions.R'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'../data/lyr_df.csv'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  genre              n
+  &lt;chr&gt;          &lt;int&gt;
+1 Country / Rock   864
+2 Hip Hop / R&amp;B    372</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(lyrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "make every minute worth it, baby this for ursher, baby watch this i done been around the world, i done kissed a lot of girls so i'm guessing that it's true, huh make me holla and i bet a million dollars don't nobody kiss it like you, ha don't nobody kiss it like you don't nobody kiss it like you, bang, bang, bang don't nobody kiss it like you, don't nobody kiss it like you, uh ha it's 5 in the morning kush is rolling while she's making steak and eggs, yeah at 5 in the morning we can only be about to do one thing (what?) see, i told her, the devil is a lie them other girls can't compete with mine you do it so good, you f*** my mind you pull it out, then you open wide you make me wanna tap out and retire them pretty lips leave me so inspired i think that she's a winner she could be a keeper 'cause she's such a good kisser got lipstick on my leg oh baby she's such a good kisser i'ma rain on this parade oh baby (listen, let me tell ya something, uh) i done been around the world, i done kissed a lot of girls so i'm guessing that it's true, yeah make me holla and i bet a million dollars don't nobody kiss it like you, ha don't nobody kiss it like you don't nobody kiss it like you, bang, bang, bang don't nobody kiss it like you, don't nobody kiss it like you, uh ha this girl, she's my hero get dinero, euros, pesos, francs and yen, ha (i ain't one to trick off either) i'm staring at your barrel pull the trigger, chitty, chitty, bang, babe (whatever you want, i told her) see, i told her, the devil is a lie them other girls can't compete with mine you do it so good, you f*** my mind you pull it out, then you open wide you make me wanna tap out and retire them pretty lips leave me so inspired i think i got a winner could be a keeper 'cause she's such a good kisser got lipstick on my leg oh baby she's such a good kisser i'ma rain on this parade oh baby listen, the only thing i know you give it to me, baby, with good flow don't ever run it back, come on, keep going just give it to me, give it up to me, give it up to me i, i can't keep my control every time that i see you hit that floor she keep on giving it to me, i want more now come on baby, now give it to me, give it up to me heeyyy yeah kiss it good, kiss it right keep it up, we be kissing all night kiss it good, kiss it right keep it up, we be kissing all night kiss it good, kiss it right keep it up, we be kissing all night kiss it good, kiss it right keep it up, we be kissing all night 'cause she's such a good kisser got lipstick on my leg oh baby she's such a good kisser i'ma rain on this parade oh baby i done been around the world, i done kissed a lot of girls so i'm guessing that it's true, huh make me holla and i bet a million dollars don't nobody kiss it like you, ha don't nobody kiss it like you don't nobody kiss it like you, bang, bang, bang don't nobody kiss it like you, don't nobody kiss it like you, uh ha"                                                                                                                                                                                                                                                                         
+ [2] "going out of my mind these days like i'm walking 'round in a haze i can't think straight, i can't concentrate and i need a shave i go to work and i look tired the boss man says, \"son you're gonna get fired, this ain't your style\" and from behind my coffee cup i just smile what a beautiful mess what a beautiful mess i'm in spending all my time with you there's nothing else i'd rather do what a sweet addiction that i'm caught up in 'cause i can't get enough can't stop the hunger for your love what a beautiful, what a beautiful mess i'm in ahhh this morning put salt in my coffee i put my shoes on the wrong feet i'm losing my mind, i swear; it might be the death of me but i don't care what a beautiful mess what a beautiful mess i'm in spending all my time with you there's nothing else i'd rather do what a sweet addiction that i'm caught up in 'cause i can't get enough can't stop the hunger for your love what a beautiful, what a beautiful mess i'm in ahhh is it your eyes is it your smile all i know is that you're driving me wild what a beautiful mess what a beautiful mess i'm in spending all my time with you there's nothing else i'd rather do what a sweet addiction that i'm caught up in 'cause i can't get enough can't stop the hunger for your love (what a beautiful) what a beautiful... what a beautiful mess what a beautiful mess i'm in spending all my time with you there's nothing else i'd rather do what a sweet addiction that i'm caught up in 'cause i can't get enough can't stop the hunger for your love what a beautiful, what a beautiful mess i'm in ahhh ahhh"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+ [3] "like a moth to a flame, burned by the fire my love is blind, can't you see my desire? that's the way love goes (that's the way love, that's the way love) (that's the way love goes) like a moth to a flame, burned by the fire (that's the way) my love is blind, can't you see my desire? (that's the way) like a moth to a flame, burned by the fire (that's the way) my love is blind, can't you see my desire? that's the way love goes like a moth to a flame, burned by the fire (that's the way, that's the way, that's the way love goes) that's the way love goes my love is blind, can't you see my desire? (that's the way, that's the way, that's the way love goes) come with me, don't you worry i'm gonna make you crazy i'll give you the time of your life i'm gonna take you places you've never been before and you'll be so happy that you came ooh, i'm gonna take you there, ooh that's the way love goes, that's the way love goes (that's the way love goes) that's the way love goes (that's the way) that's the way love goes (that's the way, that's the way love goes) don't mind if i light candles i like to watch us play and baby, i've got on what you like come closer, baby, closer reach out and feel my body i'm gonna give you all my love ooh, sugar don't you hurry you've got me here all night just close your eyes and hold on tight (that's the way, that's the way) ooh, baby, don't stop, don't stop go deeper, baby, deeper you feel so good i'm gonna cry oh, i'm gonna take you there, ooh that's the way love goes, that's the way love goes that's the way love goes, that's the way love goes that's the way love goes (that's the way love goes) that's the way love goes, that's the way love goes don't you know it goes? that's the way like a moth to a flame, burned by the fire my love is blind, can't you see my desire? like a moth to a flame, burned by the fire my love is blind, can't you see my desire? that's the way, that's the way, that's the way, that's the way that's the way, that's the way, that's the way love goes that's the way love goes (that's the way, that's the way) that's the way love goes, it goes, it goes (that's the way, that's the way) that's the way love goes that's the way love goes, that's the way love goes that's the way love goes (that's the way love goes) that's the way love, that's the way love, that's the way love that's the way love, that's the way love, that's the way love that's the way love goes"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+ [4] "alone again tonight without someone to love the stars are shining bright so one more wish goes up oh, i wish i may and i wish with all my might for the love i'm dreaming of and missing in my life you'd think that i could find a true love of my own it happens all the time to people that i know their wishes all come true so i've got to believe there's still someone out there who is meant for only me i guess i must be wishing on someone else's star it seems like someone else keeps getting what i'm wishing for why can't i be as lucky as those other people are i guess i must be wishing on someone else's star i sit here in the dark and stare up at the sky but i can't give my heart one good reason why everywhere i look it's lovers that i see it seems like everyone's in love with everyone but me i guess i must be wishing on someone else's star it seems like someone else keeps getting what i'm wishing for why can't i be as lucky as those other people are oh, i guess i must be wishing on someone else's star why can't i be as lucky as those other people are oh, i guess i must be wishing on someone else's star"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+ [5] "i've been a rock and i've got my fences, i never let them down when it comes to love, i keep my senses, i don't get kicked around i shivered once, you broke into my soul, the damage is done now i'm out of control, how did you get to me no one else on earth could ever hurt me break my heart the way you do no one else on earth was ever worth it no one could love me like no one could love me like you you can make me want you anytime you want to, you're burning me alive i can't deny you even when i catch you, weaving a weak alibi 'cause when the night falls you make me forget your love is killing me and it ain't over yet, how did you get to me no one else on earth could ever hurt me break my heart the way you do no one else on earth was ever worth it no one could love me like no one could love me like you i shivered once, you broke into my soul the damage is done now i'm out of control how did you get to me no one else on earth could ever hurt me break my heart the way you do no one else on earth was ever worth it no one could love me like no one could love me like no one else on earth could ever hurt me break my heart the way you do no one else on earth was ever worth it no one could love me like no one could love me like you no one else on earth was ever worth it no one could love me like, no one like you no one like you"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ [6] "well you know those times when you feel like there's a sign there on your back that says i don't mind if you kick me, seems like everybody has things go from bad to worse you think they can't get worse than that and then they do you step off the straight and narrow and you don't know where you are used the needle of your compass to sew up your broken heart ask directions from a genie in a bottle of jim beam and she lies to you that's when you'll learn the truth if you're goin' through hell keep on going don't slow down if you're scared don't show it you might get out before the devil even knows you're there i've been deep down in that darkness i've been down to my last match felt a hundred different demons breathin' fire down my back and i knew that if i stumbled i'd fall right into the trap that they were layin', yeah but the good news is there's angels everywhere out on the street holdin' out a hand to pull you back up on your feet the one's that you've been draggin' for so long you're on your knees you might as well be prayin' guess what i'm sayin' if you're goin' through hell keep on going don't slow down if you're scared don't show it you might get out before the devil even knows you're there yeah, if you're goin' through hell keep on movin' face that fire, walk right through it you might get out before the devil even knows you're there if you're goin' through hell keep on going don't slow down if you're scared don't show it you might get out before the devil even knows you're there yeah, if you're goin' through hell keep on movin' face that fire, walk right through it you might get out before the devil even knows you're there you might get out before the devil even knows you're there, yeah"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ [7] "you know i won't forget the times we shared together holding hands and walking in the park sometimes we'll have to do it all again we were so happy then i have no regrets can't you tell from the look on my face that i love you more today the first time i looked into your eyes i cried do you remember the first time we fell in love you looked into my eyes, wiped the tears away the first time when we fell in love although some time has passed i still remember just like it was yesterday the time is moving fast the love i have for you time won't ever change i'll always feel the same now until the end memories we share will live forever deep inside my heart i know i'll never forget the first time i looked into your eyes i cried do you remember the first time we fell in love you looked into my eyes, wiped the tears away the first time when we fell in love the first time i looked into your eyes i cried do you remember the first time we fell in love you looked into my eyes, wiped the tears away the first time when we fell in love oh, when we fell in love"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+ [8] "y'all ready to kick? c'mon.  1, 2, 3, swing it! aw yeah, baby, you're my fantasy and i want everybody in the house to clap clap, clap your hands, c'mon and i want all the money fellas out there to give me the dog when i count to three ready?  y'all ready?  here we go, 1, 2, 3, swing it! (woof!) aw yeah.  (woof!)  aw yeah.  (woof!) aw yeah.  (woof!) all the money major fellas, (woof!) oh yeah, do the dog.  (woof!) do, do the dog.  (woof!) now i want to introduce who's in the house tonight.  ready? guy's in the house.  gene griff's in the house redhead's in the house wreckx-n-effect's in the house today's in the house and my man zen's in the house spike lee's in the house tr kicking it live you're just a fantasy.  (she's just a fantasy.) image in a magazine.  (image in a magazine.) i've seen the face before.  (i've seen her face before.) her body walks out of my door.  (hey, hey, hey, hey, hey.) she's just a fantasy image in a magazine i've seen her face before her body walks out of my door every time i close my eyes what she give me is said surprise that body was so kicking hey fellas, it's just a thing i need (she's just a fantasy.) she's just a fantasy (image in a magazine.) image in a magazine (i've seen the face before.) i've seen her face before (her body walks out of my door.) i ain't lying, i ain't lying, y'all she sets my heart aflame i wonder what's her name something inside says \"hey, this could be my lucky day.\" (she's just a fantasy.) fantasy (image in a magazine.) image in a magazine (i've seen the face before.) i've seen her face before (her body walks out of my door.) oh, i ain't lying, i ain't lying, y'all she's just a fantasy i wish my fantasy could come true oh, oh, oh, oh, oh.  (fantasy) nothing more than wanting, it's just for me to be with you it's just my fantasy (she's just a fantasy.) hey, you were in a magazine (image in a magazine.) i've seen her face before (i've seen the face before.) her body walks out my door (her body walks out of my door.) hey, eh, eh, eh, eh, eh (she's just a fantasy.) just a fantasy (image in a magazine.) image in a magazine (i've seen the face before.) i've seen her face before (her body walk out of my door.) i ain't lying, i ain't lying, yeah, eh, eh, eh, eh (she's just a fantasy.) just a fantasy (image in a magazine.) image in a magazine (image in a magazine.) (i've seen the face before.) i've seen her face before (her body walks out of my door.) i like it, i like it she's a fantasy i've seen it, i've seen it, i've seen it, yeah, eh, eh, eh, eh she's just a fantasy.  (she's just a fantasy.) image in a magazine.  (image in a magazine.) image in a magazine.  (seen it, yeah.) (hey body walks out of my door.)  yeah, eh, eh, eh, eh, eh, eh she's just a fantasy image in a magazine i've seen it somewhere (hey body walks out of my door.) and i got her, and i got her, and i got her here (she's just a fantasy.) she's like a cherry to me, baby (image in a magazine.) she's just like an apple in my palm (i've seen the face before.) said i've seen it (her body walks out of my door.) said i've seen it oh, oh, oh, oh, oh, oh it's my fantasy it's my fantasy you're just my fantasy"
+ [9] "when i picked you up for our first date baby well, your pretty blue eyes, they were driving' me crazy and the tiny little thought that was so amazing is they were looking at me i held open the car door for you then you climbed inside and slid on over to the other side.. i thought my, oh my sweet thing the moon is high and the night is young come on and meet me in the backyard under the cottonwood tree it's a good thing and i'm wishing c'mon sweet thing won't you climb on out of your window while the world is sleeping cause you know i need you and there's no way i'll be leaving till we're kissing on the porch swing oh my little sweet thing yeah i know i'm gonna see you first thing tomorrow but i just couldn't wait so i had to borrow uncle jake's mustang, its his favorite car and so i can't stay long.. standing here feeling like a love struck romeo all i wanna do is hold you close and steal a little more time, is that such a crime? sweet thing the moon is high and the night is young come on and meet me in the backyard under the cottonwood tree it's a good thing and i'm wishing c'mon sweet thing won't you climb on out of your window while the world is sleeping cause you know i need you and there's no way i'll be leaving till we're kissing on the porch swing oh my little sweet thing sweet thing, sweet thing sweet thing the moon is high and the night is young come on and meet me in the backyard under the cottonwood tree it's a good thing and i'm wishing c'mon sweet thing won't you climb on out of your window while the world is sleeping cause you know i need you and there's no way i'll be leaving till we're kissing on the porch swing oh my little sweet thing oh come-on sweet thing, sweet thing, sweet thing yeah, come-on now a little now.. do do do do do do do do do do do oh my little sweet thing, yes you are do do do do do do do do do do do"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+[10] "there's something 'bout yesterday how fast it all flies away i don't know what it is about a goodbye kiss that makes you wanna stay we were crazy then we were over we were breaking up, making love, a runaway roller coaster every time i hear that song i’m standing in the pouring rain on your front lawn and ooh-ooh-ooh i still think about you-ooh-ooh every time i hear that song it's like the first time it came on and ooh-ooh-ooh i still think about you-ooh-ooh i still think about you there’s something in the bittersweet feeling of a memory right there in the moment, all i ever wanted was you and me we were crying, we were wasted we were dying, when they played it every time i hear that song i’m standing in the pouring rain on your front lawn and ooh-ooh-ooh i still think about you-ooh-ooh every time i hear that song it's like the first time it came on and ooh-ooh-ooh i still think about you-ooh-ooh i still think about you oh, i still think about you there's a soundtrack in my mind that takes me back in time when i hear that melody i think about you and me every time i hear that song i’m standing in the pouring rain on your front lawn and ooh-ooh-ooh i still think about you-ooh-ooh every time i hear that song it's like the first time it came on and ooh-ooh-ooh i still think about you-ooh-ooh i still think about you oh, i still think about you i still think about you yeah, i still think about you there's a soundtrack in my mind that takes me back in time when i hear that melody"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </code></pre>
+</div>
+</div>
+</section>
+<section id="explore-data" class="level1">
+<h1>Explore Data</h1>
+<div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(<span class="fu">get_stopwords</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(genre, word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(genre) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder_within</span>(word, n, genre)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, word, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>() <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs)<span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>genre, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Word frequency"</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top words in song lyrics by frequency"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"After removing stop words"</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="sc">|&gt;</span> </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(trigram, lyrics, <span class="at">token =</span> <span class="st">'ngrams'</span>, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(genre, trigram, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(genre) <span class="sc">|&gt;</span> </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trigram =</span> <span class="fu">reorder_within</span>(trigram, n, genre)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, trigram, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>() <span class="sc">+</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> clrs)<span class="sc">+</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>genre, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Word frequency"</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top trigrams in song lyrics by frequency"</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"After removing stop words"</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ben</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="svm_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="svm_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-output-location="column-fragment">
+
+</div>
+</section>
+<section id="build-model" class="level1">
+<h1>Build Model</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">50</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lyrics_split <span class="ot">&lt;-</span> song_lyrics <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(genre, lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">initial_split</span>(<span class="at">strata =</span> genre)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>lyrics_train <span class="ot">&lt;-</span> <span class="fu">training</span>(lyrics_split)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>lyrics_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(lyrics_split)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>lyrics_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(lyrics_train, <span class="at">strata =</span> genre)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>lyrics_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#  10-fold cross-validation using stratification 
+# A tibble: 10 × 2
+   splits           id    
+   &lt;list&gt;           &lt;chr&gt; 
+ 1 &lt;split [834/93]&gt; Fold01
+ 2 &lt;split [834/93]&gt; Fold02
+ 3 &lt;split [834/93]&gt; Fold03
+ 4 &lt;split [834/93]&gt; Fold04
+ 5 &lt;split [834/93]&gt; Fold05
+ 6 &lt;split [834/93]&gt; Fold06
+ 7 &lt;split [834/93]&gt; Fold07
+ 8 &lt;split [834/93]&gt; Fold08
+ 9 &lt;split [835/92]&gt; Fold09
+10 &lt;split [836/91]&gt; Fold10</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lyrics_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(genre <span class="sc">~</span> lyrics, <span class="at">data =</span> lyrics_train) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(lyrics, <span class="at">max_tokens =</span> <span class="fl">1e3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tfidf</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_smote</span>(genre)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>lyrics_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+   outcome          1
+ predictor          1
+
+Operations:
+
+Tokenization for lyrics
+Text filtering for lyrics
+Term frequency-inverse document frequency with lyrics
+Centering and scaling for all_numeric_predictors()
+SMOTE based on genre</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>svm_spec <span class="ot">&lt;-</span> <span class="fu">svm_linear</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"LiblineaR"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lyrics_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(lyrics_rec) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(svm_spec)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>lyrics_wf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: svm_linear()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+5 Recipe Steps
+
+• step_tokenize()
+• step_tokenfilter()
+• step_tfidf()
+• step_normalize()
+• step_smote()
+
+── Model ───────────────────────────────────────────────────────────────────────
+Linear Support Vector Machine Model Specification (classification)
+
+Computational engine: LiblineaR </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>svm_rs <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  lyrics_wf,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  lyrics_folds,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(svm_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric   .estimator  mean     n std_err .config             
+  &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy  binary     0.784    10 0.00990 Preprocessor1_Model1
+2 precision binary     0.880    10 0.0123  Preprocessor1_Model1
+3 recall    binary     0.802    10 0.0108  Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>svm_rs <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat_resampled</span>(<span class="at">tidy =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="svm_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>final_fitted <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  lyrics_wf,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  lyrics_split,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(final_fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  .metric   .estimator .estimate .config             
+  &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy  binary         0.770 Preprocessor1_Model1
+2 recall    binary         0.819 Preprocessor1_Model1
+3 precision binary         0.847 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

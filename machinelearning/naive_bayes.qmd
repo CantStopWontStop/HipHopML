@@ -1,0 +1,49 @@
+---
+
+---
+
+```{r}
+library('reticulate')
+```
+
+```{python}
+
+import pandas as pd
+import numpy as np
+
+song_lyrics = pd.read_csv('../data/lyr_df.csv')
+song_lyrics.head(10)
+```
+
+```{python}
+from sklearn.utils import shuffle
+from nltk.corpus import stopwords
+
+genres = [
+    'Country/Rock','Hiphop/RnB'
+]
+genres
+```
+
+```{python}
+LYRIC_LEN = 400 # each song has to be > 400 characters
+N = 300 # number of records to pull from each genre
+RANDOM_SEED = 200 # random seed to make results repeatable
+
+train_df = pd.DataFrame()
+test_df = pd.DataFrame()
+for genre in genres: # loop over each genre
+    subset = song_lyrics[ # create a subset 
+        (song_lyrics.song_genre==genre) & 
+        (song_lyrics.lyrics.str.len() > LYRIC_LEN)
+    ]
+    train_set = subset.sample(n=N, random_state=RANDOM_SEED)
+    test_set = subset.drop(train_set.index)
+    train_df = train_df.append(train_set) # append subsets to the master sets
+    test_df = test_df.append(test_set)
+```
+
+```{python}
+
+train_df
+```

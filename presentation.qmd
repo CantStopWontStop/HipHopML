@@ -1,0 +1,218 @@
+---
+title: "HipHop ML"
+title-slide-attributes:
+    data-background-image: /imgs/hip-hop.png
+    data-background-size: cover
+    data-background-opacity: "0.5"
+    data-background-position: bottom
+author: "def jam()"
+date: 'Mar 7, 2023'
+format: 
+    revealjs:
+        theme: [dark, custom.scss]
+        toc: false
+execute: 
+  echo: false
+  warning: false
+  freeze: true
+  
+from: markdown+emoji
+---
+
+# Introduction {.sectionhead style="color:#222222"}
+
+```{r}
+source('functions.R')
+```
+
+## Producers
+
+:radio: DJ [Joan]{.red} Adebowale
+
+:musical_score: Lil [Marquesia]{.red} Atwater
+
+:microphone: MC [Tesa]{.red} Childs-Skelton
+
+:cd: Grand Master [Sorie]{.red} Dumbuya
+
+:speaker: Ol' Dirty [Marcus]{.red} Gibson
+
+## Tracklist {background-image="imgs/vinyl.jpg" background-size="cover"}
+
+::: {.column .li_item width="80%"}
+-   [Overview]{.red} -- Ol Dirty Marcus
+-   [Data Processing]{.red} -- MC Tesa
+-   [Machine Learning]{.red} -- Grandmaster Sorie
+-   [Discussion]{.red} -- DJ Joan feat. Lil Marquesia
+-   [Round of Applause]{.red} -- GT Bootcamp 2023 Cohort
+:::
+
+## Overview
+
+-   In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding by Brooklyn youth.
+
+-   Since then, it has become a billion dollar industry and [the most popular music genre in the US](https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!).
+
+## Challenge
+
+-   Using machine learning and lyrics retrieved via the Genius API to identify songs hip hop and RnB based on lyrics
+
+# Data Processing {.sectionhead style="color:#222222"}
+
+## Data Sources
+
+::: panel-tabset
+## Songs
+
+::: columns
+::: {.column width="50%"}
+[Scraped Wikipedia pages](analysis/rnb_wiki_scrapper.html) for Billboard's #1 Songs from 1989-2019 for:
+
+-   Country
+
+-   Hip hop
+
+-   RnB
+
+-   Rock
+:::
+
+::: {.column width="50%"}
+![](imgs/wiki.png){fig-align="center" width="100%"}
+:::
+:::
+
+## Lyrics
+
+::: columns
+::: {.column width="50%"}
+-   [Genius API using geniusr R package](analysis/genius_api.html)
+:::
+
+::: {.column width="50%"}
+![](imgs/Genius.jpeg){fig-align="center" width="320"}
+:::
+:::
+
+## Combined Data Frame
+
+```{r}
+#| output-location: column-fragment
+
+library(tidyverse)
+
+read_csv('data/lyr_df.csv') |> 
+    arrange(song) |> 
+    head(20)
+```
+:::
+
+## Natural Language Processing
+
+[**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
+
+```{r}
+library(tidytext)
+#| results: asis
+
+song_lyrics <- read_csv('data/lyr_df.csv')
+song_lyrics |> 
+  unnest_tokens(word, lyrics) |> 
+  anti_join(get_stopwords()) |> 
+  count(genre, word, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(word = reorder_within(word, n, genre)) |> 
+  ggplot(aes(n, word, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top words in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+
+
+song_lyrics |> 
+  unnest_tokens(trigram, lyrics, token = 'ngrams', n = 3) |> 
+  count(genre, trigram, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(trigram = reorder_within(trigram, n, genre)) |> 
+  ggplot(aes(n, trigram, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top trigrams in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+
+
+```
+
+```{r}
+
+genre_words <- song_lyrics |>
+    mutate(lyrics = lyrics |> str_replace("nigga, ", 'n****, '),
+           lyrics = lyrics |> str_replace("nigga", 'n****'),
+           lyrics = lyrics |> str_replace(" nigga ", ' n**** '),
+           lyrics = lyrics |> str_replace("niggas", 'n****')) |> 
+    unnest_tokens(word, lyrics)|>
+    add_count(genre, name = "total_words") |> 
+    group_by(genre, total_words) |> 
+    count(word, sort = TRUE) |> 
+    ungroup()
+
+genre_words_tf_idf <- genre_words |> 
+    select(-total_words) |>
+    bind_tf_idf(term = word, document = genre, n = n)
+    
+
+#song_words_tf_idf |> write_csv('../data/song_words_tf_idf.csv')
+
+genre_words_tf_idf |> 
+    arrange(desc(tf_idf)) |> 
+    head(10) |> 
+    ggplot(aes(x = tf_idf,
+               y = reorder(word, n), 
+               label = word, 
+               fill = genre)) +
+    geom_col() +
+    geom_label(fill = 'white')  +
+    # ylab('Song - Artist') +
+    xlab('TF-IDF Score')+
+   # theme_ipsum_ps()
+     theme_ben()+
+  scale_fill_manual(values = clrs) 
+
+genre_words_tf_idf |> 
+    # select(-song, -hip_hop_rnb,-genre) |> 
+    arrange(desc(tf_idf))  |> head(30) |> 
+    theme_table()
+```
+
+## Tokenization {style="color: #00bc8c"}
+
+-   [**TF-IDF**](analysis/tfidf.html) to determine which words in each song separates that song from others
+
+## Exploratory Data Analysis {.color: .#00bc8c}
+
+# Machine Learning {.sectionhead style="color:#222222"}
+
+## Principle Component Analysis (PCA) {style="color: #00bc8c"}
+
+-   Use neural networks models to classify songs based on TF-IDF scores
+
+## Naive Bayes Classification
+
+# Discussion {.sectionhead style="color:#222222"}

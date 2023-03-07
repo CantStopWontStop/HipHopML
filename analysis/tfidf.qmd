@@ -117,8 +117,6 @@ genre_bigrams <- lyr_df |>
     count(bigram, sort = TRUE) |> 
     ungroup()
 
-
-
 genre_trigrams <- lyr_df |> 
     unnest_tokens(trigram, lyrics, token = 'ngrams', n=3)|>
     add_count(genre, name = "total_trigrams") |> 
@@ -210,4 +208,19 @@ genre_words_tf_idf |>
 genre_words_tf_idf |> 
     arrange(desc(tf_idf))  |> head(30) |> 
     theme_table()
+```
+
+```{r}
+
+genre_words |> 
+    cast_dfm(genre,word,n)
+```
+
+```{r}
+song_matrix <- song_words |> 
+    cast_dfm(song,word,n)
+```
+
+```{r}
+song_matrix
 ```

@@ -34,6 +34,18 @@ all_songs <- read_csv('../data/all_songs.csv')|>
              sep="featuring ") |> 
     select(song, artist, hip_hop_rnb, genre) |> 
     drop_na() |> 
+    mutate(artist = case_when(
+        artist == "Beyoncé" ~'Beyonce',
+        artist == "Bow Wow" ~'Bow wow',
+        artist == "Cardi B" ~'Cardi b',
+        artist == "Jay Z" ~'Jay z',
+        artist == "Chris Brown" ~'Chris brown',
+        artist == "Kanye West" ~'Kanye west',
+        artist == "Mariah Carey" ~'Mariah carey',
+        artist == "Nelly " ~'Nelly',
+        artist == "Tony! Toni! Toné!" ~'Tony toni tone',
+        
+    ))
     group_by(song, artist) |> 
     slice(1) |> 
     ungroup()
@@ -80,7 +92,7 @@ lyr_df
 read_csv('../data/lyr_df.csv') |> 
     arrange(song) |> 
     head(50) |> 
-    theme_table()
+    theme_table_5()
 ```
 
 ```{r save-lyrics, eval=FALSE, include=FALSE}

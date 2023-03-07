@@ -1,0 +1,54 @@
+/*-- scss:defaults --*/
+@import url(https://fonts.googleapis.com/css?family=Knewave:500);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
+
+$body-bg: #222222;
+$body-color: #fff;
+$body-font: 16px;
+$link-color: #00bc8c;
+
+
+// headings
+$presentation-heading-font: "Knewave", sans-serif !default;
+$presentation-heading-color: #00bc8c !default;
+$presentation-h1-color: $body-color;
+$presentation-h2-font-color: white;
+$presentation-title-color: #ff3046 !default;
+/*-- scss:rules --*/
+.reveal .slide blockquote {
+  border-left: 3px solid $text-muted;
+  padding-left: 0.5em;
+}
+
+.sectionhead {
+  font-size: 1em;
+  text-align: center;
+  color: #222222;
+  font-family: $presentation-heading-font;
+  background-color: #ff3046;
+  margin: 1px;
+  padding: 2px 2px 2px 2px;
+  width: 120px;
+  border-left: 10px solid #ff3046;
+}
+
+
+
+.li_item {
+  background-color: #222222;
+  background-opacity: .2
+}
+
+.reveal h1 {
+    color: white;
+}
+
+.green {
+  color: #00bc8c;
+  font-weight: 900;
+}
+
+.red {
+  color: #ff3046;
+  font-weight: bold;
+}
