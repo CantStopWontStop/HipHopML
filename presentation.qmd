@@ -232,7 +232,7 @@ genre_words_tf_idf |>
 :::{.tabset}
 
 ### Model 1
-```{python eval=FALSE}
+```{python eval=FALSE, echo=TRUE}
 import pandas as pd
 import numpy as np
 
@@ -282,7 +282,7 @@ np.mean(predicted == test_df.genre)
 ```
 
 ### Model 2
-```{python eval=FALSE}
+```{python eval=FALSE,  echo=TRUE}
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfTransformer, TfidfVectorizer
@@ -302,7 +302,7 @@ np.mean(predicted == test_df.genre)
 ```
 
 ### Model 3
-```{python eval=FALSE}
+```{python eval=FALSE,  echo=TRUE}
 
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
@@ -346,6 +346,8 @@ np.mean(predicted == test_df.genre)
 
 
 # Discussion {.sectionhead}
+
+## Limitations
 
 -   Language -- Lexicons used in/for stopwords, lemmatization, stemming, etc. not based on AAVE.
 
