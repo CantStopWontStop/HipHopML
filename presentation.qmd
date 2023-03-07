@@ -1,7 +1,7 @@
 ---
 title: "HipHop ML"
 title-slide-attributes:
-    data-background-image: /imgs/hip-hop.png
+    data-background-image: imgs/hip-hop.png
     data-background-size: cover
     data-background-opacity: "0.5"
 author: "def jam()"
@@ -87,7 +87,6 @@ library(reticulate)
 ::: columns
 ::: {.column width="50%"}
 ![](imgs/rds.png){fig-align="center" width="100%"}
-
 :::
 
 ::: {.column width="50%"}
@@ -118,12 +117,8 @@ read_csv('data/lyr_df.csv') |>
     arrange(song) |> 
     head(20)
 ```
-
-
-
-
-
 :::
+
 ## Natural Language Processing
 
 [**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
@@ -225,13 +220,11 @@ genre_words_tf_idf |>
 
 ## Principle Component Analysis (PCA)
 
--   Use neural networks models to classify songs based on TF-IDF scores
-
 ## Naive Bayes Classification
 
 ::: panel-tabset
-
 ### Model 1
+
 ```{python eval=FALSE, echo=TRUE}
 import pandas as pd
 import numpy as np
@@ -282,6 +275,7 @@ np.mean(predicted == test_df.genre)
 ```
 
 ### Model 2
+
 ```{python eval=FALSE,  echo=TRUE}
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
@@ -302,6 +296,7 @@ np.mean(predicted == test_df.genre)
 ```
 
 ### Model 3
+
 ```{python eval=FALSE,  echo=TRUE}
 
 from sklearn.naive_bayes import MultinomialNB
@@ -338,12 +333,6 @@ predicted = text_clf.predict(test_df.lyrics)
 np.mean(predicted == test_df.genre)
 ```
 :::
-
-
-
-
-
-
 
 # Discussion {.sectionhead}
 
