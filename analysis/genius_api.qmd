@@ -34,9 +34,12 @@ all_songs <- read_csv('../data/all_songs.csv')|>
              sep="featuring ") |> 
     select(song, artist, hip_hop_rnb, genre) |> 
     drop_na() |> 
-    mutate(artist = case_when(
+    mutate(artist = artist |> str_trim('both'),
+           artist = case_when(
         artist == "Beyoncé" ~'Beyonce',
         artist == "Bow Wow" ~'Bow wow',
+        artist == "lil Bow Wow" ~'Bow wow',
+        artist == "lil' Bow Wow" ~'Bow wow',
         artist == "Cardi B" ~'Cardi b',
         artist == "Jay Z" ~'Jay z',
         artist == "Chris Brown" ~'Chris brown',
@@ -44,8 +47,9 @@ all_songs <- read_csv('../data/all_songs.csv')|>
         artist == "Mariah Carey" ~'Mariah carey',
         artist == "Nelly " ~'Nelly',
         artist == "Tony! Toni! Toné!" ~'Tony toni tone',
+        TRUE~artist
         
-    ))
+    )) |> 
     group_by(song, artist) |> 
     slice(1) |> 
     ungroup()
@@ -97,14 +101,14 @@ read_csv('../data/lyr_df.csv') |>
 
 ```{r save-lyrics, eval=FALSE, include=FALSE}
 
-# lyr_df |>
-#     drop_na() |>
-#     write_csv('../data/lyr_df.csv')
-#     # write_tsv('../data/lyr_df.tsv')
-# 
-# 
-# lyr_df |>
-#     filter(is.na(lyrics)) |>
-#     # write_csv('../data/missing_lyr_df.csv')
-#     write_csv('../data/missing_lyr_df.tsv')
+lyr_df |>
+    drop_na() |>
+    write_csv('../data/lyr_df.csv')
+    # write_tsv('../data/lyr_df.tsv')
+
+
+lyr_df |>
+    filter(is.na(lyrics)) |>
+    write_csv('../data/missing_lyr_df.csv')
+    # write_csv('../data/missing_lyr_df.tsv')
 ```

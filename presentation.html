@@ -318,22 +318,12 @@
       margin-right: 0; 
     }
   </style>
-  
-  <script src="presentation_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-  <link href="presentation_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-  <script src="presentation_files/libs/datatables-binding-0.25/datatables.js"></script>
-  <script src="presentation_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="presentation_files/libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
-  <link href="presentation_files/libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
-  <script src="presentation_files/libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
-  <link href="presentation_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-  <script src="presentation_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 </head>
 <body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="/imgs/hip-hop.png" data-background-opacity="0.5" data-background-position="bottom" data-background-size="cover" class="center">
+<section id="title-slide" data-background-image="/imgs/hip-hop.png" data-background-opacity="0.5" data-background-size="cover" class="center">
   <h1 class="title">HipHop ML</h1>
   <p class="author">def jam()</p>
   <p class="date">Mar 7, 2023</p>
@@ -387,7 +377,7 @@
 <section id="data-sources" class="slide level2">
 <h2>Data Sources</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Songs</a></li><li><a href="#tabset-1-2">Lyrics</a></li><li><a href="#tabset-1-3">Combined Data Frame</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Songs</a></li><li><a href="#tabset-1-2">Database</a></li><li><a href="#tabset-1-3">Lyrics</a></li><li><a href="#tabset-1-4">Combined DF</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="columns">
@@ -411,6 +401,23 @@
 <div id="tabset-1-2">
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="imgs/rds.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="imgs/table.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
 <li><a href="analysis/genius_api.html">Genius API using geniusr R package</a></li>
 </ul>
@@ -423,32 +430,32 @@
 </div>
 </div>
 </div>
-<div id="tabset-1-3">
+<div id="tabset-1-4">
 <div class="cell" data-output-location="column-fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 5
-   song                                           artist    hip_h…¹ genre lyrics
-   &lt;chr&gt;                                          &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
- 1 (if you're not in it for love) i'm outta here! Shania T…       0 Coun… "thre…
- 2 (this ain't) no thinkin' thing                 Trace Ad…       0 Coun… "i be…
- 3 1 thing                                        Amerie          1 Hip … "woo!…
- 4 1000hp                                         Godsmack        0 Coun… "time…
- 5 16                                             Highly S…       0 Coun… "it t…
- 6 19 somethin'                                   Mark Wil…       0 Coun… "woo …
- 7 911 is a joke                                  Public E…       1 Hip … "hit …
- 8 a better man                                   Clint Bl…       0 Coun… "what…
- 9 a broken wing                                  Martina …       0 Coun… "she …
-10 a good run of bad luck                         Clint Bl…       0 Coun… "a hi…
-11 a guy walks into a bar                         Tyler Fa…       0 Coun… "the …
-12 a guy with a girl                              Blake Sh…       0 Coun… "some…
-13 a jukebox with a country song                  Doug Sto…       0 Coun… "afte…
-14 a little bit stronger                          Sara Eva…       0 Coun… "woke…
-15 a little more country than that                Easton C…       0 Coun… "imag…
-16 a man this lonely                              Brooks &amp;…       0 Coun… "a ma…
-17 a reason to fight                              Disturbed       0 Coun… "the …
-18 a song for mama                                Boyz II …       1 Hip … "you …
-19 a woman in love                                Ronnie M…       0 Coun… "no m…
-20 above and beyond                               Rodney C…       0 Coun… "well…
+   song                                           artist    hip_h…¹ lyrics genre
+   &lt;chr&gt;                                          &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1 (If You're Not in It for Love) I'm Outta Here! Shania T…       0 "Thre… Coun…
+ 2 (This Ain't) No Thinkin' Thing                 Trace Ad…       0 "I be… Coun…
+ 3 1000hp                                         Godsmack        0 "Time… Coun…
+ 4 16                                             Highly S…       0 "It t… Coun…
+ 5 21 Questions                                   50 Cent         1 "New … Hip …
+ 6 911 Is a Joke                                  Public E…       1 "Hit … Hip …
+ 7 A Better Man                                   Clint Bl…       0 "What… Coun…
+ 8 A Broken Wing                                  Martina …       0 "She … Coun…
+ 9 A Good Run of Bad Luck                         Clint Bl…       0 "A hi… Coun…
+10 A Guy Walks Into a Bar                         Tyler Fa…       0 "The … Coun…
+11 A Guy with a Girl                              Blake Sh…       0 "Some… Coun…
+12 A Jukebox with a Country Song                  Doug Sto…       0 "Afte… Coun…
+13 A Little Bit Stronger                          Sara Eva…       0 "Woke… Coun…
+14 A Little More Country Than That                Easton C…       0 "Imag… Coun…
+15 A Man This Lonely                              Brooks &amp;…       0 "A ma… Coun…
+16 A Milli                                        Lil Wayne       1 "Bang… Hip …
+17 A Real Fine Place to Start                     Sara Eva…       0 "I'm … Coun…
+18 A Reason to Fight                              Disturbed       0 "The … Coun…
+19 A Song for Mama                                Boyz II …       1 "You … Hip …
+20 A Woman in Love                                Ronnie M…       0 "No m… Coun…
 # … with abbreviated variable name ¹​hip_hop_rnb</code></pre>
 </div>
 </div>
@@ -468,31 +475,24 @@
 </div>
 </div>
 <div class="cell">
-<div class="cell-output-display">
-<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
-</div>
-<div class="cell-output-display">
 
-<div id="htmlwidget-174ea006cd82e95f4d17" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-174ea006cd82e95f4d17">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"],["Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Country / Rock","Country / Rock","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Country / Rock","Hip Hop / R&amp;B","Hip Hop / R&amp;B","Country / Rock","Hip Hop / R&amp;B","Country / Rock","Hip Hop / R&amp;B","Hip Hop / R&amp;B"],["ayy","yo","niggas","nigga","whiskey","beer","rap","hol","wit","ba","soulja","shoo","rockstar","clap","humpty","shoop","whoomp","yuu","hump","ti","옵","panda","rats","lemme","projects","california","doop","bones","hee","yippie"],[204,184,117,108,91,88,61,60,57,56,55,54,52,49,47,46,46,45,42,41,40,39,48,37,36,44,35,43,34,34],[0.00105218638140725,0.000949030853818302,0.000603459836395333,0.000557039848980308,0.000379073477770048,0.000366576549931475,0.000314624359146285,0.000309466582766838,0.000293993253628496,0.000288835477249048,0.000283677700869601,0.000278519924490154,0.000268204371731259,0.000252731042592917,0.000242415489834023,0.000237257713454575,0.000237257713454575,0.000232099937075128,0.000216626607936786,0.000211468831557339,0.000206311055177892,0.000201153278798444,0.000199950845417168,0.00019083772603955,0.000185679949660103,0.000183288274965738,0.000180522173280655,0.00017912263235288,0.000175364396901208,0.000175364396901208],[0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945],[0.000729320023696005,0.000657818060588553,0.000418286484178591,0.000386110600780238,0.000262753712341362,0.000254091502044394,0.000218080987477727,0.000214505889322354,0.000203780594856237,0.000200205496700864,0.000196630398545492,0.000193055300390119,0.000185905104079374,0.000175179809613256,0.000168029613302511,0.000164454515147138,0.000164454515147138,0.000160879416991766,0.000150154122525648,0.000146579024370275,0.000143003926214903,0.00013942882805953,0.000138595364751488,0.000132278631748785,0.000128703533593413,0.000127045751022197,0.00012512843543804,0.000124158347589874,0.000121553337282668,0.000121553337282668]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genre<\/th>\n      <th>word<\/th>\n      <th>n<\/th>\n      <th>tf<\/th>\n      <th>idf<\/th>\n      <th>tf_idf<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","initComplete":"function(settings, json) {\n$(this.api().table().header()).css({ 'color': '#00bc8c'});\n}","columnDefs":[{"targets":4,"render":"function(data, type, row, meta) {\nreturn type === 'display' && data.length > 6 ?\n'<span title=\"' + data + '\">' + data.substr(0, 64) + '...<\/span>' : data;\n}"},{"targets":0,"visible":false},{"className":"dt-right","targets":[3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'color':'#ffffff','background-color':'#222222'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'color':'#ffffff','background-color':'#222222'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'color':'#ffffff','background-color':'#222222'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'color':'#ffffff','background-color':'#222222'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'color':'#ffffff','background-color':'#222222'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'color':'#ffffff','background-color':'#222222'});\n}"}},"evals":["options.initComplete","options.columnDefs.0.render","options.rowCallback"],"jsHooks":[]}</script>
-</div>
 </div>
 </section>
-<section id="tokenization" class="slide level2" style="color: #00bc8c">
+<section id="tokenization" class="slide level2">
 <h2>Tokenization</h2>
 <ul>
 <li><a href="analysis/tfidf.html"><strong>TF-IDF</strong></a> to determine which words in each song separates that song from others</li>
 </ul>
 </section>
-<section id="exploratory-data-analysis-.color-.00bc8c" class="slide level2">
-<h2>Exploratory Data Analysis {.color: .#00bc8c}</h2>
+<section id="exploratory-data-analysis" class="slide level2">
+<h2>Exploratory Data Analysis</h2>
 </section></section>
 <section>
-<section id="machine-learning" class="title-slide slide level1 sectionhead center" style="color:#222222">
+<section id="machine-learning" class="title-slide slide level1 sectionhead center">
 <h1>Machine Learning</h1>
 
 </section>
-<section id="principle-component-analysis-pca" class="slide level2" style="color: #00bc8c">
+<section id="principle-component-analysis-pca" class="slide level2">
 <h2>Principle Component Analysis (PCA)</h2>
 <ul>
 <li>Use neural networks models to classify songs based on TF-IDF scores</li>
@@ -500,9 +500,28 @@
 </section>
 <section id="naive-bayes-classification" class="slide level2">
 <h2>Naive Bayes Classification</h2>
+<div class="tabset">
+<h3 id="model-1">Model 1</h3>
+<div class="cell">
+
+</div>
+<h3 id="model-2">Model 2</h3>
+<div class="cell">
+
+</div>
+<h3 id="model-3">Model 3</h3>
+<div class="cell">
+
+</div>
+</div>
 </section></section>
-<section id="discussion" class="title-slide slide level1 sectionhead center" style="color:#222222">
+<section id="discussion" class="title-slide slide level1 sectionhead center">
 <h1>Discussion</h1>
+<ul>
+<li><p>Language – Lexicons used in/for stopwords, lemmatization, stemming, etc. not based on AAVE.</p></li>
+<li><p>Context – Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.</p></li>
+<li><p>Stopwords, non-stop – Between ad-libs and harmonizing, a lot of lyrics add no meaning.</p></li>
+</ul>
 <div class="footer footer-default">
 
 </div>

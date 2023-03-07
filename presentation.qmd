@@ -4,7 +4,6 @@ title-slide-attributes:
     data-background-image: /imgs/hip-hop.png
     data-background-size: cover
     data-background-opacity: "0.5"
-    data-background-position: bottom
 author: "def jam()"
 date: 'Mar 7, 2023'
 format: 
@@ -23,6 +22,7 @@ from: markdown+emoji
 
 ```{r}
 source('functions.R')
+library(reticulate)
 ```
 
 ## Producers
@@ -82,6 +82,19 @@ source('functions.R')
 :::
 :::
 
+## Database
+
+::: columns
+::: {.column width="50%"}
+![](imgs/rds.png){fig-align="center" width="100%"}
+
+:::
+
+::: {.column width="50%"}
+![](imgs/table.png){fig-align="center" width="100%"}
+:::
+:::
+
 ## Lyrics
 
 ::: columns
@@ -94,7 +107,7 @@ source('functions.R')
 :::
 :::
 
-## Combined Data Frame
+## Combined DF
 
 ```{r}
 #| output-location: column-fragment
@@ -105,8 +118,12 @@ read_csv('data/lyr_df.csv') |>
     arrange(song) |> 
     head(20)
 ```
-:::
 
+
+
+
+
+:::
 ## Natural Language Processing
 
 [**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
@@ -160,13 +177,10 @@ song_lyrics |>
 
 ```
 
-```{r}
+```{r eval=FALSE}
 
 genre_words <- song_lyrics |>
-    mutate(lyrics = lyrics |> str_replace("nigga, ", 'n****, '),
-           lyrics = lyrics |> str_replace("nigga", 'n****'),
-           lyrics = lyrics |> str_replace(" nigga ", ' n**** '),
-           lyrics = lyrics |> str_replace("niggas", 'n****')) |> 
+    mutate(lyrics = lyrics |> str_replace("nigga", 'nxxxx')) |>
     unnest_tokens(word, lyrics)|>
     add_count(genre, name = "total_words") |> 
     group_by(genre, total_words) |> 
@@ -201,18 +215,140 @@ genre_words_tf_idf |>
     theme_table()
 ```
 
-## Tokenization {style="color: #00bc8c"}
+## Tokenization
 
 -   [**TF-IDF**](analysis/tfidf.html) to determine which words in each song separates that song from others
 
-## Exploratory Data Analysis {.color: .#00bc8c}
+## Exploratory Data Analysis
 
-# Machine Learning {.sectionhead style="color:#222222"}
+# Machine Learning {.sectionhead}
 
-## Principle Component Analysis (PCA) {style="color: #00bc8c"}
+## Principle Component Analysis (PCA)
 
 -   Use neural networks models to classify songs based on TF-IDF scores
 
 ## Naive Bayes Classification
 
-# Discussion {.sectionhead style="color:#222222"}
+:::{.tabset}
+
+### Model 1
+```{python eval=FALSE}
+import pandas as pd
+import numpy as np
+
+song_lyrics = pd.read_csv('data/lyr_df.csv')
+song_lyrics.head(10)
+
+from sklearn.utils import shuffle
+from nltk.corpus import stopwords
+
+genres = [
+    'Country / Rock','Hip Hop / R&B'
+]
+genres
+
+LYRIC_LEN = 400 # each song has to be > 400 characters
+N = 300 # number of records to pull from each genre
+RANDOM_SEED = 200 # random seed to make results repeatable
+
+train_df = pd.DataFrame()
+test_df = pd.DataFrame()
+for genre in genres: # loop over each genre
+    subset = song_lyrics[ # create a subset 
+        (song_lyrics.genre==genre) & 
+        (song_lyrics.lyrics.str.len() > LYRIC_LEN)
+    ]
+    train_set = subset.sample(n=N, random_state=RANDOM_SEED)
+    test_set = subset.drop(train_set.index)
+    train_df = train_df.append(train_set) # append subsets to the master sets
+    test_df = test_df.append(test_set)
+    
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+
+# define our model
+text_clf = Pipeline(
+    [('vect', CountVectorizer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+
+```
+
+### Model 2
+```{python eval=FALSE}
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfTransformer, TfidfVectorizer
+
+# define our model
+text_clf = Pipeline(
+    [('vect', TfidfVectorizer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+
+```
+
+### Model 3
+```{python eval=FALSE}
+
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from nltk import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+stop = list(set(stopwords.words('english'))) # stopwords
+wnl = WordNetLemmatizer() # lemmatizer
+
+def tokenizer(x): # custom tokenizer
+    return (
+        wnl.lemmatize(w) 
+        for w in word_tokenize(x) 
+        if len(w) > 2 and w.isalnum() # only words that are > 2 characters
+    )                                 # and is alpha-numeric
+
+# define our model
+text_clf = Pipeline(
+    [('vect', TfidfVectorizer(
+        ngram_range=(1, 2), # include bigrams
+        tokenizer=tokenizer,
+        stop_words=stop,
+        max_df=0.4, # ignore terms that appear in more than 40% of documents
+        min_df=4)), # ignore terms that appear in less than 4 documents
+     ('tfidf', TfidfTransformer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+```
+:::
+
+
+
+
+
+
+
+# Discussion {.sectionhead}
+
+-   Language -- Lexicons used in/for stopwords, lemmatization, stemming, etc. not based on AAVE.
+
+-   Context -- Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.
+
+-   Stopwords, non-stop -- Between ad-libs and harmonizing, a lot of lyrics add no meaning.
