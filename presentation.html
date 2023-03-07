@@ -564,8 +564,10 @@
 </section>
 <section id="naive-bayes-classification" class="slide level2">
 <h2>Naive Bayes Classification</h2>
-<div class="tabset">
-<h3 id="model-1">Model 1</h3>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Model 1</a></li><li><a href="#tabset-2-2">Model 2</a></li><li><a href="#tabset-2-3">Model 3</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -613,7 +615,8 @@
 <span id="cb2-44"><a href="#cb2-44"></a>predicted <span class="op">=</span> text_clf.predict(test_df.lyrics)</span>
 <span id="cb2-45"><a href="#cb2-45"></a>np.mean(predicted <span class="op">==</span> test_df.genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<h3 id="model-2">Model 2</h3>
+</div>
+<div id="tabset-2-2">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -631,7 +634,8 @@
 <span id="cb3-14"><a href="#cb3-14"></a>predicted <span class="op">=</span> text_clf.predict(test_df.lyrics)</span>
 <span id="cb3-15"><a href="#cb3-15"></a>np.mean(predicted <span class="op">==</span> test_df.genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<h3 id="model-3">Model 3</h3>
+</div>
+<div id="tabset-2-3">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -665,6 +669,8 @@
 <span id="cb4-30"><a href="#cb4-30"></a><span class="co"># score our model on testing data</span></span>
 <span id="cb4-31"><a href="#cb4-31"></a>predicted <span class="op">=</span> text_clf.predict(test_df.lyrics)</span>
 <span id="cb4-32"><a href="#cb4-32"></a>np.mean(predicted <span class="op">==</span> test_df.genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 </div>
 </section></section>

@@ -229,7 +229,7 @@ genre_words_tf_idf |>
 
 ## Naive Bayes Classification
 
-:::{.tabset}
+::: panel-tabset
 
 ### Model 1
 ```{python eval=FALSE, echo=TRUE}
