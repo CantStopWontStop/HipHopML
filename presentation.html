@@ -400,8 +400,8 @@
 
 </div>
 </section>
-<section id="producers" class="slide level2">
-<h2>Producers</h2>
+<section id="artists-producers" class="slide level2">
+<h2>Artists / Producers</h2>
 <p><span class="emoji" data-emoji="radio">📻</span> DJ <span class="red">Joan</span> Adebowale</p>
 <p><span class="emoji" data-emoji="musical_score">🎼</span> Lil <span class="red">Marquesia</span> Atwater</p>
 <p><span class="emoji" data-emoji="microphone">🎤</span> MC <span class="red">Tesa</span> Childs-Skelton</p>
@@ -414,8 +414,8 @@
 <ul>
 <li><span class="red">Overview</span> – Ol Dirty Marcus</li>
 <li><span class="red">Data Processing</span> – MC Tesa</li>
-<li><span class="red">Machine Learning</span> – Grandmaster Sorie</li>
-<li><span class="red">Discussion</span> – DJ Joan feat. Lil Marquesia</li>
+<li><span class="red">Machine Learning</span> – DJ Joan feat. Grandmaster Sorie</li>
+<li><span class="red">Discussion</span> – Lil Marquesia</li>
 <li><span class="red">Round of Applause</span> – GT Bootcamp 2023 Cohort</li>
 </ul>
 </div>
@@ -423,8 +423,8 @@
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
 <ul>
-<li><p>In 2023, Hip hop will celebrate <a href="https://the50thanniversaryofhip-hop.com/" target="_blank">the 50th anniversary</a> of its founding by Brooklyn youth.</p></li>
-<li><p>Since then, it has become a billion dollar industry and <a href="https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!">the most popular music genre in the US</a>.</p></li>
+<li><p>In 2023, Hip hop will celebrate <a href="https://the50thanniversaryofhip-hop.com/" target="_blank">the 50th anniversary</a> of its founding.</p></li>
+<li><p>Originated in the West Bronx, it has become a billion dollar industry and <a href="https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!">the most popular music genre in the US</a>.</p></li>
 </ul>
 </section>
 <section id="challenge" class="slide level2">
@@ -538,18 +538,6 @@
 <p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-3-2.png" width="960"></p>
 </div>
 </div>
-<div class="cell">
-
-</div>
-</section>
-<section id="tokenization" class="slide level2">
-<h2>Tokenization</h2>
-<ul>
-<li><a href="analysis/tfidf.html"><strong>TF-IDF</strong></a> to determine which words in each song separates that song from others</li>
-</ul>
-</section>
-<section id="exploratory-data-analysis" class="slide level2">
-<h2>Exploratory Data Analysis</h2>
 </section></section>
 <section>
 <section id="machine-learning" class="title-slide slide level1 sectionhead center">
@@ -558,13 +546,23 @@
 </section>
 <section id="principle-component-analysis-pca" class="slide level2">
 <h2>Principle Component Analysis (PCA)</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Data Prep</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<p><img data-src="imgs/prep.png" data-fig-align="center" width="320"> ### Results <img data-src="imgs/analysis%201.png" data-fig-align="center" width="320"> ### Results <img data-src="imgs/analysis%202.png" data-fig-align="center" width="320"></p>
+</div>
+</div>
+</div>
 </section>
 <section id="naive-bayes-classification" class="slide level2">
 <h2>Naive Bayes Classification</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Model 1</a></li><li><a href="#tabset-2-2">Model 2</a></li><li><a href="#tabset-2-3">Model 3</a></li></ul>
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Model 1</a></li><li><a href="#tabset-3-2">Model 2</a></li><li><a href="#tabset-3-3">Model 3</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1">
+<div id="tabset-3-1">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -613,7 +611,7 @@
 <span id="cb2-45"><a href="#cb2-45"></a>np.mean(predicted <span class="op">==</span> test_df.genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-2-2">
+<div id="tabset-3-2">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -632,7 +630,7 @@
 <span id="cb3-15"><a href="#cb3-15"></a>np.mean(predicted <span class="op">==</span> test_df.genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-2-3">
+<div id="tabset-3-3">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -670,6 +668,35 @@
 </div>
 </div>
 </div>
+</div><div class="column" style="width:30%;">
+<table style="width:25%;">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Results</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0.90252</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0.91038</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0.83334</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section></section>
 <section>
 <section id="discussion" class="title-slide slide level1 sectionhead center">
@@ -679,7 +706,7 @@
 <section id="limitations" class="slide level2">
 <h2>Limitations</h2>
 <ul>
-<li><p>Language – Lexicons used in/for stopwords, lemmatization, stemming, etc. not based on AAVE.</p></li>
+<li><p>Language – Lexicons used in/for lemmatization &amp; stemming</p></li>
 <li><p>Context – Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.</p></li>
 <li><p>Stopwords, non-stop – Between ad-libs and harmonizing, a lot of lyrics add no meaning.</p></li>
 </ul>

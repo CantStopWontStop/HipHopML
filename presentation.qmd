@@ -25,7 +25,7 @@ source('functions.R')
 library(reticulate)
 ```
 
-## Producers
+## Artists / Producers
 
 :radio: DJ [Joan]{.red} Adebowale
 
@@ -42,16 +42,16 @@ library(reticulate)
 ::: {.column .li_item width="80%"}
 -   [Overview]{.red} -- Ol Dirty Marcus
 -   [Data Processing]{.red} -- MC Tesa
--   [Machine Learning]{.red} -- Grandmaster Sorie
--   [Discussion]{.red} -- DJ Joan feat. Lil Marquesia
+-   [Machine Learning]{.red} -- DJ Joan feat. Grandmaster Sorie
+-   [Discussion]{.red} -- Lil Marquesia
 -   [Round of Applause]{.red} -- GT Bootcamp 2023 Cohort
 :::
 
 ## Overview
 
--   In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding by Brooklyn youth.
+-   In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding.
 
--   Since then, it has become a billion dollar industry and [the most popular music genre in the US](https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!).
+-   Originated in the West Bronx, it has become a billion dollar industry and [the most popular music genre in the US](https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!).
 
 ## Challenge
 
@@ -172,56 +172,20 @@ song_lyrics |>
 
 ```
 
-```{r eval=FALSE}
-
-genre_words <- song_lyrics |>
-    mutate(lyrics = lyrics |> str_replace("nigga", 'nxxxx')) |>
-    unnest_tokens(word, lyrics)|>
-    add_count(genre, name = "total_words") |> 
-    group_by(genre, total_words) |> 
-    count(word, sort = TRUE) |> 
-    ungroup()
-
-genre_words_tf_idf <- genre_words |> 
-    select(-total_words) |>
-    bind_tf_idf(term = word, document = genre, n = n)
-    
-
-#song_words_tf_idf |> write_csv('../data/song_words_tf_idf.csv')
-
-genre_words_tf_idf |> 
-    arrange(desc(tf_idf)) |> 
-    head(10) |> 
-    ggplot(aes(x = tf_idf,
-               y = reorder(word, n), 
-               label = word, 
-               fill = genre)) +
-    geom_col() +
-    geom_label(fill = 'white')  +
-    # ylab('Song - Artist') +
-    xlab('TF-IDF Score')+
-   # theme_ipsum_ps()
-     theme_ben()+
-  scale_fill_manual(values = clrs) 
-
-genre_words_tf_idf |> 
-    # select(-song, -hip_hop_rnb,-genre) |> 
-    arrange(desc(tf_idf))  |> head(30) |> 
-    theme_table()
-```
-
-## Tokenization
-
--   [**TF-IDF**](analysis/tfidf.html) to determine which words in each song separates that song from others
-
-## Exploratory Data Analysis
-
 # Machine Learning {.sectionhead}
 
 ## Principle Component Analysis (PCA)
 
+::: panel-tabset
+### Data Prep
+
+![](imgs/prep.png){fig-align="center" width="320"} \### Results ![](imgs/analysis%201.png){fig-align="center" width="320"} \### Results ![](imgs/analysis%202.png){fig-align="center" width="320"}
+:::
+
 ## Naive Bayes Classification
 
+::: columns
+::: {.column width="70%"}
 ::: panel-tabset
 ### Model 1
 
@@ -333,12 +297,26 @@ predicted = text_clf.predict(test_df.lyrics)
 np.mean(predicted == test_df.genre)
 ```
 :::
+:::
+
+::: {.column width="30%"}
++-------+---------+
+| Model | Results |
++=======+=========+
+| 1     | 0.90252 |
++-------+---------+
+| 2     | 0.91038 |
++-------+---------+
+| 3     | 0.83334 |
++-------+---------+
+:::
+:::
 
 # Discussion {.sectionhead}
 
 ## Limitations
 
--   Language -- Lexicons used in/for stopwords, lemmatization, stemming, etc. not based on AAVE.
+-   Language -- Lexicons used in/for lemmatization & stemming
 
 -   Context -- Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.
 
