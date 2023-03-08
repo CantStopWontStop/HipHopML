@@ -13,7 +13,7 @@ format:
 execute: 
   echo: false
   warning: false
-  freeze: true
+  freeze: auto
   
 from: markdown+emoji
 ---
@@ -48,10 +48,20 @@ library(reticulate)
 :::
 
 ## Overview
+::: columns
+::: {.column width="50%"}
+* In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding.
 
--   In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding.
+* Originated in the West Bronx, it has become a billion dollar industry and the most popular music genre in the US.
+:::
+::: {.column width="50%"}
 
--   Originated in the West Bronx, it has become a billion dollar industry and [the most popular music genre in the US](https://www.billboard.com/music/music-news/billboard-explains-rb-hip-hop-biggest-genre-9613422/#!).
+```{=html}
+<iframe width="780" height="500" src="https://the50thanniversaryofhip-hop.com/" title="50th Anniversary"></iframe>
+```
+:::
+:::
+
 
 ## Challenge
 
@@ -66,7 +76,7 @@ library(reticulate)
 
 ::: columns
 ::: {.column width="50%"}
-[Scraped Wikipedia pages](analysis/rnb_wiki_scrapper.html) for Billboard's #1 Songs from 1989-2019 for:
+Scraped Wikipedia pages for Billboard's #1 Songs from 1989-2019 for:
 
 -   Country
 
@@ -78,7 +88,7 @@ library(reticulate)
 :::
 
 ::: {.column width="50%"}
-![](imgs/wiki.png){fig-align="center" width="100%"}
+![](imgs/wiki.png){fig-align="center"}
 :::
 :::
 
@@ -179,7 +189,15 @@ song_lyrics |>
 ::: panel-tabset
 ### Data Prep
 
-![](imgs/prep.png){fig-align="center" width="320"} \### Results ![](imgs/analysis%201.png){fig-align="center" width="320"} \### Results ![](imgs/analysis%202.png){fig-align="center" width="320"}
+![](imgs/prep.png){fig-align="center"} 
+
+### Results1 
+
+![](imgs/analysis%201.png){fig-align="center"} 
+
+### Results2 
+
+![](imgs/analysis%202.png){fig-align="center"}
 :::
 
 ## Naive Bayes Classification

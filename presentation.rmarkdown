@@ -1,0 +1,447 @@
+---
+title: "HipHop ML"
+title-slide-attributes:
+    data-background-image: imgs/hip-hop.png
+    data-background-size: cover
+    data-background-opacity: "0.5"
+author: "def jam()"
+date: 'Mar 7, 2023'
+format: 
+    revealjs:
+        theme: [dark, custom.scss]
+        toc: false
+execute: 
+  echo: false
+  warning: false
+  freeze: auto
+  
+from: markdown+emoji
+---
+
+
+# Introduction {.sectionhead style="color:#222222"}
+
+
+```{r}
+source('functions.R')
+library(reticulate)
+```
+
+
+## Artists / Producers
+
+:radio: DJ [Joan]{.red} Adebowale
+
+:musical_score: Lil [Marquesia]{.red} Atwater
+
+:microphone: MC [Tesa]{.red} Childs-Skelton
+
+:cd: Grand Master [Sorie]{.red} Dumbuya
+
+:speaker: Ol' Dirty [Marcus]{.red} Gibson
+
+## Tracklist {background-image="imgs/vinyl.jpg" background-size="cover"}
+
+::: {.column .li_item width="80%"}
+-   [Overview]{.red} -- Ol Dirty Marcus
+-   [Data Processing]{.red} -- MC Tesa
+-   [Machine Learning]{.red} -- DJ Joan feat. Grandmaster Sorie
+-   [Discussion]{.red} -- Lil Marquesia
+-   [Round of Applause]{.red} -- GT Bootcamp 2023 Cohort
+:::
+
+## Overview
+::: columns
+::: {.column width="50%"}
+* In 2023, Hip hop will celebrate [the 50th anniversary](https://the50thanniversaryofhip-hop.com/){target="_blank"} of its founding.
+
+* Originated in the West Bronx, it has become a billion dollar industry and the most popular music genre in the US.
+:::
+::: {.column width="50%"}
+
+
+```{=html}
+<iframe width="780" height="500" src="https://the50thanniversaryofhip-hop.com/" title="50th Anniversary"></iframe>
+```
+
+:::
+:::
+
+
+## Challenge
+
+-  Using machine learning methods and lyrics retrieved via the Genius API, we’re identifying whether a song is considered hip hop and R&B  based on the lyrics.
+
+# Data Processing {.sectionhead style="color:#222222"}
+
+## Data Sources
+
+::: panel-tabset
+## Songs
+
+::: columns
+::: {.column width="50%"}
+Scraped Wikipedia pages for Billboard's #1 Songs from 1989-2019 for:
+
+-   Country
+
+-   Hip hop
+
+-   RnB
+
+-   Rock
+:::
+
+::: {.column width="50%"}
+![](imgs/wiki.png){fig-align="center"}
+:::
+:::
+
+## Database
+
+::: columns
+::: {.column width="50%"}
+![](imgs/rds.png){fig-align="center" width="100%"}
+:::
+
+::: {.column width="50%"}
+![](imgs/table.png){fig-align="center" width="100%"}
+:::
+:::
+
+## Lyrics
+
+::: columns
+::: {.column width="50%"}
+-   [Genius API using geniusr R package](analysis/genius_api.html)
+:::
+
+::: {.column width="50%"}
+![](imgs/Genius.jpeg){fig-align="center" width="320"}
+:::
+:::
+
+## Combined DF
+
+
+```{r}
+#| output-location: column-fragment
+
+library(tidyverse)
+
+read_csv('data/lyr_df.csv') |> 
+    arrange(song) |> 
+    head(20)
+```
+
+:::
+
+## Natural Language Processing
+
+[**Text mining**](analysis/text_mining.html) to clean and organize the lyrics into analyzable data
+
+
+```{r}
+library(tidytext)
+#| results: asis
+
+song_lyrics <- read_csv('data/lyr_df.csv')
+song_lyrics |> 
+  unnest_tokens(word, lyrics) |> 
+  anti_join(get_stopwords()) |> 
+  count(genre, word, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(word = reorder_within(word, n, genre)) |> 
+  ggplot(aes(n, word, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top words in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+
+
+song_lyrics |> 
+  unnest_tokens(trigram, lyrics, token = 'ngrams', n = 3) |> 
+  count(genre, trigram, sort = TRUE) |> 
+  group_by(genre) |> 
+  slice_max(n, n = 15) |> 
+  ungroup() |> 
+  mutate(trigram = reorder_within(trigram, n, genre)) |> 
+  ggplot(aes(n, trigram, fill = genre)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+    
+    scale_fill_manual(values = clrs)+
+  facet_wrap(~genre, scales = "free") +
+  labs(
+    x = "Word frequency", y = NULL,
+    title = "Top trigrams in song lyrics by frequency",
+    subtitle = "After removing stop words"
+  ) +
+    theme_ben()
+
+
+```
+
+
+# Machine Learning {.sectionhead}
+
+## Principle Component Analysis (PCA)
+
+::: panel-tabset
+### Data Prep
+
+![](imgs/prep.png){fig-align="center"} 
+
+### Results1 
+
+![](imgs/analysis%201.png){fig-align="center"} 
+
+### Results2 
+
+![](imgs/analysis%202.png){fig-align="center"}
+:::
+
+## Naive Bayes Classification
+
+::: columns
+::: {.column width="70%"}
+::: panel-tabset
+### Model 1
+
+
+```{python eval=FALSE, echo=TRUE}
+import pandas as pd
+import numpy as np
+
+song_lyrics = pd.read_csv('data/lyr_df.csv')
+song_lyrics.head(10)
+
+from sklearn.utils import shuffle
+from nltk.corpus import stopwords
+
+genres = [
+    'Country / Rock','Hip Hop / R&B'
+]
+genres
+
+LYRIC_LEN = 400 # each song has to be > 400 characters
+N = 300 # number of records to pull from each genre
+RANDOM_SEED = 200 # random seed to make results repeatable
+
+train_df = pd.DataFrame()
+test_df = pd.DataFrame()
+for genre in genres: # loop over each genre
+    subset = song_lyrics[ # create a subset 
+        (song_lyrics.genre==genre) & 
+        (song_lyrics.lyrics.str.len() > LYRIC_LEN)
+    ]
+    train_set = subset.sample(n=N, random_state=RANDOM_SEED)
+    test_set = subset.drop(train_set.index)
+    train_df = train_df.append(train_set) # append subsets to the master sets
+    test_df = test_df.append(test_set)
+    
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+
+# define our model
+text_clf = Pipeline(
+    [('vect', CountVectorizer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+
+```
+
+
+### Model 2
+
+
+```{python eval=FALSE,  echo=TRUE}
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfTransformer, TfidfVectorizer
+
+# define our model
+text_clf = Pipeline(
+    [('vect', TfidfVectorizer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+
+```
+
+
+### Model 3
+
+
+```{python eval=FALSE,  echo=TRUE}
+
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from nltk import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+stop = list(set(stopwords.words('english'))) # stopwords
+wnl = WordNetLemmatizer() # lemmatizer
+
+def tokenizer(x): # custom tokenizer
+    return (
+        wnl.lemmatize(w) 
+        for w in word_tokenize(x) 
+        if len(w) > 2 and w.isalnum() # only words that are > 2 characters
+    )                                 # and is alpha-numeric
+
+# define our model
+text_clf = Pipeline(
+    [('vect', TfidfVectorizer(
+        ngram_range=(1, 2), # include bigrams
+        tokenizer=tokenizer,
+        stop_words=stop,
+        max_df=0.4, # ignore terms that appear in more than 40% of documents
+        min_df=4)), # ignore terms that appear in less than 4 documents
+     ('tfidf', TfidfTransformer()),
+     ('clf', MultinomialNB(alpha=0.1))])
+
+# train our model on training data
+text_clf.fit(train_df.lyrics, train_df.genre)  
+
+# score our model on testing data
+predicted = text_clf.predict(test_df.lyrics)
+np.mean(predicted == test_df.genre)
+```
+
+:::
+:::
+
+::: {.column width="30%"}
+| Model | Results |
+|-------|---------|
+| 1     | 0.90252 |
+| 2     | 0.91038 |
+| 3     | 0.83334 |
+:::
+:::
+
+## Support Vector Machine {.smaller}
+
+::: panel-tabset
+
+###  Model
+
+
+```{r echo=TRUE}
+#| code-fold: true
+
+library(tidytext)
+library(tidymodels)
+library(textrecipes)
+library(themis)
+
+set.seed(50)
+lyrics_split <- song_lyrics |> 
+  select(genre, lyrics) |> 
+  initial_split(strata = genre)
+
+lyrics_train <- training(lyrics_split)
+lyrics_test <- testing(lyrics_split)
+
+set.seed(23)
+lyrics_folds <- vfold_cv(lyrics_train, strata = genre)
+
+
+lyrics_rec <- recipe(genre ~ lyrics, data = lyrics_train) %>%
+  step_tokenize(lyrics) |> 
+  step_tokenfilter(lyrics, max_tokens = 1e3) |> 
+  step_tfidf(lyrics) |> 
+  step_normalize(all_numeric_predictors()) |> 
+  step_smote(genre)
+
+lyrics_rec
+```
+
+
+### Pipeline / Recipe
+
+
+```{r echo=TRUE}
+#| code-fold: true
+
+svm_spec <- svm_linear() %>%
+  set_mode("classification") %>%
+  set_engine("LiblineaR")
+
+lyrics_wf <- workflow() %>%
+  add_recipe(lyrics_rec) %>%
+  add_model(svm_spec)
+
+doParallel::registerDoParallel()
+set.seed(123)
+svm_rs <- fit_resamples(
+  lyrics_wf,
+  lyrics_folds,
+  metrics = metric_set(accuracy, recall, precision),
+  control = control_resamples(save_pred = TRUE)
+)
+
+collect_metrics(svm_rs)
+```
+
+
+### Plot
+
+
+```{r echo=TRUE}
+#| code-fold: true
+svm_rs |> 
+  conf_mat_resampled(tidy = FALSE) |> 
+  autoplot() 
+```
+
+
+### Performance
+
+
+```{r echo=TRUE}
+#| code-fold: true
+
+final_fitted <- last_fit(
+  lyrics_wf,
+  lyrics_split,
+  metrics = metric_set(accuracy, recall, precision)
+)
+collect_metrics(final_fitted)
+```
+
+:::
+
+# Discussion {.sectionhead}
+
+## Limitations
+
+The main limitations we encountered includes context and nonstop words.
+- The context of certain words had double meaning.
+- When we approached the non stop words like “yea yea yea” we realized they were included as ad-libs so they had no meaning.
+- In the future we will go towards a better analysis and algorithm.
+- Also what would help is building our own non stop words and create dictionaries so the machine learning could distinguish those words as lyrics
+
+-   Stopwords, non-stop -- Between ad-libs and harmonizing, a lot of lyrics add no meaning.
+
