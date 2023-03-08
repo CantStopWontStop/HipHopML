@@ -694,13 +694,15 @@
 </div>
 </div>
 </section>
-<section id="support-vector-machine" class="slide level2">
+<section id="support-vector-machine" class="slide level2 smaller">
 <h2>Support Vector Machine</h2>
 <div class="panel-tabset">
 <ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Model</a></li><li><a href="#tabset-4-2">Pipeline / Recipe</a></li><li><a href="#tabset-4-3">Plot</a></li><li><a href="#tabset-4-4">Performance</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1">
-<div class="cell" data-output-location="column-fragment">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(tidytext)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="fu">library</span>(textrecipes)</span>
@@ -726,6 +728,7 @@
 <span id="cb5-23"><a href="#cb5-23"></a>  <span class="fu">step_smote</span>(genre)</span>
 <span id="cb5-24"><a href="#cb5-24"></a></span>
 <span id="cb5-25"><a href="#cb5-25"></a>lyrics_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Recipe
 
@@ -746,7 +749,9 @@ SMOTE based on genre</code></pre>
 </div>
 </div>
 <div id="tabset-4-2">
-<div class="cell" data-output-location="column-fragment">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>svm_spec <span class="ot">&lt;-</span> <span class="fu">svm_linear</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">set_engine</span>(<span class="st">"LiblineaR"</span>)</span>
@@ -765,6 +770,7 @@ SMOTE based on genre</code></pre>
 <span id="cb7-16"><a href="#cb7-16"></a>)</span>
 <span id="cb7-17"><a href="#cb7-17"></a></span>
 <span id="cb7-18"><a href="#cb7-18"></a><span class="fu">collect_metrics</span>(svm_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   .metric   .estimator  mean     n std_err .config             
@@ -776,23 +782,29 @@ SMOTE based on genre</code></pre>
 </div>
 </div>
 <div id="tabset-4-3">
-<div class="cell" data-output-location="column-fragment">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>svm_rs <span class="sc">|&gt;</span> </span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">conf_mat_resampled</span>(<span class="at">tidy =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">autoplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
 </div>
 </div>
 </div>
 <div id="tabset-4-4">
-<div class="cell" data-output-location="column-fragment">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>final_fitted <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  lyrics_wf,</span>
 <span id="cb10-3"><a href="#cb10-3"></a>  lyrics_split,</span>
 <span id="cb10-4"><a href="#cb10-4"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision)</span>
 <span id="cb10-5"><a href="#cb10-5"></a>)</span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="fu">collect_metrics</span>(final_fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
   .metric   .estimator .estimate .config             

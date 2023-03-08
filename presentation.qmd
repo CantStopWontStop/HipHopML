@@ -308,15 +308,14 @@ np.mean(predicted == test_df.genre)
 :::
 :::
 
-## Support Vector Machine
+## Support Vector Machine {.smaller}
 
 ::: panel-tabset
 
 ###  Model
 
 ```{r echo=TRUE}
-#| output-location: column-fragment
-
+#| code-fold: true
 
 library(tidytext)
 library(tidymodels)
@@ -348,7 +347,7 @@ lyrics_rec
 ### Pipeline / Recipe
 
 ```{r echo=TRUE}
-#| output-location: column-fragment
+#| code-fold: true
 
 svm_spec <- svm_linear() %>%
   set_mode("classification") %>%
@@ -373,7 +372,7 @@ collect_metrics(svm_rs)
 ### Plot
 
 ```{r echo=TRUE}
-#| output-location: column-fragment
+#| code-fold: true
 svm_rs |> 
   conf_mat_resampled(tidy = FALSE) |> 
   autoplot() 
@@ -382,7 +381,7 @@ svm_rs |>
 ### Performance
 
 ```{r echo=TRUE}
-#| output-location: column-fragment
+#| code-fold: true
 
 final_fitted <- last_fit(
   lyrics_wf,
