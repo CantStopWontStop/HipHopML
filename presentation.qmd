@@ -55,7 +55,7 @@ library(reticulate)
 
 ## Challenge
 
--   Using machine learning and lyrics retrieved via the Genius API to identify songs hip hop and RnB based on lyrics
+-  Using machine learning methods and lyrics retrieved via the Genius API, we’re identifying whether a song is considered hip hop and R&B  based on the lyrics.
 
 # Data Processing {.sectionhead style="color:#222222"}
 
@@ -300,24 +300,107 @@ np.mean(predicted == test_df.genre)
 :::
 
 ::: {.column width="30%"}
-+-------+---------+
 | Model | Results |
-+=======+=========+
+|-------|---------|
 | 1     | 0.90252 |
-+-------+---------+
 | 2     | 0.91038 |
-+-------+---------+
 | 3     | 0.83334 |
-+-------+---------+
 :::
+:::
+
+## Support Vector Machine
+
+::: panel-tabset
+
+###  Model
+
+```{r echo=TRUE}
+#| output-location: column-fragment
+
+
+library(tidytext)
+library(tidymodels)
+library(textrecipes)
+library(themis)
+
+set.seed(50)
+lyrics_split <- song_lyrics |> 
+  select(genre, lyrics) |> 
+  initial_split(strata = genre)
+
+lyrics_train <- training(lyrics_split)
+lyrics_test <- testing(lyrics_split)
+
+set.seed(23)
+lyrics_folds <- vfold_cv(lyrics_train, strata = genre)
+
+
+lyrics_rec <- recipe(genre ~ lyrics, data = lyrics_train) %>%
+  step_tokenize(lyrics) |> 
+  step_tokenfilter(lyrics, max_tokens = 1e3) |> 
+  step_tfidf(lyrics) |> 
+  step_normalize(all_numeric_predictors()) |> 
+  step_smote(genre)
+
+lyrics_rec
+```
+
+### Pipeline / Recipe
+
+```{r echo=TRUE}
+#| output-location: column-fragment
+
+svm_spec <- svm_linear() %>%
+  set_mode("classification") %>%
+  set_engine("LiblineaR")
+
+lyrics_wf <- workflow() %>%
+  add_recipe(lyrics_rec) %>%
+  add_model(svm_spec)
+
+doParallel::registerDoParallel()
+set.seed(123)
+svm_rs <- fit_resamples(
+  lyrics_wf,
+  lyrics_folds,
+  metrics = metric_set(accuracy, recall, precision),
+  control = control_resamples(save_pred = TRUE)
+)
+
+collect_metrics(svm_rs)
+```
+
+### Plot
+
+```{r echo=TRUE}
+#| output-location: column-fragment
+svm_rs |> 
+  conf_mat_resampled(tidy = FALSE) |> 
+  autoplot() 
+```
+
+### Performance
+
+```{r echo=TRUE}
+#| output-location: column-fragment
+
+final_fitted <- last_fit(
+  lyrics_wf,
+  lyrics_split,
+  metrics = metric_set(accuracy, recall, precision)
+)
+collect_metrics(final_fitted)
+```
 :::
 
 # Discussion {.sectionhead}
 
 ## Limitations
 
--   Language -- Lexicons used in/for lemmatization & stemming
-
--   Context -- Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.
+The main limitations we encountered includes context and nonstop words.
+- The context of certain words had double meaning.
+- When we approached the non stop words like “yea yea yea” we realized they were included as ad-libs so they had no meaning.
+- In the future we will go towards a better analysis and algorithm.
+- Also what would help is building our own non stop words and create dictionaries so the machine learning could distinguish those words as lyrics
 
 -   Stopwords, non-stop -- Between ad-libs and harmonizing, a lot of lyrics add no meaning.

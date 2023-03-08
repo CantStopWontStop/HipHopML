@@ -430,7 +430,7 @@
 <section id="challenge" class="slide level2">
 <h2>Challenge</h2>
 <ul>
-<li>Using machine learning and lyrics retrieved via the Genius API to identify songs hip hop and RnB based on lyrics</li>
+<li>Using machine learning methods and lyrics retrieved via the Genius API, we’re identifying whether a song is considered hip hop and R&amp;B based on the lyrics.</li>
 </ul>
 </section></section>
 <section>
@@ -669,11 +669,7 @@
 </div>
 </div>
 </div><div class="column" style="width:30%;">
-<table style="width:25%;">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 13%">
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th>Model</th>
@@ -697,6 +693,118 @@
 </table>
 </div>
 </div>
+</section>
+<section id="support-vector-machine" class="slide level2">
+<h2>Support Vector Machine</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Model</a></li><li><a href="#tabset-4-2">Pipeline / Recipe</a></li><li><a href="#tabset-4-3">Plot</a></li><li><a href="#tabset-4-4">Performance</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div class="cell" data-output-location="column-fragment">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">library</span>(textrecipes)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">library</span>(themis)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="fu">set.seed</span>(<span class="dv">50</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>lyrics_split <span class="ot">&lt;-</span> song_lyrics <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">select</span>(genre, lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9"></a>  <span class="fu">initial_split</span>(<span class="at">strata =</span> genre)</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a>lyrics_train <span class="ot">&lt;-</span> <span class="fu">training</span>(lyrics_split)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>lyrics_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(lyrics_split)</span>
+<span id="cb5-13"><a href="#cb5-13"></a></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>lyrics_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(lyrics_train, <span class="at">strata =</span> genre)</span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a></span>
+<span id="cb5-18"><a href="#cb5-18"></a>lyrics_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(genre <span class="sc">~</span> lyrics, <span class="at">data =</span> lyrics_train) <span class="sc">%&gt;%</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>  <span class="fu">step_tokenize</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb5-20"><a href="#cb5-20"></a>  <span class="fu">step_tokenfilter</span>(lyrics, <span class="at">max_tokens =</span> <span class="fl">1e3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-21"><a href="#cb5-21"></a>  <span class="fu">step_tfidf</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb5-22"><a href="#cb5-22"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb5-23"><a href="#cb5-23"></a>  <span class="fu">step_smote</span>(genre)</span>
+<span id="cb5-24"><a href="#cb5-24"></a></span>
+<span id="cb5-25"><a href="#cb5-25"></a>lyrics_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+   outcome          1
+ predictor          1
+
+Operations:
+
+Tokenization for lyrics
+Text filtering for lyrics
+Term frequency-inverse document frequency with lyrics
+Centering and scaling for all_numeric_predictors()
+SMOTE based on genre</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2">
+<div class="cell" data-output-location="column-fragment">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>svm_spec <span class="ot">&lt;-</span> <span class="fu">svm_linear</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">set_engine</span>(<span class="st">"LiblineaR"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>lyrics_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">add_recipe</span>(lyrics_rec) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="fu">add_model</span>(svm_spec)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>()</span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a>svm_rs <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(</span>
+<span id="cb7-12"><a href="#cb7-12"></a>  lyrics_wf,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>  lyrics_folds,</span>
+<span id="cb7-14"><a href="#cb7-14"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision),</span>
+<span id="cb7-15"><a href="#cb7-15"></a>  <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-16"><a href="#cb7-16"></a>)</span>
+<span id="cb7-17"><a href="#cb7-17"></a></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="fu">collect_metrics</span>(svm_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric   .estimator  mean     n std_err .config             
+  &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy  binary     0.811    10  0.0100 Preprocessor1_Model1
+2 precision binary     0.881    10  0.0108 Preprocessor1_Model1
+3 recall    binary     0.821    10  0.0101 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-3">
+<div class="cell" data-output-location="column-fragment">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>svm_rs <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">conf_mat_resampled</span>(<span class="at">tidy =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">autoplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-4-4">
+<div class="cell" data-output-location="column-fragment">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>final_fitted <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  lyrics_wf,</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  lyrics_split,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="fu">collect_metrics</span>(final_fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  .metric   .estimator .estimate .config             
+  &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy  binary         0.781 Preprocessor1_Model1
+2 recall    binary         0.801 Preprocessor1_Model1
+3 precision binary         0.854 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="discussion" class="title-slide slide level1 sectionhead center">
@@ -705,10 +813,9 @@
 </section>
 <section id="limitations" class="slide level2">
 <h2>Limitations</h2>
+<p>The main limitations we encountered includes context and nonstop words. - The context of certain words had double meaning. - When we approached the non stop words like “yea yea yea” we realized they were included as ad-libs so they had no meaning. - In the future we will go towards a better analysis and algorithm. - Also what would help is building our own non stop words and create dictionaries so the machine learning could distinguish those words as lyrics</p>
 <ul>
-<li><p>Language – Lexicons used in/for lemmatization &amp; stemming</p></li>
-<li><p>Context – Music, hip hop in particular, uses a lot of figurative language and words often have more than one meaning.</p></li>
-<li><p>Stopwords, non-stop – Between ad-libs and harmonizing, a lot of lyrics add no meaning.</p></li>
+<li>Stopwords, non-stop – Between ad-libs and harmonizing, a lot of lyrics add no meaning.</li>
 </ul>
 <div class="footer footer-default">
 
